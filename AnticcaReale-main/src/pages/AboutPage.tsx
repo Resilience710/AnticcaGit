@@ -35,7 +35,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-lg md:text-xl font-light leading-8 text-espresso-700">
               Anticca, İstanbul'un köklü antika geleneğini dijital dünyaya taşıyan yeni nesil bir platformdur.
-              2024 yılında kurulan şirketimiz, Türkiye'nin en seçkin antikacılarını ve antika meraklılarını
+              2026 yılında kurulan şirketimiz, Türkiye'nin en seçkin antikacılarını ve antika meraklılarını
               bir araya getirme vizyonuyla yola çıkmıştır. Şu anda son hazırlıklarımızı tamamlıyoruz ve
               çok yakında sizlerle buluşacağız!
             </p>

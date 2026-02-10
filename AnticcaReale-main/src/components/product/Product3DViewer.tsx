@@ -99,34 +99,43 @@ export default function Product3DViewer({
                 )}
 
                 {isScriptLoaded && (
-                    // Use createElement to bypass TypeScript JSX intrinsic element check for web component
-                    React.createElement('model-viewer', {
-                        src: modelUrl,
-                        alt: `${productName} 3D görünümü`,
-                        poster: posterImage,
-                        'camera-controls': true,
-                        'touch-action': "pan-y",
-                        'auto-rotate': true,
-                        'auto-rotate-delay': "2000",
-                        'rotation-per-second': "30deg",
-                        'interaction-prompt': "auto",
-                        'interaction-prompt-style': "basic",
-                        'shadow-intensity': "1",
-                        'shadow-softness': "1",
-                        exposure: "1",
-                        'environment-image': "neutral",
-                        style: { width: '100%', height: '100%', backgroundColor: 'transparent' },
-                        onload: () => setIsLoading(false),
-                        onerror: () => setError('3D model yüklenirken bir hata oluştu'),
-                    } as any,
-                        // Controls Overlay as child
-                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-center gap-2 pointer-events-none">
+                    <div
+                        ref={(container) => {
+                            if (container && !container.querySelector('model-viewer')) {
+                                const viewer = document.createElement('model-viewer');
+                                viewer.setAttribute('src', modelUrl);
+                                viewer.setAttribute('alt', `${productName} 3D görünümü`);
+                                if (posterImage) viewer.setAttribute('poster', posterImage);
+                                viewer.setAttribute('camera-controls', '');
+                                viewer.setAttribute('touch-action', 'pan-y');
+                                viewer.setAttribute('auto-rotate', '');
+                                viewer.setAttribute('auto-rotate-delay', '2000');
+                                viewer.setAttribute('rotation-per-second', '30deg');
+                                viewer.setAttribute('interaction-prompt', 'auto');
+                                viewer.setAttribute('shadow-intensity', '1');
+                                viewer.setAttribute('shadow-softness', '1');
+                                viewer.setAttribute('exposure', '1');
+                                viewer.setAttribute('environment-image', 'neutral');
+                                viewer.style.width = '100%';
+                                viewer.style.height = '100%';
+                                viewer.style.backgroundColor = 'transparent';
+
+                                viewer.addEventListener('load', () => setIsLoading(false));
+                                viewer.addEventListener('error', () => setError('3D model yüklenirken bir hata oluştu'));
+
+                                container.appendChild(viewer);
+                            }
+                        }}
+                        style={{ width: '100%', height: '100%' }}
+                    >
+                        {/* Controls Overlay */}
+                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-center gap-2 pointer-events-none z-10">
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
                                 <RotateCcw className="w-3 h-3" />
                                 <span>Döndürmek için sürükleyin</span>
                             </div>
                         </div>
-                    )
+                    </div>
                 )}
             </div>
 

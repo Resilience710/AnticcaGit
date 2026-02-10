@@ -8,7 +8,7 @@ export default function TermsPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Kullanım Şartları</h1>
           <p className="text-xl text-linen-300">
-            Son güncelleme: Ocak 2024
+            Son güncelleme: Ocak 2026
           </p>
         </div>
       </div>
@@ -16,11 +16,11 @@ export default function TermsPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-linen-200 rounded-xl shadow-sm border border-mist-300 p-8 md:p-12">
           <div className="prose prose-lg max-w-none text-espresso-800">
-            
+
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">1. Genel Hükümler</h2>
               <p>
-                Bu web sitesini ("Site") kullanarak, aşağıdaki kullanım şartlarını kabul etmiş sayılırsınız. 
+                Bu web sitesini ("Site") kullanarak, aşağıdaki kullanım şartlarını kabul etmiş sayılırsınız.
                 {TR.siteName} ("Şirket", "biz"), bu şartları önceden haber vermeksizin değiştirme hakkını saklı tutar.
               </p>
               <p>
@@ -31,7 +31,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">2. Hesap Oluşturma ve Güvenlik</h2>
               <p>
-                Site üzerinden alışveriş yapabilmek için hesap oluşturmanız gerekmektedir. Hesap bilgilerinizin 
+                Site üzerinden alışveriş yapabilmek için hesap oluşturmanız gerekmektedir. Hesap bilgilerinizin
                 doğruluğundan ve güncelliğinden siz sorumlusunuz.
               </p>
               <ul className="list-disc pl-6 space-y-2">
@@ -45,7 +45,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">3. Ürünler ve Fiyatlandırma</h2>
               <p>
-                Site üzerinde sergilenen tüm ürünler, platformumuzda kayıtlı antika dükkanları tarafından 
+                Site üzerinde sergilenen tüm ürünler, platformumuzda kayıtlı antika dükkanları tarafından
                 satışa sunulmaktadır.
               </p>
               <ul className="list-disc pl-6 space-y-2">
@@ -100,7 +100,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">7. Fikri Mülkiyet Hakları</h2>
               <p>
-                Site üzerindeki tüm içerik (metin, grafik, logo, görsel, ses, video vb.) {TR.siteName}'ya 
+                Site üzerindeki tüm içerik (metin, grafik, logo, görsel, ses, video vb.) {TR.siteName}'ya
                 veya lisans verenlerine aittir ve telif hakları ile korunmaktadır.
               </p>
               <ul className="list-disc pl-6 space-y-2">
@@ -125,7 +125,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">9. Uyuşmazlık Çözümü</h2>
               <p>
-                Bu şartlardan doğan uyuşmazlıklarda İstanbul Mahkemeleri ve İcra Daireleri yetkilidir. 
+                Bu şartlardan doğan uyuşmazlıklarda İstanbul Mahkemeleri ve İcra Daireleri yetkilidir.
                 Türkiye Cumhuriyeti kanunları uygulanır.
               </p>
             </section>

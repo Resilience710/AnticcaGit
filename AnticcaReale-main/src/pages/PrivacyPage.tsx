@@ -8,7 +8,7 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Gizlilik Politikası</h1>
           <p className="text-xl text-linen-300">
-            Son güncelleme: Ocak 2024
+            Son güncelleme: Ocak 2026
           </p>
         </div>
       </div>
@@ -16,16 +16,16 @@ export default function PrivacyPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-linen-200 rounded-xl shadow-sm border border-mist-300 p-8 md:p-12">
           <div className="prose prose-lg max-w-none text-espresso-800">
-            
+
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">1. Giriş</h2>
               <p>
-                {TR.siteName} ("Şirket", "biz") olarak, gizliliğinize saygı duyuyor ve kişisel verilerinizin 
-                korunmasını önemsiyoruz. Bu Gizlilik Politikası, kişisel verilerinizin nasıl toplandığını, 
+                {TR.siteName} ("Şirket", "biz") olarak, gizliliğinize saygı duyuyor ve kişisel verilerinizin
+                korunmasını önemsiyoruz. Bu Gizlilik Politikası, kişisel verilerinizin nasıl toplandığını,
                 kullanıldığını, saklandığını ve korunduğunu açıklamaktadır.
               </p>
               <p>
-                6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla 
+                6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla
                 hareket etmekteyiz.
               </p>
             </section>
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">2. Toplanan Kişisel Veriler</h2>
               <p>Hizmetlerimizi sunabilmek için aşağıdaki kişisel verileri toplayabiliriz:</p>
-              
+
               <h3 className="text-lg font-semibold text-espresso-900 mt-4 mb-2">2.1 Kimlik Bilgileri</h3>
               <ul className="list-disc pl-6 space-y-1">
                 <li>Ad ve soyad</li>
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
                 <li><strong>Pazarlama çerezleri:</strong> Kişiselleştirilmiş reklamlar için</li>
               </ul>
               <p className="mt-4">
-                Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz. Ancak bu durumda 
+                Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz. Ancak bu durumda
                 bazı site özellikleri düzgün çalışmayabilir.
               </p>
             </section>
@@ -126,7 +126,7 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">7. Veri Saklama Süresi</h2>
               <p>
-                Kişisel verileriniz, işleme amaçları için gerekli olan süre boyunca veya yasal 
+                Kişisel verileriniz, işleme amaçları için gerekli olan süre boyunca veya yasal
                 yükümlülüklerimiz kapsamında saklanır.
               </p>
               <ul className="list-disc pl-6 space-y-2">
@@ -155,8 +155,8 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-4">9. Politika Güncellemeleri</h2>
               <p>
-                Bu Gizlilik Politikası'nı zaman zaman güncelleyebiliriz. Önemli değişikliklerde 
-                sizi e-posta veya site üzerinden bilgilendireceğiz. Güncel politikayı düzenli 
+                Bu Gizlilik Politikası'nı zaman zaman güncelleyebiliriz. Önemli değişikliklerde
+                sizi e-posta veya site üzerinden bilgilendireceğiz. Güncel politikayı düzenli
                 olarak kontrol etmenizi öneririz.
               </p>
             </section>
@@ -173,7 +173,7 @@ export default function PrivacyPage() {
                 <li><strong>Adres:</strong> Çukurcuma Mah., Antikacılar Sok. No: 42, Beyoğlu/İstanbul</li>
               </ul>
               <p className="mt-4">
-                KVKK kapsamındaki başvurularınızı yazılı olarak veya kayıtlı elektronik posta (KEP) 
+                KVKK kapsamındaki başvurularınızı yazılı olarak veya kayıtlı elektronik posta (KEP)
                 adresimiz üzerinden iletebilirsiniz.
               </p>
             </section>

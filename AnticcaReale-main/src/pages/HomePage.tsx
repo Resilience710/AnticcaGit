@@ -52,7 +52,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8 animate-fade-in">
             <span className="inline-block text-gold-400 tracking-[0.4em] text-xs sm:text-sm uppercase font-semibold">
-              Est. 2024 • İstanbul
+              Est. 2026 • İstanbul
             </span>
 
             <div className="space-y-2">

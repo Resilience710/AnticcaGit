@@ -69,10 +69,7 @@ export default function ARViewer({ modelUrl, productName, posterImage }: ARViewe
     }, [showARModal, modelUrl, posterImage, productName, arError]);
 
     const handleARClick = () => {
-        if (!arSupported) {
-            setArError('AR bu cihazda desteklenmiyor');
-            return;
-        }
+        // Always open modal, show AR support status inside
         setShowARModal(true);
     };
 
@@ -85,21 +82,20 @@ export default function ARViewer({ modelUrl, productName, posterImage }: ARViewe
 
     return (
         <>
-            {/* AR Button */}
+            {/* AR Button - Always visible */}
             <button
-                onClick={handleARClick}
-                className={`
-          flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300
-          ${arSupported
-                        ? 'bg-gold-500 text-espresso-950 hover:bg-gold-600 hover-glow'
-                        : 'bg-mist-200 text-mist-500 cursor-not-allowed'
-                    }
-        `}
-                disabled={!arSupported}
-                title={arSupported ? 'Odaya Yerleştir (AR)' : 'AR bu cihazda desteklenmiyor'}
+                type="button"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('AR Button clicked!', { modelUrl, productName });
+                    setShowARModal(true);
+                }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-300 bg-gradient-to-r from-gold-500 to-gold-600 text-espresso-950 hover:from-gold-600 hover:to-gold-700 shadow-md hover:shadow-lg font-medium"
+                title="Odaya Yerleştir (AR)"
             >
                 <Smartphone className="w-5 h-5" />
-                <span className="font-medium text-sm">Odana Yerleştir</span>
+                <span className="text-sm">📱 Odana Yerleştir</span>
             </button>
 
             {/* AR Modal */}
