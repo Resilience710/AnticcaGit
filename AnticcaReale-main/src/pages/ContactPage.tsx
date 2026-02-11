@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
+import SEO from '../components/seo/SEO';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,10 +17,10 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setSubmitted(true);
     setLoading(false);
     setFormData({ name: '', email: '', subject: '', message: '' });
@@ -27,6 +28,11 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-linen-300">
+      <SEO
+        title="İletişim — Bize Ulaşın"
+        description="Anticca ile iletişime geçin. Çukurcuma, Beyoğlu, İstanbul. Antika alım satım, dükkan başvuruları ve genel sorularınız için."
+        canonical="/contact"
+      />
       {/* Header */}
       <div className="bg-olive-800 text-linen-100 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -45,7 +51,7 @@ export default function ContactPage() {
               Bize Ulaşın
             </h2>
             <p className="text-espresso-700 mb-8">
-              Antika alım satım, dükkan başvuruları veya genel sorularınız için 
+              Antika alım satım, dükkan başvuruları veya genel sorularınız için
               aşağıdaki kanallardan bize ulaşabilirsiniz.
             </p>
 

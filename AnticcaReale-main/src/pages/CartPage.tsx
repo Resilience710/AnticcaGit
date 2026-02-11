@@ -12,6 +12,7 @@ import {
   formatPhoneNumber,
   type CreatePaymentRequest
 } from '../services/shopierService';
+import SEO from '../components/seo/SEO';
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, clearCart, totalPrice } = useCart();
@@ -128,6 +129,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO title="Sepetim" description="Alışveriş sepetiniz" noindex />
       {/* Header - Minimal & Elegant */}
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

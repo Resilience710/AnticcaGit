@@ -7,6 +7,7 @@ import ShopCard from '../components/shop/ShopCard';
 import EraTimeline from '../components/home/EraTimeline';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
+import SEO from '../components/seo/SEO';
 
 export default function HomePage() {
   const { products, loading: productsLoading } = useProducts({ sortBy: 'newest' }, 20); // Fetch more to find auctions
@@ -35,6 +36,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col gap-16 sm:gap-24 mb-16">
+      <SEO
+        title="Anticca — Antikanın Dijital Adresi"
+        description="İstanbul'un en seçkin antikacılarından nadide antika parçalar. Mobilya, tablo, saat, mücevherat, aydınlatma ve daha fazlası. Türkiye'nin antika pazar yeri."
+        canonical="/"
+      />
       {/* Hero Section - "Exhibition Entrance" Style */}
       <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-linen-100">
         {/* Foundation Image from Ref 1 Inspiration */}
@@ -120,21 +126,11 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="flex gap-12 pt-6">
-                <div className="space-y-1">
-                  <span className="font-serif text-4xl text-espresso-900 block">50+</span>
-                  <span className="text-xs text-gold-700 uppercase tracking-widest font-bold">Dükkan</span>
-                </div>
-                <div className="w-[1px] h-12 bg-cream-300" />
-                <div className="space-y-1">
-                  <span className="font-serif text-4xl text-espresso-900 block">1K+</span>
-                  <span className="text-xs text-gold-700 uppercase tracking-widest font-bold">Eser</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Interactive Era Timeline */}
       <EraTimeline />

@@ -1,9 +1,15 @@
 import { Store, Shield, Truck, Award, Gavel, Filter, CreditCard, Smartphone, Search, BookOpen, Clock, MapPin, Star, Box, Palette, Gem, Lamp, Watch, Scroll, Armchair } from 'lucide-react';
 import { TR } from '../constants/tr';
+import SEO from '../components/seo/SEO';
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO
+        title="Hakkımızda — Anticca'yı Tanıyın"
+        description="Anticca, İstanbul'un en seçkin antikacılarını tek çatı altında buluşturan dijital antika pazar yeri. Misyonumuz ve vizyonumuz."
+        canonical="/about"
+      />
       {/* Header - Pre-Launch Announcement */}
       <div className="bg-olive-900 border-b border-olive-800 py-20 lg:py-32 text-center relative overflow-hidden">
         {/* Subtle Background Decoration */}
@@ -42,31 +48,21 @@ export default function AboutPage() {
           </section>
 
           {/* Mission Section */}
-          <section className="mb-24">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="order-2 md:order-1">
-                <div className="relative aspect-[4/5] bg-linen-200 rounded-sm overflow-hidden shadow-soft rotate-2 hover:rotate-0 transition-transform duration-700">
-                  <img
-                    src="https://images.unsplash.com/photo-1565514020176-13d85ae31950?q=80&w=2070&auto=format&fit=crop"
-                    alt="Antika dükkanı iç mekan"
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-                  />
-                </div>
-              </div>
-              <div className="order-1 md:order-2 space-y-6">
-                <h2 className="text-3xl font-serif text-olive-900">Vizyonumuz</h2>
-                <p className="text-espresso-700">
-                  Misyonumuz, yüzyıllık zanaat geleneğini ve tarihi eserleri koruyarak gelecek nesillere
-                  aktarmak, aynı zamanda antika koleksiyonerliğini herkes için erişilebilir kılmaktır.
-                </p>
-                <p className="text-espresso-700">
-                  Platformumuzda yer alacak her ürün, uzman ekibimiz tarafından titizlikle incelenecek ve
-                  orijinalliği doğrulanacaktır. Müşterilerimize sadece ürün değil, aynı zamanda her eserin
-                  ardındaki hikayeyi de sunacağız.
-                </p>
-              </div>
+          <section className="mb-24 max-w-3xl mx-auto text-center">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-serif text-olive-900">Vizyonumuz</h2>
+              <p className="text-espresso-700">
+                Misyonumuz, yüzyıllık zanaat geleneğini ve tarihi eserleri koruyarak gelecek nesillere
+                aktarmak, aynı zamanda antika koleksiyonerliğini herkes için erişilebilir kılmaktır.
+              </p>
+              <p className="text-espresso-700">
+                Platformumuzda yer alacak her ürün, uzman ekibimiz tarafından titizlikle incelenecek ve
+                orijinalliği doğrulanacaktır. Müşterilerimize sadece ürün değil, aynı zamanda her eserin
+                ardındaki hikayeyi de sunacağız.
+              </p>
             </div>
           </section>
+
 
           {/* Platform Features Section */}
           <section className="mb-24">

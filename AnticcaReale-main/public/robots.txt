@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /cart
+Disallow: /checkout/*
+Disallow: /orders
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://anticca.com.tr/sitemap.xml

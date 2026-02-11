@@ -11,6 +11,7 @@ import Button from '../components/ui/Button';
 import Product3DViewer, { Product3DToggle } from '../components/product/Product3DViewer';
 import AuctionSection from '../components/product/AuctionSection';
 import ARViewer from '../components/product/ARViewer';
+import SEO from '../components/seo/SEO';
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -76,6 +77,44 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-cream-50">
+      <SEO
+        title={`${product.name} - ${product.category} Antika`}
+        description={product.description?.substring(0, 155) || `${product.name} - Anticca'da antika ${product.category} koleksiyonu. ${product.era} dönemi.`}
+        canonical={`/products/${product.id}`}
+        ogImage={product.images?.[0]}
+        ogType="product"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.name,
+            "image": product.images,
+            "description": product.description,
+            "category": product.category,
+            "offers": {
+              "@type": "Offer",
+              "price": product.price,
+              "priceCurrency": "TRY",
+              "availability": product.stock > 0
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
+              "seller": {
+                "@type": "Organization",
+                "name": "Anticca"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://anticca.com.tr/" },
+              { "@type": "ListItem", "position": 2, "name": "Ürünler", "item": "https://anticca.com.tr/products" },
+              { "@type": "ListItem", "position": 3, "name": product.name }
+            ]
+          }
+        ]}
+      />
       {/* 3D Viewer Modal - Only renders if model3dUrl exists and show3DViewer is true */}
       {product.model3dUrl && show3DViewer && (
         <Product3DViewer

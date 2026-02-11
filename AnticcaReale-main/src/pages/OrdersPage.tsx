@@ -6,6 +6,7 @@ import { useOrders } from '../hooks/useFirestore';
 import { TR } from '../constants/tr';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
+import SEO from '../components/seo/SEO';
 
 const statusColors: Record<string, string> = {
   'Ödeme Bekleniyor': 'bg-yellow-100 text-yellow-800',
@@ -67,6 +68,7 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-cream-50">
+      <SEO title="Siparişlerim" description="Sipariş geçmişiniz" noindex />
       {/* Header */}
       <div className="bg-navy-900 text-cream-100 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,12 +124,11 @@ export default function OrdersPage() {
                         {formatDate(order.createdAt)}
                       </p>
                     </div>
-                    
+
                     <div className="flex items-center gap-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          statusColors[order.status] || 'bg-gray-100 text-gray-800'
-                        }`}
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[order.status] || 'bg-gray-100 text-gray-800'
+                          }`}
                       >
                         {order.status}
                       </span>

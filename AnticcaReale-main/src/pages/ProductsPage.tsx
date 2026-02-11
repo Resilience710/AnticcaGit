@@ -7,6 +7,7 @@ import ProductCard from '../components/product/ProductCard';
 import ProductFilters from '../components/product/ProductFilters';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
+import SEO from '../components/seo/SEO';
 
 export default function ProductsPage() {
   const [filters, setFilters] = useState<FilterState>({ sortBy: 'newest' });
@@ -20,6 +21,11 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO
+        title="Antika Ürünler — Koleksiyon"
+        description="Anticca'da antika mobilya, tablo, saat, mücevherat, aydınlatma ve daha fazlası. Osmanlı, Art Deco, Viktorya dönemlerinden seçkin parçalar."
+        canonical="/products"
+      />
       {/* Header - Minimal & Elegant */}
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 sm:py-24 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

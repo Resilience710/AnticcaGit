@@ -8,15 +8,16 @@ import ProductCard from '../components/product/ProductCard';
 import ProductFilters from '../components/product/ProductFilters';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
+import SEO from '../components/seo/SEO';
 
 export default function ShopDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [filters, setFilters] = useState<FilterState>({ 
+  const [filters, setFilters] = useState<FilterState>({
     sortBy: 'newest',
-    shopId: id 
+    shopId: id
   });
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  
+
   const { data: shop, loading: shopLoading } = useDocument<Shop>('shops', id);
   const { products, loading: productsLoading } = useProducts(filters);
 
@@ -39,6 +40,27 @@ export default function ShopDetailPage() {
 
   return (
     <div className="min-h-screen bg-cream-50">
+      <SEO
+        title={`${shop.name} — Antika Dükkanı`}
+        description={shop.description?.substring(0, 155) || `${shop.name} - ${shop.district}, ${shop.city}. Anticca'ın seçkin antika dükkanlarından.`}
+        canonical={`/shops/${shop.id}`}
+        ogImage={shop.logoUrl}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": shop.name,
+          "description": shop.description,
+          "image": shop.logoUrl,
+          "telephone": shop.phone,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": shop.address,
+            "addressLocality": shop.district,
+            "addressRegion": shop.city,
+            "addressCountry": "TR"
+          }
+        }}
+      />
       {/* Shop Header */}
       <div className="bg-navy-900 text-cream-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -60,7 +82,7 @@ export default function ShopDetailPage() {
             <div className="flex-1">
               <h1 className="font-serif text-3xl md:text-4xl font-bold">{shop.name}</h1>
               <p className="mt-2 text-cream-300 max-w-2xl">{shop.description}</p>
-              
+
               <div className="mt-4 flex flex-wrap gap-4 text-sm">
                 <div className="flex items-center gap-2 text-cream-300">
                   <MapPin className="h-4 w-4 text-gold-500" />
@@ -84,7 +106,7 @@ export default function ShopDetailPage() {
           <h2 className="font-serif text-2xl font-bold text-navy-800">
             {TR.shops.allProducts}
           </h2>
-          
+
           {/* Mobile Filter Toggle */}
           <div className="lg:hidden">
             <Button

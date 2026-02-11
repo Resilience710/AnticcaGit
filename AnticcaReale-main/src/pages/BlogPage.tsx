@@ -6,6 +6,7 @@ import type { BlogPost, BlogCategory } from '../types';
 import { BLOG_CATEGORIES, isVideoBlogPost } from '../types';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
+import SEO from '../components/seo/SEO';
 
 function BlogCard({ post }: { post: BlogPost }) {
   const isVideo = isVideoBlogPost(post);
@@ -127,6 +128,11 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO
+        title="Antika Dünyası — Blog & Hikayeler"
+        description="Antika dünyasına dair rehberler, koleksiyon hikayeleri, dönem analizleri ve uzman görüşleri. Anticca Blog."
+        canonical="/blog"
+      />
       {/* Header - Minimal & Elegant */}
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -154,8 +160,8 @@ export default function BlogPage() {
             <button
               onClick={() => setSelectedCategory(null)}
               className={`px-5 py-2 rounded-sm text-sm tracking-wide transition-all border ${!selectedCategory
-                  ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
-                  : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
+                ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
+                : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
                 }`}
             >
               Tümü
@@ -165,8 +171,8 @@ export default function BlogPage() {
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2 rounded-sm text-sm tracking-wide transition-all border ${selectedCategory === cat
-                    ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
-                    : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
+                  ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
+                  : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
                   }`}
               >
                 {cat}

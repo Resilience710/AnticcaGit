@@ -2,12 +2,18 @@ import { useShops } from '../hooks/useFirestore';
 import { TR } from '../constants/tr';
 import ShopCard from '../components/shop/ShopCard';
 import Loading from '../components/ui/Loading';
+import SEO from '../components/seo/SEO';
 
 export default function ShopsPage() {
   const { shops, loading } = useShops();
 
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO
+        title="Antika Dükkanları — İstanbul'ın Seçkin Antikacıları"
+        description="İstanbul'un en köklü ve güvenilir antika dükkanları. Tarihî eserlerin adresi Anticca'da dükkanları keşfedin."
+        canonical="/shops"
+      />
       {/* Header - Minimal & Elegant */}
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 sm:py-24 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

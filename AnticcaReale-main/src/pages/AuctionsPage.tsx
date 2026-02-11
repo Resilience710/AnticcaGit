@@ -5,6 +5,7 @@ import { TR } from '../constants/tr';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
 import ProductCard from '../components/product/ProductCard';
+import SEO from '../components/seo/SEO';
 
 export default function AuctionsPage() {
     const { products, loading } = useProducts({
@@ -43,6 +44,11 @@ export default function AuctionsPage() {
 
     return (
         <div className="min-h-screen bg-cream-50">
+            <SEO
+                title="Anticca Müzayede — Canlı Antika Müzayedeleri"
+                description="Nadir antika parçalar için gerçek zamanlı müzayedeler. Koleksiyonerler için özel seçkiler Anticca Müzayede'de."
+                canonical="/auctions"
+            />
             {/* Hero Section */}
             <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-olive-900">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544257125-e555025eaefd?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-overlay" />

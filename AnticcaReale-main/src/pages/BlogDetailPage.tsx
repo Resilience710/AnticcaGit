@@ -4,6 +4,7 @@ import { useBlogPost } from '../hooks/useFirestore';
 import Loading from '../components/ui/Loading';
 import { useState } from 'react';
 import { isVideoBlogPost, isRichTextBlogPost } from '../types';
+import SEO from '../components/seo/SEO';
 
 export default function BlogDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -76,6 +77,24 @@ export default function BlogDetailPage() {
 
   return (
     <div className="min-h-screen bg-linen-50">
+      <SEO
+        title={post.title}
+        description={post.excerpt?.substring(0, 155) || `${post.title} - Anticca Blog`}
+        canonical={`/blog/${post.slug || post.id}`}
+        ogImage={post.thumbnailUrl}
+        ogType="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": post.title,
+          "image": post.thumbnailUrl,
+          "datePublished": post.publishedAt ? new Date((post.publishedAt as any).toDate?.() || post.publishedAt).toISOString() : undefined,
+          "dateModified": post.updatedAt ? new Date((post.updatedAt as any).toDate?.() || post.updatedAt).toISOString() : undefined,
+          "author": { "@type": "Organization", "name": "Anticca" },
+          "publisher": { "@type": "Organization", "name": "Anticca", "logo": { "@type": "ImageObject", "url": "https://anticca.com.tr/logo.png" } },
+          "description": post.excerpt
+        }}
+      />
       {/* Hero Section */}
       <div className="relative h-[60vh] min-h-[400px] border-b border-linen-200">
         <img
