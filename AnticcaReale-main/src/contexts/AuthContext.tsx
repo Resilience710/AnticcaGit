@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  User as FirebaseUser,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -15,7 +14,7 @@ import { User } from '../types';
 const ADMIN_EMAILS = ['direncuy@gmail.com'];
 
 interface AuthContextType {
-  currentUser: FirebaseUser | null;
+  currentUser: any;
   userData: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -36,17 +35,17 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function fetchUserData(uid: string, email?: string | null) {
     const userDocRef = doc(db, 'users', uid);
     const userDoc = await getDoc(userDocRef);
-    
+
     if (userDoc.exists()) {
       const data = userDoc.data();
-      
+
       // Auto-promote to admin if email is in ADMIN_EMAILS list
       if (email && ADMIN_EMAILS.includes(email.toLowerCase()) && data.role !== 'admin') {
         await updateDoc(userDocRef, { role: 'admin', updatedAt: serverTimestamp() });
@@ -65,10 +64,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function register(email: string, password: string, name: string) {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    
+
     // Check if user should be admin
     const isAdminEmail = ADMIN_EMAILS.includes(email.toLowerCase());
-    
+
     // Create user document in Firestore
     const userDoc: Omit<User, 'uid'> = {
       name,
@@ -77,15 +76,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    
+
     await setDoc(doc(db, 'users', result.user.uid), {
       ...userDoc,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
-    
+
     setUserData({ ...userDoc, uid: result.user.uid } as User);
-    
+
     if (isAdminEmail) {
       console.log('Admin account created:', email);
     }

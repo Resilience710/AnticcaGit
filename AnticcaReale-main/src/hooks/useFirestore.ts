@@ -14,9 +14,6 @@ import {
   serverTimestamp,
   onSnapshot,
   runTransaction,
-  QueryConstraint,
-  DocumentData,
-  Timestamp,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import type { Shop, Product, Order, FilterState, BlogPost, BlogCategory, Bid, User } from '../types';
@@ -314,7 +311,7 @@ export async function updateOrderStatus(id: string, status: Order['status']) {
 
 // Fetch all products (admin)
 export async function getAllProducts(activeOnly: boolean = false): Promise<Product[]> {
-  const constraints: QueryConstraint[] = [];
+  const constraints: any[] = [];
   if (activeOnly) {
     constraints.push(where('isActive', '==', true));
   }
@@ -389,7 +386,7 @@ export function useBidHistory(productId: string | undefined) {
         id: doc.id,
         ...doc.data(),
         // Convert Firestore Timestamp to Date if needed
-        timestamp: (doc.data().timestamp as Timestamp)?.toDate() || new Date(),
+        timestamp: (doc.data().timestamp as any)?.toDate() || new Date(),
       })) as Bid[];
       setBids(bidData);
       setLoading(false);
