@@ -1,3 +1,6 @@
+# SPA Routing — LiteSpeed & Apache
+# Redirect all non-file, non-directory requests to index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -6,3 +9,6 @@
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+# Fallback for servers where mod_rewrite is not available
+FallbackResource /index.html
