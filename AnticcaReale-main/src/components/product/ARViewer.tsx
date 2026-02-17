@@ -69,6 +69,9 @@ export default function ARViewer({ modelUrl, productName, posterImage }: ARViewe
             modelViewer.setAttribute('alt', productName);
             modelViewer.setAttribute('ar', '');
             modelViewer.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
+            modelViewer.setAttribute('ar-scale', 'fixed');
+            modelViewer.setAttribute('ar-placement', 'floor');
+            modelViewer.setAttribute('scale', '0.5 0.5 0.5');
             modelViewer.setAttribute('camera-controls', '');
             modelViewer.setAttribute('touch-action', 'pan-y');
             modelViewer.setAttribute('auto-rotate', '');
