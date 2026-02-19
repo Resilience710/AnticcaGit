@@ -43,15 +43,23 @@ export interface PaymentError {
   message?: string;
 }
 
+export interface OrderSyncResult {
+  success: boolean;
+  orderId: string;
+  shopierData?: {
+    paymentStatus: string;
+    paymentId: string;
+    totalAmount: number;
+    installment: number;
+  } | null;
+  message?: string;
+}
+
 // Firebase Functions Base URL
-// Production: europe-west1 bölgesinde deploy edilecek
 const getFirebaseFunctionsUrl = (): string => {
-  // Development modunda local emulator kullan
   if (import.meta.env.DEV && import.meta.env.VITE_USE_EMULATOR === 'true') {
     return 'http://localhost:5001/anticcareale/europe-west1';
   }
-  
-  // Production Firebase Functions URL
   return 'https://europe-west1-anticcareale.cloudfunctions.net';
 };
 
@@ -63,14 +71,13 @@ export async function createShopierPayment(
 ): Promise<PaymentFormData> {
   const functionsUrl = getFirebaseFunctionsUrl();
   const apiUrl = `${functionsUrl}/createShopierPayment`;
-  
-  console.log('Creating Shopier payment via Firebase Functions:', { 
-    orderId: request.orderId, 
+
+  console.log('Creating Shopier payment via Firebase Functions:', {
+    orderId: request.orderId,
     amount: request.orderAmount,
     apiUrl
   });
-  
-  // Firebase Functions için body formatı
+
   const body = {
     orderId: request.orderId,
     amount: request.orderAmount,
@@ -96,14 +103,14 @@ export async function createShopierPayment(
       error: 'Network error',
       code: 'NETWORK_ERROR',
     }));
-    
+
     console.error('Payment creation failed:', errorData);
     throw new Error(errorData.message || errorData.error || 'Ödeme oluşturulamadı');
   }
 
   const data: PaymentFormData = await response.json();
   console.log('Payment created successfully:', { orderId: request.orderId });
-  
+
   return data;
 }
 
@@ -112,12 +119,12 @@ export async function createShopierPayment(
  */
 export function redirectToShopierPayment(paymentData: PaymentFormData): void {
   console.log('Redirecting to Shopier payment page...');
-  
+
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = paymentData.shopierUrl;
   form.style.display = 'none';
-  
+
   Object.entries(paymentData.formData).forEach(([key, value]) => {
     const input = document.createElement('input');
     input.type = 'hidden';
@@ -125,7 +132,7 @@ export function redirectToShopierPayment(paymentData: PaymentFormData): void {
     input.value = String(value);
     form.appendChild(input);
   });
-  
+
   document.body.appendChild(form);
   form.submit();
 }
@@ -146,18 +153,43 @@ export async function initiateShopierPayment(
 }
 
 /**
+ * Sync order status from Shopier V2 API
+ */
+export async function syncOrderStatusFromShopier(orderId: string): Promise<OrderSyncResult> {
+  const functionsUrl = getFirebaseFunctionsUrl();
+  const apiUrl = `${functionsUrl}/syncOrderStatus`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Sipariş durumu güncellenemedi');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Sync order status error:', error);
+    throw error;
+  }
+}
+
+/**
  * Parse user name into first and last name
  */
 export function parseUserName(fullName: string): { name: string; surname: string } {
   const parts = fullName.trim().split(/\s+/);
-  
+
   if (parts.length === 1) {
     return { name: parts[0], surname: '-' };
   }
-  
+
   const surname = parts.pop() || '-';
   const name = parts.join(' ') || '-';
-  
+
   return { name, surname };
 }
 
@@ -166,15 +198,15 @@ export function parseUserName(fullName: string): { name: string; surname: string
  */
 export function formatPhoneNumber(phone: string): string {
   const digits = phone.replace(/\D/g, '');
-  
+
   if (digits.startsWith('90') && digits.length > 10) {
     return digits.slice(2);
   }
-  
+
   if (digits.startsWith('0') && digits.length === 11) {
     return digits.slice(1);
   }
-  
+
   return digits;
 }
 
@@ -184,9 +216,8 @@ export function formatPhoneNumber(phone: string): string {
 export async function checkPaymentApiHealth(): Promise<boolean> {
   try {
     const functionsUrl = getFirebaseFunctionsUrl();
-    // Firebase Functions health check - basit bir OPTIONS request
-    const response = await fetch(`${functionsUrl}/createShopierPayment`, { 
-      method: 'OPTIONS' 
+    const response = await fetch(`${functionsUrl}/createShopierPayment`, {
+      method: 'OPTIONS'
     });
     return response.ok || response.status === 204;
   } catch {

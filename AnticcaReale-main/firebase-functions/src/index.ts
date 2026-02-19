@@ -6,6 +6,7 @@
  * - createShopierPayment: Ödeme oturumu oluşturur
  * - shopierWebhook: Shopier'dan gelen ödeme bildirimlerini işler
  * - shopierCallback: Ödeme sonrası kullanıcı yönlendirmesi
+ * - syncOrderStatus: Shopier V2 API ile sipariş durumu senkronizasyonu
  */
 
 import * as functions from 'firebase-functions';
@@ -19,6 +20,20 @@ const db = admin.firestore();
 
 // CORS middleware
 const corsHandler = cors({ origin: true });
+
+// ============================================
+// CONFIGURATION
+// ============================================
+
+function getConfig() {
+  return {
+    apiKey: process.env.SHOPIER_API_KEY || '',
+    apiSecret: process.env.SHOPIER_API_SECRET || '',
+    accessToken: process.env.SHOPIER_ACCESS_TOKEN || '',
+    callbackUrl: process.env.SHOPIER_CALLBACK_URL || '',
+    frontendUrl: process.env.FRONTEND_URL || 'https://anticcareale.web.app',
+  };
+}
 
 // ============================================
 // HELPER FUNCTIONS
@@ -58,6 +73,66 @@ function generateRandomString(length: number = 32): string {
 }
 
 // ============================================
+// SHOPIER V2 REST API
+// ============================================
+
+const SHOPIER_V2_BASE_URL = 'https://api.shopier.com/v2';
+
+/**
+ * Shopier V2 API'den sipariş durumu sorgulama
+ */
+async function getShopierOrderStatus(orderId: string, accessToken: string): Promise<any> {
+  try {
+    const response = await fetch(`${SHOPIER_V2_BASE_URL}/orders?platform_order_id=${orderId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Shopier V2 API error:', response.status, response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Shopier V2 API request failed:', error);
+    return null;
+  }
+}
+
+/**
+ * Shopier V2 API'den tüm siparişleri çekme
+ */
+async function getShopierOrders(accessToken: string, page: number = 1): Promise<any> {
+  try {
+    const response = await fetch(`${SHOPIER_V2_BASE_URL}/orders?page=${page}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Shopier V2 API error:', response.status, response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Shopier V2 API request failed:', error);
+    return null;
+  }
+}
+
+// ============================================
 // SHOPIER PAYMENT ENDPOINTS
 // ============================================
 
@@ -82,15 +157,14 @@ export const createShopierPayment = functions
       }
 
       try {
-        // Environment variables'dan API bilgilerini al
-        const apiKey = process.env.SHOPIER_API_KEY || functions.config().shopier?.api_key;
-        const apiSecret = process.env.SHOPIER_API_SECRET || functions.config().shopier?.api_secret;
-        const callbackUrl = process.env.SHOPIER_CALLBACK_URL || functions.config().shopier?.callback_url;
-        // frontendUrl kullanılacaksa burada tanımlanabilir
-        // const frontendUrl = process.env.FRONTEND_URL || functions.config().shopier?.frontend_url;
+        const config = getConfig();
 
-        if (!apiKey || !apiSecret || !callbackUrl) {
-          console.error('Shopier configuration missing');
+        if (!config.apiKey || !config.apiSecret || !config.callbackUrl) {
+          console.error('Shopier configuration missing', {
+            hasApiKey: !!config.apiKey,
+            hasApiSecret: !!config.apiSecret,
+            hasCallbackUrl: !!config.callbackUrl,
+          });
           res.status(500).json({ error: 'Payment configuration error' });
           return;
         }
@@ -128,7 +202,7 @@ export const createShopierPayment = functions
 
         // Signature için data string - PHP SDK ile aynı format
         const signatureData = [
-          apiKey,
+          config.apiKey,
           buyerData.id,
           buyerData.product_name,
           amount.toFixed(2),
@@ -136,11 +210,11 @@ export const createShopierPayment = functions
           randomNr
         ].join('');
 
-        const signature = generateShopierSignature(signatureData, apiSecret);
+        const signature = generateShopierSignature(signatureData, config.apiSecret);
 
         // Shopier form verileri
         const formData = {
-          API_key: apiKey,
+          API_key: config.apiKey,
           website_index: '0', // Site 1
           platform_order_id: orderId,
           product_name: buyerData.product_name,
@@ -161,7 +235,7 @@ export const createShopierPayment = functions
           modul_version: moduleData.module_version,
           random_nr: randomNr,
           signature: signature,
-          callback_url: callbackUrl
+          callback_url: config.callbackUrl
         };
 
         // Firestore'a ödeme kaydı oluştur
@@ -205,9 +279,9 @@ export const shopierWebhook = functions
     }
 
     try {
-      const apiSecret = process.env.SHOPIER_API_SECRET || functions.config().shopier?.api_secret;
+      const config = getConfig();
 
-      if (!apiSecret) {
+      if (!config.apiSecret) {
         console.error('API secret not configured');
         res.status(500).json({ error: 'Configuration error' });
         return;
@@ -221,7 +295,6 @@ export const shopierWebhook = functions
         random_nr,
         signature,
         installment
-        // API_key - Shopier'dan gelen ama kullanmadığımız alan
       } = req.body;
 
       console.log('Webhook received:', {
@@ -232,7 +305,7 @@ export const shopierWebhook = functions
       });
 
       // Signature doğrulama
-      if (!verifyShopierSignature(random_nr, platform_order_id, status, signature, apiSecret)) {
+      if (!verifyShopierSignature(random_nr, platform_order_id, status, signature, config.apiSecret)) {
         console.error('Invalid signature');
         res.status(400).json({ error: 'Invalid signature' });
         return;
@@ -272,10 +345,20 @@ export const shopierWebhook = functions
         await orderRef.update({
           status: 'Ödendi',
           shopierTransactionId: payment_id,
-          paidAt: admin.firestore.FieldValue.serverTimestamp()
+          paidAt: admin.firestore.FieldValue.serverTimestamp(),
+          updatedAt: admin.firestore.FieldValue.serverTimestamp()
         });
 
         console.log('Order marked as paid:', platform_order_id);
+      } else {
+        // Başarısız ödeme — siparişi "İptal Edildi" olarak işaretle
+        const orderRef = db.collection('orders').doc(platform_order_id);
+        await orderRef.update({
+          status: 'İptal Edildi',
+          updatedAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+
+        console.log('Order marked as cancelled:', platform_order_id);
       }
 
       res.status(200).json({ success: true });
@@ -295,42 +378,42 @@ export const shopierWebhook = functions
 export const shopierCallback = functions
   .region('europe-west1')
   .https.onRequest(async (req, res) => {
-    try {
-      const apiSecret = process.env.SHOPIER_API_SECRET || functions.config().shopier?.api_secret;
-      const frontendUrl = process.env.FRONTEND_URL || functions.config().shopier?.frontend_url || 'https://anticcareale.web.app';
+    const config = getConfig();
 
+    try {
       // Shopier callback verileri (GET veya POST)
       const data = req.method === 'POST' ? req.body : req.query;
-      
+
       const {
         platform_order_id,
         status,
         payment_id,
         random_nr,
-        signature
+        signature,
+        installment
       } = data;
 
       console.log('Callback received:', {
         platform_order_id,
         status,
         payment_id,
+        installment,
         method: req.method
       });
 
       // Signature doğrulama (varsa)
-      if (signature && apiSecret) {
+      if (signature && config.apiSecret) {
         const isValid = verifyShopierSignature(
           random_nr as string,
           platform_order_id as string,
           status as string,
           signature as string,
-          apiSecret
+          config.apiSecret
         );
 
         if (!isValid) {
           console.warn('Invalid callback signature');
-          // Yine de kullanıcıyı yönlendir, ama hata sayfasına
-          res.redirect(`${frontendUrl}/checkout/fail?error=invalid_signature`);
+          res.redirect(`${config.frontendUrl}/checkout/fail?error=signature_error&orderId=${platform_order_id}`);
           return;
         }
       }
@@ -341,25 +424,206 @@ export const shopierCallback = functions
         if (platform_order_id) {
           const paymentRef = db.collection('payments').doc(platform_order_id as string);
           const paymentDoc = await paymentRef.get();
-          
+
           if (paymentDoc.exists) {
             await paymentRef.update({
               callbackReceived: true,
               callbackStatus: status,
+              shopierPaymentId: payment_id || '',
+              installment: installment || 0,
               callbackReceivedAt: admin.firestore.FieldValue.serverTimestamp()
             });
           }
+
+          // Sipariş durumunu da güncelle (callback webhook'tan önce gelebilir)
+          const orderRef = db.collection('orders').doc(platform_order_id as string);
+          const orderDoc = await orderRef.get();
+
+          if (orderDoc.exists) {
+            const orderData = orderDoc.data();
+            if (orderData?.status === 'Ödeme Bekleniyor') {
+              await orderRef.update({
+                status: 'Ödendi',
+                shopierTransactionId: payment_id || '',
+                paidAt: admin.firestore.FieldValue.serverTimestamp(),
+                updatedAt: admin.firestore.FieldValue.serverTimestamp()
+              });
+            }
+          }
         }
 
-        res.redirect(`${frontendUrl}/checkout/success?orderId=${platform_order_id}&paymentId=${payment_id}`);
+        const redirectParams = new URLSearchParams({
+          orderId: (platform_order_id as string) || '',
+          paymentId: (payment_id as string) || '',
+          installment: (installment as string) || '0',
+        });
+
+        res.redirect(`${config.frontendUrl}/checkout/success?${redirectParams.toString()}`);
       } else {
         // Başarısız ödeme
-        res.redirect(`${frontendUrl}/checkout/fail?orderId=${platform_order_id}&status=${status}`);
+        const redirectParams = new URLSearchParams({
+          orderId: (platform_order_id as string) || '',
+          error: 'payment_failed',
+          status: (status as string) || 'failed',
+        });
+
+        res.redirect(`${config.frontendUrl}/checkout/fail?${redirectParams.toString()}`);
       }
 
     } catch (error) {
       console.error('Callback error:', error);
-      const frontendUrl = process.env.FRONTEND_URL || functions.config().shopier?.frontend_url || 'https://anticcareale.web.app';
-      res.redirect(`${frontendUrl}/checkout/fail?error=processing_error`);
+      res.redirect(`${config.frontendUrl}/checkout/fail?error=internal_error`);
     }
+  });
+
+// ============================================
+// SHOPIER V2 API - ORDER SYNC
+// ============================================
+
+/**
+ * Sipariş durumu senkronizasyonu
+ * POST /syncOrderStatus
+ * 
+ * Shopier V2 API kullanarak belirli bir siparişin durumunu kontrol eder
+ */
+export const syncOrderStatus = functions
+  .region('europe-west1')
+  .https.onRequest((req, res) => {
+    corsHandler(req, res, async () => {
+      if (req.method !== 'POST') {
+        res.status(405).json({ error: 'Method not allowed' });
+        return;
+      }
+
+      try {
+        const config = getConfig();
+
+        if (!config.accessToken) {
+          console.error('Shopier access token not configured');
+          res.status(500).json({ error: 'Access token not configured' });
+          return;
+        }
+
+        const { orderId } = req.body;
+
+        if (!orderId) {
+          res.status(400).json({ error: 'orderId is required' });
+          return;
+        }
+
+        // Firestore'dan siparişi al
+        const orderRef = db.collection('orders').doc(orderId);
+        const orderDoc = await orderRef.get();
+
+        if (!orderDoc.exists) {
+          res.status(404).json({ error: 'Order not found' });
+          return;
+        }
+
+        // Shopier V2 API'den durumu sorgula
+        const shopierData = await getShopierOrderStatus(orderId, config.accessToken);
+
+        if (shopierData) {
+          // Sipariş durumunu Shopier verisiyle güncelle
+          const updateData: any = {
+            shopierSyncedAt: admin.firestore.FieldValue.serverTimestamp(),
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+          };
+
+          // Shopier'dan gelen duruma göre Firestore'u güncelle
+          if (shopierData.data && shopierData.data.length > 0) {
+            const shopierOrder = shopierData.data[0];
+
+            if (shopierOrder.payment_status === 'paid') {
+              const currentStatus = orderDoc.data()?.status;
+              if (currentStatus === 'Ödeme Bekleniyor') {
+                updateData.status = 'Ödendi';
+                updateData.shopierTransactionId = shopierOrder.payment_id || '';
+                updateData.paidAt = admin.firestore.FieldValue.serverTimestamp();
+              }
+            }
+
+            updateData.shopierOrderData = {
+              paymentStatus: shopierOrder.payment_status,
+              paymentId: shopierOrder.payment_id,
+              totalAmount: shopierOrder.total_amount,
+              installment: shopierOrder.installment,
+            };
+          }
+
+          await orderRef.update(updateData);
+
+          res.status(200).json({
+            success: true,
+            orderId,
+            shopierData: shopierData.data?.[0] || null,
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            orderId,
+            shopierData: null,
+            message: 'No Shopier data found for this order',
+          });
+        }
+      } catch (error) {
+        console.error('Sync order status error:', error);
+        res.status(500).json({ error: 'Failed to sync order status' });
+      }
+    });
+  });
+
+/**
+ * Tüm bekleyen siparişlerin durumunu toplu senkronize et
+ * Scheduler veya admin tarafından tetiklenebilir
+ */
+export const syncAllPendingOrders = functions
+  .region('europe-west1')
+  .https.onRequest((req, res) => {
+    corsHandler(req, res, async () => {
+      try {
+        const config = getConfig();
+
+        if (!config.accessToken) {
+          res.status(500).json({ error: 'Access token not configured' });
+          return;
+        }
+
+        // "Ödeme Bekleniyor" durumundaki siparişleri bul
+        const pendingOrders = await db.collection('orders')
+          .where('status', '==', 'Ödeme Bekleniyor')
+          .get();
+
+        const results: any[] = [];
+
+        for (const orderDoc of pendingOrders.docs) {
+          const orderId = orderDoc.id;
+          const shopierData = await getShopierOrderStatus(orderId, config.accessToken);
+
+          if (shopierData?.data?.length > 0) {
+            const shopierOrder = shopierData.data[0];
+
+            if (shopierOrder.payment_status === 'paid') {
+              await db.collection('orders').doc(orderId).update({
+                status: 'Ödendi',
+                shopierTransactionId: shopierOrder.payment_id || '',
+                paidAt: admin.firestore.FieldValue.serverTimestamp(),
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                shopierSyncedAt: admin.firestore.FieldValue.serverTimestamp(),
+              });
+              results.push({ orderId, synced: true, newStatus: 'Ödendi' });
+            } else {
+              results.push({ orderId, synced: false, shopierStatus: shopierOrder.payment_status });
+            }
+          } else {
+            results.push({ orderId, synced: false, reason: 'Not found in Shopier' });
+          }
+        }
+
+        res.status(200).json({ success: true, results });
+      } catch (error) {
+        console.error('Sync all pending orders error:', error);
+        res.status(500).json({ error: 'Failed to sync pending orders' });
+      }
+    });
   });
