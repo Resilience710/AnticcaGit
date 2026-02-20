@@ -27,14 +27,14 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linen-300">
+    <div className="min-h-screen bg-linen-200">
       <SEO
         title="İletişim — Bize Ulaşın"
         description="Anticca ile iletişime geçin. Çukurcuma, Beyoğlu, İstanbul. Antika alım satım, dükkan başvuruları ve genel sorularınız için."
         canonical="/contact"
       />
       {/* Header */}
-      <div className="bg-olive-800 text-linen-100 py-16">
+      <div className="bg-espresso-900 text-linen-100 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">İletişim</h1>
           <p className="text-xl text-linen-300">
@@ -110,8 +110,8 @@ export default function ContactPage() {
             </div>
 
             {/* Map placeholder */}
-            <div className="mt-8 bg-olive-100 rounded-xl h-64 flex items-center justify-center">
-              <div className="text-center text-olive-600">
+            <div className="mt-8 bg-linen-100 rounded-xl h-64 flex items-center justify-center">
+              <div className="text-center text-espresso-500">
                 <MapPin className="h-12 w-12 mx-auto mb-2 opacity-50" />
                 <p>Harita</p>
                 <p className="text-sm">Çukurcuma, Beyoğlu</p>
@@ -121,7 +121,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div>
-            <div className="bg-linen-200 rounded-xl shadow-sm border border-mist-300 p-8">
+            <div className="bg-white rounded-xl shadow-sm border border-linen-300 p-8">
               <h2 className="font-serif text-2xl font-bold text-espresso-900 mb-6">
                 Mesaj Gönderin
               </h2>
@@ -176,7 +176,7 @@ export default function ContactPage() {
                       required
                       rows={5}
                       placeholder="Mesajınızı buraya yazın..."
-                      className="w-full px-4 py-2.5 rounded-lg border border-mist-300 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-linen-100"
+                      className="w-full px-4 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                     />
                   </div>
 
@@ -189,7 +189,7 @@ export default function ContactPage() {
             </div>
 
             {/* FAQ */}
-            <div className="mt-8 bg-linen-200 rounded-xl p-6 border border-mist-300">
+            <div className="mt-8 bg-white rounded-xl p-6 border border-linen-300">
               <h3 className="font-semibold text-espresso-900 mb-4">Sık Sorulan Sorular</h3>
               <div className="space-y-4 text-sm">
                 <div>

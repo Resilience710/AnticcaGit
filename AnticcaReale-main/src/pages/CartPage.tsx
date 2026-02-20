@@ -134,7 +134,7 @@ export default function CartPage() {
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">Alışveriş Sepetim</span>
-          <h1 className="font-serif text-3xl md:text-5xl font-medium text-olive-900 mb-2">{TR.cart.title}</h1>
+          <h1 className="font-serif text-3xl md:text-5xl font-medium text-espresso-900 mb-2">{TR.cart.title}</h1>
           <p className="text-espresso-500 font-light text-lg">Seçkin antika koleksiyonunuz.</p>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function CartPage() {
                         <div>
                           <Link
                             to={`/products/${item.productId}`}
-                            className="font-serif font-medium text-lg text-olive-900 hover:text-gold-700 line-clamp-2 transition-colors"
+                            className="font-serif font-medium text-lg text-espresso-900 hover:text-gold-700 line-clamp-2 transition-colors"
                           >
                             {item.product.name}
                           </Link>
@@ -200,7 +200,7 @@ export default function CartPage() {
                           >
                             <Minus className="h-3 w-3" />
                           </button>
-                          <span className="px-2 py-1 font-medium text-olive-900 min-w-[1.5rem] text-center text-sm">
+                          <span className="px-2 py-1 font-medium text-espresso-900 min-w-[1.5rem] text-center text-sm">
                             {item.quantity}
                           </span>
                           <button
@@ -215,7 +215,7 @@ export default function CartPage() {
 
                       {/* Total & Remove */}
                       <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-6">
-                        <span className="font-serif font-medium text-lg text-olive-900">
+                        <span className="font-serif font-medium text-lg text-espresso-900">
                           {formatPrice(item.product.price * item.quantity)}
                         </span>
                         <button
@@ -245,14 +245,14 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="lg:col-span-4 mt-8 lg:mt-0">
             <div className="bg-white rounded-sm shadow-soft border border-linen-200 p-8 sticky top-24">
-              <h2 className="font-serif text-2xl font-medium text-olive-900 mb-8 border-b border-linen-100 pb-4">
+              <h2 className="font-serif text-2xl font-medium text-espresso-900 mb-8 border-b border-linen-100 pb-4">
                 Sipariş Özeti
               </h2>
 
               <div className="space-y-4 text-espresso-600">
                 <div className="flex justify-between font-light">
                   <span>{TR.cart.subtotal}</span>
-                  <span className="font-medium text-olive-900">{formatPrice(totalPrice)}</span>
+                  <span className="font-medium text-espresso-900">{formatPrice(totalPrice)}</span>
                 </div>
                 <div className="flex justify-between font-light text-sm">
                   <span>Kargo</span>
@@ -261,7 +261,7 @@ export default function CartPage() {
               </div>
 
               <div className="border-t border-linen-200 my-6 pt-6">
-                <div className="flex justify-between text-xl font-serif font-medium text-olive-900">
+                <div className="flex justify-between text-xl font-serif font-medium text-espresso-900">
                   <span>{TR.cart.total}</span>
                   <span className="text-gold-700">{formatPrice(totalPrice)}</span>
                 </div>
@@ -283,7 +283,7 @@ export default function CartPage() {
 
               <Button
                 size="lg"
-                className="w-full bg-olive-800 hover:bg-olive-900 text-white rounded-sm h-14 font-medium tracking-wide shadow-md hover:shadow-lg transition-all"
+                className="w-full bg-espresso-800 hover:bg-espresso-900 text-white rounded-sm h-14 font-medium tracking-wide shadow-md hover:shadow-lg transition-all"
                 onClick={handleShopierCheckout}
                 loading={loading}
                 disabled={loading}

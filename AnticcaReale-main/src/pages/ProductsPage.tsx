@@ -43,9 +43,9 @@ export default function ProductsPage() {
       {/* Header - Minimal & Elegant */}
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 sm:py-24 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">Koleksiyon</span>
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-medium text-olive-900 mb-6">{TR.products.title}</h1>
-          <p className="text-espresso-600 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+          <span className="text-espresso-400 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">A N T İ C C A</span>
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-medium text-espresso-900 mb-6">{TR.products.title}</h1>
+          <p className="text-espresso-500 max-w-2xl mx-auto text-lg font-light leading-relaxed">
             Geçmişin estetiğini bugünün yaşamına taşıyan eşsiz parçalar.
           </p>
         </div>

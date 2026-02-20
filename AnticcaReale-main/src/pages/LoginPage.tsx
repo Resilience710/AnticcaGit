@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -42,12 +42,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linen-300 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-linen-200 flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <span className="font-serif text-4xl font-bold text-gold-500">
+            <span className="font-serif text-4xl font-bold text-espresso-900">
               {TR.siteName}
             </span>
           </Link>
@@ -57,7 +57,7 @@ export default function LoginPage() {
         </div>
 
         {/* Form Card */}
-        <div className="bg-linen-200 rounded-xl shadow-lg border border-mist-300 p-8">
+        <div className="bg-white rounded-xl shadow-lg border border-linen-300 p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>
@@ -71,7 +71,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-mist-300 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-linen-100"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="ornek@email.com"
                 />
               </div>
@@ -89,7 +89,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-12 py-2.5 rounded-lg border border-mist-300 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-linen-100"
+                  className="w-full pl-10 pr-12 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="••••••••"
                 />
                 <button
@@ -124,7 +124,7 @@ export default function LoginPage() {
             {TR.auth.noAccount}{' '}
             <Link
               to={`/register${redirect !== '/' ? `?redirect=${redirect}` : ''}`}
-              className="text-gold-800 hover:text-gold-600 font-medium"
+              className="text-espresso-800 hover:text-espresso-600 font-medium"
             >
               {TR.auth.register}
             </Link>

@@ -18,7 +18,7 @@ export default function ShopsPage() {
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 sm:py-24 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">Partnerlerimiz</span>
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-medium text-olive-900 mb-6">{TR.shops.title}</h1>
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-medium text-espresso-900 mb-6">{TR.shops.title}</h1>
           <p className="text-espresso-600 max-w-2xl mx-auto text-lg font-light leading-relaxed">
             İstanbul'un tarihine tanıklık eden, güvenilir ve köklü antika dükkanları.
           </p>

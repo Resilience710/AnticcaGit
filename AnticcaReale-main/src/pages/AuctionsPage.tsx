@@ -50,9 +50,9 @@ export default function AuctionsPage() {
                 canonical="/auctions"
             />
             {/* Hero Section */}
-            <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-olive-900">
+            <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-espresso-900">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544257125-e555025eaefd?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-overlay" />
-                <div className="absolute inset-0 bg-gradient-to-t from-olive-950/90 via-olive-900/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso-950/90 via-espresso-900/50 to-transparent" />
 
                 <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
                     <div className="inline-flex p-4 rounded-full bg-gold-500/10 backdrop-blur-sm border border-gold-400/30 mb-6 animate-fade-in-up">
@@ -96,7 +96,7 @@ export default function AuctionsPage() {
                 {upcomingAuctions.length > 0 && (
                     <section>
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-linen-100 text-olive-800 rounded-full border border-linen-200">
+                            <div className="flex items-center gap-2 px-4 py-2 bg-linen-100 text-espresso-800 rounded-full border border-linen-200">
                                 <Clock className="w-4 h-4" />
                                 <span className="font-semibold tracking-wide text-sm uppercase">Yakında Başlayacak</span>
                             </div>
@@ -115,11 +115,11 @@ export default function AuctionsPage() {
                 {liveAuctions.length === 0 && upcomingAuctions.length === 0 && (
                     <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-linen-300">
                         <Clock className="w-16 h-16 text-linen-300 mx-auto mb-4" />
-                        <h3 className="text-2xl font-serif text-olive-900 mb-2">Şu Anda Aktif Müzayede Yok</h3>
-                        <p className="text-olive-600">Yeni koleksiyonlar hazırlanıyor. Lütfen daha sonra tekrar kontrol edin.</p>
+                        <h3 className="text-2xl font-serif text-espresso-900 mb-2">Şu Anda Aktif Müzayede Yok</h3>
+                        <p className="text-espresso-600">Yeni koleksiyonlar hazırlanıyor. Lütfen daha sonra tekrar kontrol edin.</p>
 
                         {endedAuctions.length > 0 && (
-                            <p className="mt-8 text-sm text-olive-400 uppercase tracking-widest font-medium">
+                            <p className="mt-8 text-sm text-espresso-400 uppercase tracking-widest font-medium">
                                 Geçmiş Müzayedeler Aşağıda Listelenmiştir
                             </p>
                         )}
@@ -129,7 +129,7 @@ export default function AuctionsPage() {
                 {/* Ended Auctions (Smaller / Less prominent) */}
                 {endedAuctions.length > 0 && (
                     <section className="opacity-75 grayscale-[0.3]">
-                        <h3 className="font-serif text-2xl text-olive-800 mb-8 border-b border-linen-200 pb-4 inline-block">
+                        <h3 className="font-serif text-2xl text-espresso-800 mb-8 border-b border-linen-200 pb-4 inline-block">
                             Sona Erenler
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

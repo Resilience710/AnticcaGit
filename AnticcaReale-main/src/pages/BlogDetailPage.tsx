@@ -102,7 +102,7 @@ export default function BlogDetailPage() {
           alt={post.title}
           className="w-full h-full object-cover attachment-fixed"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-olive-900/90 via-olive-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso-900/90 via-espresso-900/40 to-transparent" />
 
         {/* Back Button */}
         <div className="absolute top-8 left-8">
@@ -187,15 +187,15 @@ export default function BlogDetailPage() {
               <div className="bg-white rounded-sm p-8 md:p-12 mb-12 border border-linen-200 shadow-soft">
                 <div
                   className="prose prose-lg max-w-none
-                    prose-headings:font-serif prose-headings:font-medium prose-headings:text-olive-900
+                    prose-headings:font-serif prose-headings:font-medium prose-headings:text-espresso-900
                     prose-p:text-espresso-600 prose-p:leading-8 prose-p:font-light
                     prose-a:text-gold-700 prose-a:no-underline hover:prose-a:text-gold-800 hover:prose-a:underline
-                    prose-strong:text-olive-900 prose-strong:font-semibold
+                    prose-strong:text-espresso-900 prose-strong:font-semibold
                     prose-blockquote:border-l-gold-500 prose-blockquote:text-espresso-700 prose-blockquote:italic prose-blockquote:bg-linen-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-sm
                     prose-ul:text-espresso-600 prose-ol:text-espresso-600
                     prose-li:marker:text-gold-500
                     prose-code:text-espresso-800 prose-code:bg-linen-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:font-light
-                    prose-pre:bg-olive-900 prose-pre:text-linen-100 prose-pre:rounded-sm"
+                    prose-pre:bg-espresso-900 prose-pre:text-linen-100 prose-pre:rounded-sm"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               </div>
@@ -204,7 +204,7 @@ export default function BlogDetailPage() {
             {/* Image Gallery */}
             {post.galleryImages && post.galleryImages.length > 0 && (
               <div className="mt-16">
-                <h2 className="text-3xl font-serif font-medium text-olive-900 mb-8 flex items-center gap-3 border-b border-linen-200 pb-4">
+                <h2 className="text-3xl font-serif font-medium text-espresso-900 mb-8 flex items-center gap-3 border-b border-linen-200 pb-4">
                   <ImageIcon className="w-6 h-6 text-gold-600" />
                   Galeri
                 </h2>
@@ -221,7 +221,7 @@ export default function BlogDetailPage() {
                         alt={`${post.title} - Görsel ${index + 1}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-olive-900/0 group-hover:bg-olive-900/30 transition-colors flex items-center justify-center">
+                      <div className="absolute inset-0 bg-espresso-900/0 group-hover:bg-espresso-900/30 transition-colors flex items-center justify-center">
                         <span className="text-white opacity-0 group-hover:opacity-100 transition-all transform scale-90 group-hover:scale-100 font-medium tracking-wider uppercase text-xs bg-black/50 px-3 py-1.5 rounded-sm backdrop-blur-sm">
                           Büyüt
                         </span>
@@ -255,7 +255,7 @@ export default function BlogDetailPage() {
         <div className="mt-12 pt-12 border-t border-linen-200 flex justify-center">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-3 px-8 py-3 bg-olive-900 text-white rounded-sm font-medium hover:bg-olive-800 transition-all shadow-md hover:shadow-lg group"
+            className="inline-flex items-center gap-3 px-8 py-3 bg-espresso-900 text-white rounded-sm font-medium hover:bg-espresso-800 transition-all shadow-md hover:shadow-lg group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span className="tracking-wide">Blog'a Dön</span>
@@ -266,7 +266,7 @@ export default function BlogDetailPage() {
       {/* Lightbox - Kept mostly same but with backdrop update */}
       {selectedImageIndex !== null && galleryImages.length > 0 && (
         <div
-          className="fixed inset-0 z-50 bg-olive-950/95 backdrop-blur-md flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-espresso-950/95 backdrop-blur-md flex items-center justify-center"
           onClick={closeLightbox}
         >
           <button

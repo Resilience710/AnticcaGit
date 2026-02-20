@@ -105,17 +105,17 @@ export default function ProductFilters({
 
       {/* Price Range Slider */}
       <div>
-        <label className="block text-sm font-semibold text-olive-800 mb-3 uppercase tracking-wider">
+        <label className="block text-sm font-semibold text-espresso-800 mb-3 uppercase tracking-wider">
           Fiyat Aralığı
         </label>
         <div className="bg-linen-50 rounded-xl p-4 border border-linen-200">
           {/* Price Display */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-olive-700 bg-white px-3 py-1.5 rounded-lg border border-linen-200 shadow-sm">
+            <span className="text-sm font-medium text-espresso-700 bg-white px-3 py-1.5 rounded-lg border border-linen-200 shadow-sm">
               {formatCurrency(localMin)}
             </span>
             <span className="text-xs text-mist-400 mx-2">—</span>
-            <span className="text-sm font-medium text-olive-700 bg-white px-3 py-1.5 rounded-lg border border-linen-200 shadow-sm">
+            <span className="text-sm font-medium text-espresso-700 bg-white px-3 py-1.5 rounded-lg border border-linen-200 shadow-sm">
               {formatCurrency(localMax)}
             </span>
           </div>
@@ -159,7 +159,7 @@ export default function ProductFilters({
           {/* Apply Button */}
           <button
             onClick={applyPriceFilter}
-            className="w-full py-2 bg-olive-800 hover:bg-olive-700 text-gold-400 rounded-lg text-sm font-medium tracking-wide uppercase transition-colors"
+            className="w-full py-2 bg-espresso-900 hover:bg-espresso-800 text-linen-50 rounded-lg text-sm font-medium tracking-wide uppercase transition-colors"
           >
             Filtrele
           </button>
@@ -168,7 +168,7 @@ export default function ProductFilters({
 
       {/* Categories – Link List */}
       <div>
-        <label className="block text-sm font-semibold text-olive-800 mb-3 uppercase tracking-wider">
+        <label className="block text-sm font-semibold text-espresso-800 mb-3 uppercase tracking-wider">
           {TR.filters.category}
         </label>
         <div className="space-y-0.5">
@@ -188,7 +188,7 @@ export default function ProductFilters({
               onClick={() => updateFilter('category', cat)}
               className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${filters.category === cat
                 ? 'bg-gold-100 text-gold-800 font-medium'
-                : 'text-espresso-600 hover:bg-linen-100 hover:text-olive-800'
+                : 'text-espresso-600 hover:bg-linen-100 hover:text-espresso-800'
                 }`}
             >
               {cat}
@@ -217,10 +217,10 @@ export default function ProductFilters({
         <div className="absolute inset-0 bg-black/40" onClick={onCloseMobile} />
         <div className="absolute right-0 top-0 bottom-0 w-80 bg-white shadow-2xl overflow-y-auto">
           <div className="sticky top-0 bg-white border-b border-linen-200 px-5 py-4 flex items-center justify-between z-10">
-            <h3 className="font-serif text-lg font-semibold text-olive-900">
+            <h3 className="font-serif text-lg font-semibold text-espresso-900">
               {TR.filters.title}
             </h3>
-            <button onClick={onCloseMobile} className="text-mist-500 hover:text-olive-800 transition-colors">
+            <button onClick={onCloseMobile} className="text-mist-500 hover:text-espresso-800 transition-colors">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -233,7 +233,7 @@ export default function ProductFilters({
   // Desktop Sidebar
   return (
     <div className="bg-white rounded-xl border border-linen-200 p-5 shadow-sm">
-      <h3 className="font-serif text-lg font-semibold text-olive-900 mb-5 pb-3 border-b border-linen-200">
+      <h3 className="font-serif text-lg font-semibold text-espresso-900 mb-5 pb-3 border-b border-linen-200">
         {TR.filters.title}
       </h3>
       {filtersContent}

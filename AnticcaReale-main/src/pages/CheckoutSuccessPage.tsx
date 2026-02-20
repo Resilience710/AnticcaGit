@@ -11,7 +11,7 @@ export default function CheckoutSuccessPage() {
   const orderId = searchParams.get('orderId');
   const paymentId = searchParams.get('paymentId');
   const installment = searchParams.get('installment');
-  
+
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export default function CheckoutSuccessPage() {
               shopierTransactionId: paymentId || '',
               updatedAt: serverTimestamp(),
             });
-            
+
             setOrder(prev => prev ? { ...prev, status: 'Ödendi' } : null);
             setOrderUpdated(true);
           } catch (updateError) {
@@ -122,7 +122,7 @@ export default function CheckoutSuccessPage() {
   return (
     <div className="min-h-screen bg-linen-100">
       {/* Success Header */}
-      <div className="bg-gradient-to-br from-olive-800 to-olive-900 text-white py-16">
+      <div className="bg-gradient-to-br from-espresso-800 to-espresso-900 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="bg-white/20 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 animate-bounce">
             <CheckCircle className="h-14 w-14 text-white" />
@@ -217,7 +217,7 @@ export default function CheckoutSuccessPage() {
         {order.userAddress && (
           <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
             <div className="flex items-start gap-3">
-              <Truck className="h-5 w-5 text-olive-600 mt-1" />
+              <Truck className="h-5 w-5 text-espresso-600 mt-1" />
               <div>
                 <h4 className="font-semibold text-espresso-900 mb-1">Teslimat Adresi</h4>
                 <p className="text-espresso-600">{order.userName}</p>

@@ -88,7 +88,7 @@ function OrderTimeline({ order }: { order: Order }) {
         <div className="absolute top-5 left-0 right-0 h-0.5 bg-linen-200 mx-8" />
         {/* Progress Line Active */}
         <div
-          className="absolute top-5 left-0 h-0.5 bg-olive-600 mx-8 transition-all duration-700"
+          className="absolute top-5 left-0 h-0.5 bg-espresso-600 mx-8 transition-all duration-700"
           style={{
             width: `${currentIndex >= 0 ? (currentIndex / (ORDER_STEPS.length - 1)) * 100 : 0}%`,
             maxWidth: 'calc(100% - 4rem)',
@@ -108,16 +108,16 @@ function OrderTimeline({ order }: { order: Order }) {
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${isCompleted
-                    ? isCurrent
-                      ? 'bg-olive-600 text-white shadow-lg shadow-olive-600/30 ring-4 ring-olive-100'
-                      : 'bg-olive-600 text-white'
-                    : 'bg-linen-100 text-espresso-300 border-2 border-linen-200'
+                  ? isCurrent
+                    ? 'bg-espresso-600 text-white shadow-lg shadow-espresso-600/30 ring-4 ring-espresso-100'
+                    : 'bg-espresso-600 text-white'
+                  : 'bg-linen-100 text-espresso-300 border-2 border-linen-200'
                   }`}
               >
                 <StepIcon className="h-4 w-4" />
               </div>
               <span
-                className={`mt-2 text-xs text-center font-medium transition-colors hidden sm:block ${isCompleted ? 'text-olive-800' : 'text-espresso-300'
+                className={`mt-2 text-xs text-center font-medium transition-colors hidden sm:block ${isCompleted ? 'text-espresso-800' : 'text-espresso-300'
                   }`}
               >
                 {step.label}
@@ -215,7 +215,7 @@ export default function OrdersPage() {
           <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">
             Hesabım
           </span>
-          <h1 className="font-serif text-3xl md:text-5xl font-medium text-olive-900 mb-2">
+          <h1 className="font-serif text-3xl md:text-5xl font-medium text-espresso-900 mb-2">
             {TR.orders.title}
           </h1>
           <p className="text-espresso-500 font-light text-lg">
@@ -243,15 +243,15 @@ export default function OrdersPage() {
           <button
             onClick={() => setActiveTab('all')}
             className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === 'all'
-                ? 'bg-olive-800 text-white shadow-md'
-                : 'text-espresso-600 hover:bg-linen-50'
+              ? 'bg-espresso-800 text-white shadow-md'
+              : 'text-espresso-600 hover:bg-linen-50'
               }`}
           >
             <Filter className="h-4 w-4" />
             Tüm Siparişler
             <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'all'
-                ? 'bg-white/20 text-white'
-                : 'bg-linen-100 text-espresso-500'
+              ? 'bg-white/20 text-white'
+              : 'bg-linen-100 text-espresso-500'
               }`}>
               {orders.length}
             </span>
@@ -259,16 +259,16 @@ export default function OrdersPage() {
           <button
             onClick={() => setActiveTab('active')}
             className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === 'active'
-                ? 'bg-olive-800 text-white shadow-md'
-                : 'text-espresso-600 hover:bg-linen-50'
+              ? 'bg-espresso-800 text-white shadow-md'
+              : 'text-espresso-600 hover:bg-linen-50'
               }`}
           >
             <Clock className="h-4 w-4" />
             Aktif
             {activeCount > 0 && (
               <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'active'
-                  ? 'bg-white/20 text-white'
-                  : 'bg-amber-100 text-amber-700'
+                ? 'bg-white/20 text-white'
+                : 'bg-amber-100 text-amber-700'
                 }`}>
                 {activeCount}
               </span>
@@ -277,16 +277,16 @@ export default function OrdersPage() {
           <button
             onClick={() => setActiveTab('completed')}
             className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === 'completed'
-                ? 'bg-olive-800 text-white shadow-md'
-                : 'text-espresso-600 hover:bg-linen-50'
+              ? 'bg-espresso-800 text-white shadow-md'
+              : 'text-espresso-600 hover:bg-linen-50'
               }`}
           >
             <CheckCircle className="h-4 w-4" />
             Tamamlanan
             {completedCount > 0 && (
               <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-bold ${activeTab === 'completed'
-                  ? 'bg-white/20 text-white'
-                  : 'bg-emerald-100 text-emerald-700'
+                ? 'bg-white/20 text-white'
+                : 'bg-emerald-100 text-emerald-700'
                 }`}>
                 {completedCount}
               </span>
@@ -357,7 +357,7 @@ export default function OrdersPage() {
                       >
                         {order.status}
                       </span>
-                      <span className="font-serif font-semibold text-lg text-olive-900">
+                      <span className="font-serif font-semibold text-lg text-espresso-900">
                         {formatPrice(order.totalPrice)}
                       </span>
                       {expandedOrder === order.id ? (

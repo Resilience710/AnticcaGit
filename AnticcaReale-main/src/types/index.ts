@@ -24,6 +24,14 @@ export interface Product {
   category: ProductCategory;
   images: string[];
   model3dUrl?: string; // Optional URL to GLTF/GLB 3D model
+  story?: string; // Product story / history
+  dealerNote?: string; // Antique dealer's personal note
+  dealerName?: string; // Dealer name for attribution
+  era?: string; // Period e.g. "Art Deco"
+  estimatedYear?: string; // Estimated year e.g. "1932"
+  material?: string; // Material e.g. "Bronze"
+  dimensions?: string; // Dimensions e.g. "45 x 20 x 15 cm"
+  condition?: string; // Condition e.g. "Excellent"
   stock: number;
   isActive: boolean;
   createdAt: Date;

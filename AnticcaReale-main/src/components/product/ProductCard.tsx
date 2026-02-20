@@ -63,15 +63,6 @@ export default function ProductCard({ product, shopName }: ProductCardProps) {
               {TR.admin.auction}
             </span>
           )}
-          {product.stock <= 0 ? (
-            <span className="bg-white/90 backdrop-blur text-burgundy-700 text-[10px] uppercase tracking-widest px-2 py-1 font-medium border border-burgundy-100">
-              STOKTA YOK
-            </span>
-          ) : (
-            <span className="bg-white/90 backdrop-blur text-green-700 text-[10px] uppercase tracking-widest px-2 py-1 font-medium border border-green-100">
-              STOKTA
-            </span>
-          )}
         </div>
 
         {/* Quick Add Button - Floating (Only for Fixed Price) */}

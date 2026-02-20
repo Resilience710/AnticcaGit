@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const { register } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -56,36 +56,36 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-linen-200 flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <span className="font-serif text-4xl font-bold text-gold-600">
+            <span className="font-serif text-4xl font-bold text-espresso-900">
               {TR.siteName}
             </span>
           </Link>
-          <h1 className="mt-4 text-2xl font-semibold text-navy-800">
+          <h1 className="mt-4 text-2xl font-semibold text-espresso-900">
             {TR.auth.register}
           </h1>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-lg border border-cream-200 p-8">
+        <div className="bg-white rounded-xl shadow-lg border border-linen-300 p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1">
+              <label className="block text-sm font-medium text-espresso-800 mb-1">
                 {TR.auth.name}
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-navy-400" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-espresso-400" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="Ad Soyad"
                 />
               </div>
@@ -93,17 +93,17 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1">
+              <label className="block text-sm font-medium text-espresso-800 mb-1">
                 {TR.auth.email}
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-navy-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-espresso-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="ornek@email.com"
                 />
               </div>
@@ -111,24 +111,24 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1">
+              <label className="block text-sm font-medium text-espresso-800 mb-1">
                 {TR.auth.password}
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-navy-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-espresso-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-12 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-white"
+                  className="w-full pl-10 pr-12 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="En az 6 karakter"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-navy-400 hover:text-navy-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-espresso-400 hover:text-espresso-700"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -141,17 +141,17 @@ export default function RegisterPage() {
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1">
+              <label className="block text-sm font-medium text-espresso-800 mb-1">
                 {TR.auth.confirmPassword}
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-navy-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-espresso-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200 bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-linen-300 focus:border-espresso-600 focus:ring-2 focus:ring-espresso-200 bg-linen-50"
                   placeholder="Şifreyi tekrar girin"
                 />
               </div>
@@ -171,11 +171,11 @@ export default function RegisterPage() {
           </form>
 
           {/* Login Link */}
-          <p className="mt-6 text-center text-navy-600">
+          <p className="mt-6 text-center text-espresso-600">
             {TR.auth.hasAccount}{' '}
             <Link
               to={`/login${redirect !== '/' ? `?redirect=${redirect}` : ''}`}
-              className="text-gold-700 hover:text-gold-600 font-medium"
+              className="text-espresso-800 hover:text-espresso-600 font-medium"
             >
               {TR.auth.login}
             </Link>

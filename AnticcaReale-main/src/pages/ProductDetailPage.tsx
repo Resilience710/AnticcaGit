@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingCart, Store, ChevronLeft, ChevronRight, Minus, Plus, Check } from 'lucide-react';
+import { ShoppingCart, Store, ChevronLeft, ChevronRight, Check, Quote } from 'lucide-react';
 import { useDocument, useProducts, useAuctionProduct } from '../hooks/useFirestore';
 import { Product, Shop } from '../types';
 import { useCart } from '../contexts/CartContext';
@@ -16,7 +16,6 @@ import SEO from '../components/seo/SEO';
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [show3DViewer, setShow3DViewer] = useState(false);
 
@@ -29,6 +28,25 @@ export default function ProductDetailPage() {
   );
   const { addToCart } = useCart();
 
+  // Parallax scroll effect
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (parallaxRef.current) {
+        const rect = parallaxRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (rect.top < windowHeight && rect.bottom > 0) {
+          const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+          setParallaxOffset(progress * 60 - 30); // -30 to 30 range
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
@@ -38,7 +56,7 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (product && product.stock > 0) {
-      addToCart(product, quantity);
+      addToCart(product, 1);
       setAddedToCart(true);
       setTimeout(() => setAddedToCart(false), 2000);
     }
@@ -74,6 +92,8 @@ export default function ProductDetailPage() {
   }
 
   const filteredRelated = relatedProducts.filter(p => p.id !== product.id).slice(0, 4);
+  const hasMetadata = product.era || product.estimatedYear || product.material || product.dimensions || product.condition;
+  const parallaxImage = product.images && product.images.length > 1 ? product.images[1] : null;
 
   return (
     <div className="min-h-screen bg-cream-50">
@@ -227,13 +247,16 @@ export default function ProductDetailPage() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="bg-navy-100 text-navy-700 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-gold-500 text-espresso-950 px-3 py-1 text-xs font-bold uppercase tracking-widest">
                   {product.category}
                 </span>
               </div>
               <h1 className="font-serif text-3xl lg:text-4xl font-bold text-navy-900">
                 {product.name}
               </h1>
+              {product.category && (
+                <p className="text-mist-500 mt-1">{product.category}</p>
+              )}
             </div>
 
             {/* Price & Auction Section */}
@@ -241,9 +264,45 @@ export default function ProductDetailPage() {
               <AuctionSection product={product} />
             ) : (
               <div className="space-y-6">
-                <div className="text-3xl font-serif font-medium text-olive-800">
+                <div className="text-3xl font-serif font-medium text-espresso-800">
                   {formatPrice(product.price)}
                 </div>
+
+                {/* Metadata Grid */}
+                {hasMetadata && (
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-4 py-4 border-t border-b border-cream-200">
+                    {product.era && (
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-mist-400 font-bold block mb-1">DÖNEM</span>
+                        <span className="text-espresso-800 font-medium">{product.era}</span>
+                      </div>
+                    )}
+                    {product.estimatedYear && (
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-mist-400 font-bold block mb-1">TAHMİNİ YIL</span>
+                        <span className="text-espresso-800 font-medium">{product.estimatedYear}</span>
+                      </div>
+                    )}
+                    {product.material && (
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-mist-400 font-bold block mb-1">MALZEME</span>
+                        <span className="text-espresso-800 font-medium">{product.material}</span>
+                      </div>
+                    )}
+                    {product.dimensions && (
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-mist-400 font-bold block mb-1">ÖLÇÜLER</span>
+                        <span className="text-espresso-800 font-medium">{product.dimensions}</span>
+                      </div>
+                    )}
+                    {product.condition && (
+                      <div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-mist-400 font-bold block mb-1">KONDİSYON</span>
+                        <span className="text-espresso-800 font-medium">{product.condition}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Stock Status */}
                 <div className="flex items-center gap-2">
@@ -264,42 +323,19 @@ export default function ProductDetailPage() {
                   )}
                 </div>
 
-                {/* Quantity & Add to Cart */}
+                {/* Add to Cart - No quantity selector */}
                 {product.stock > 0 && (
-                  <div className="space-y-4 pt-4 border-t border-linen-100">
-                    <div className="flex items-center gap-6">
-                      <span className="text-mist-500 uppercase tracking-widest text-[10px] font-bold">
-                        ADET
-                      </span>
-                      <div className="flex items-center border border-linen-200 rounded-lg overflow-hidden bg-white">
-                        <button
-                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                          className="p-3 hover:bg-linen-50 transition-colors border-r border-linen-200"
-                        >
-                          <Minus className="h-4 w-4 text-mist-600" />
-                        </button>
-                        <span className="px-6 py-2 font-serif text-lg text-olive-900 min-w-[3rem] text-center">
-                          {quantity}
-                        </span>
-                        <button
-                          onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                          className="p-3 hover:bg-linen-50 transition-colors border-l border-linen-200"
-                        >
-                          <Plus className="h-4 w-4 text-mist-600" />
-                        </button>
-                      </div>
-                    </div>
-
+                  <div className="pt-4 border-t border-linen-100">
                     <Button
                       size="lg"
                       onClick={handleAddToCart}
                       disabled={addedToCart}
-                      className="w-full !h-14 bg-olive-900 hover:bg-olive-800 text-gold-500 font-serif text-lg tracking-widest uppercase transition-all"
+                      className="w-full !h-14 bg-espresso-900 hover:bg-espresso-800 text-gold-500 font-serif text-lg tracking-widest uppercase transition-all"
                     >
                       {addedToCart ? (
                         <>
                           <Check className="h-5 w-5 mr-2" />
-                          SEPETE EKLENDI
+                          SEPETE EKLENDİ
                         </>
                       ) : (
                         <>
@@ -315,13 +351,71 @@ export default function ProductDetailPage() {
 
             {/* Description */}
             <div className="pt-6 border-t border-cream-200">
-              <h2 className="font-semibold text-navy-800 mb-3">Ürün Açıklaması</h2>
-              <p className="text-navy-600 leading-relaxed whitespace-pre-line">
+              <p className="text-espresso-700 leading-relaxed whitespace-pre-line text-base italic">
                 {product.description}
               </p>
             </div>
           </div>
         </div>
+
+        {/* === Full-width Editorial Sections Below the Product Grid === */}
+
+        {/* Parallax Image Section */}
+        {parallaxImage && (
+          <div
+            ref={parallaxRef}
+            className="relative mt-16 -mx-4 sm:-mx-6 lg:-mx-8 h-[50vh] min-h-[400px] overflow-hidden"
+          >
+            <div
+              className="absolute inset-0 w-full h-[120%]"
+              style={{
+                backgroundImage: `url('${parallaxImage}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                transform: `translateY(${parallaxOffset}px)`,
+                transition: 'transform 0.1s linear',
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
+          </div>
+        )}
+
+        {/* Story Section */}
+        {product.story && (
+          <div className="mt-16 max-w-3xl mx-auto">
+            <div className="text-center mb-8">
+              <span className="text-gold-600 text-sm font-semibold tracking-[0.3em] uppercase block mb-3">DETAYLAR</span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-espresso-900 italic">Hikâye</h2>
+            </div>
+            <div className="bg-white rounded-xl p-8 sm:p-12 border border-linen-200 shadow-sm">
+              <p className="text-espresso-700 leading-loose text-lg whitespace-pre-line font-light">
+                {product.story}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Dealer Note Section */}
+        {product.dealerNote && (
+          <div className="mt-12 max-w-3xl mx-auto">
+            <div className="bg-linen-100 rounded-xl p-8 sm:p-12 border border-linen-200 relative">
+              <h3 className="font-serif text-xl sm:text-2xl text-espresso-900 font-bold mb-6">Antikacı Notu</h3>
+              <div className="relative pl-6 border-l-2 border-gold-400">
+                <Quote className="absolute -left-3 -top-1 w-6 h-6 text-gold-500 bg-linen-100" />
+                <p className="text-espresso-700 leading-relaxed text-lg italic">
+                  "{product.dealerNote}"
+                </p>
+              </div>
+              {(product.dealerName || shop?.name) && (
+                <div className="mt-6 flex items-center gap-2 text-espresso-500">
+                  <span className="text-sm">—</span>
+                  <span className="font-medium text-espresso-700">{product.dealerName || shop?.name}</span>
+                  <Check className="w-4 h-4 text-olive-800" />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Related Products */}
         {filteredRelated.length > 0 && (

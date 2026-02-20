@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, Image, Box, Gavel, Plus } from 'lucide-react';
+import { X, Upload, Image, Box, Gavel, Plus, BookOpen } from 'lucide-react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../lib/firebase';
 import { Product, Shop, CATEGORIES, ProductCategory } from '../../types';
@@ -38,6 +38,14 @@ export default function AdminProductModal({
         category: 'Mobilya' as ProductCategory,
         images: [] as string[],
         model3dUrl: '',
+        story: '',
+        dealerNote: '',
+        dealerName: '',
+        era: '',
+        estimatedYear: '',
+        material: '',
+        dimensions: '',
+        condition: '',
         stock: 1,
         isActive: true,
         saleType: initialSaleType,
@@ -73,6 +81,14 @@ export default function AdminProductModal({
                 category: product.category,
                 images: product.images || [],
                 model3dUrl: product.model3dUrl || '',
+                story: product.story || '',
+                dealerNote: product.dealerNote || '',
+                dealerName: product.dealerName || '',
+                era: product.era || '',
+                estimatedYear: product.estimatedYear || '',
+                material: product.material || '',
+                dimensions: product.dimensions || '',
+                condition: product.condition || '',
                 stock: product.stock,
                 isActive: product.isActive,
                 saleType: product.saleType || 'fixed',
@@ -92,6 +108,14 @@ export default function AdminProductModal({
                 category: 'Mobilya',
                 images: [],
                 model3dUrl: '',
+                story: '',
+                dealerNote: '',
+                dealerName: '',
+                era: '',
+                estimatedYear: '',
+                material: '',
+                dimensions: '',
+                condition: '',
                 stock: 1,
                 isActive: true,
                 saleType: initialSaleType,
@@ -287,6 +311,77 @@ export default function AdminProductModal({
                             rows={4}
                             className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
                         />
+                    </div>
+
+                    {/* Editorial & Metadata Section */}
+                    <div className="pt-4 border-t border-cream-100">
+                        <div className="flex items-center gap-2 mb-4">
+                            <BookOpen className="h-5 w-5 text-gold-600" />
+                            <label className="text-sm font-semibold text-navy-700">Ürün Detayları & Hikâye</label>
+                        </div>
+
+                        <div className="space-y-4 bg-cream-50 p-4 rounded-lg">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <Input
+                                    label="Dönem"
+                                    placeholder="ör: Art Deco, Osmanlı, Barok"
+                                    value={formData.era}
+                                    onChange={(e) => setFormData({ ...formData, era: e.target.value })}
+                                />
+                                <Input
+                                    label="Tahmini Yıl"
+                                    placeholder="ör: 1932"
+                                    value={formData.estimatedYear}
+                                    onChange={(e) => setFormData({ ...formData, estimatedYear: e.target.value })}
+                                />
+                                <Input
+                                    label="Malzeme"
+                                    placeholder="ör: Bronze, Ahşap, Mermer"
+                                    value={formData.material}
+                                    onChange={(e) => setFormData({ ...formData, material: e.target.value })}
+                                />
+                                <Input
+                                    label="Ölçüler"
+                                    placeholder="ör: 45 x 20 x 15 cm"
+                                    value={formData.dimensions}
+                                    onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
+                                />
+                                <Input
+                                    label="Kondisyon"
+                                    placeholder="ör: Excellent, Good, Fair"
+                                    value={formData.condition}
+                                    onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+                                />
+                                <Input
+                                    label="Antikacı İsmi"
+                                    placeholder="ör: Antik Hazine"
+                                    value={formData.dealerName}
+                                    onChange={(e) => setFormData({ ...formData, dealerName: e.target.value })}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-navy-700 mb-1">Ürün Hikâyesi</label>
+                                <textarea
+                                    value={formData.story}
+                                    onChange={(e) => setFormData({ ...formData, story: e.target.value })}
+                                    rows={4}
+                                    placeholder="Bu ürünün geçmişi, nereden geldiği, hangi dönemde yapıldığı hakkında hikâye yazın..."
+                                    className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-navy-700 mb-1">Antikacı Notu</label>
+                                <textarea
+                                    value={formData.dealerNote}
+                                    onChange={(e) => setFormData({ ...formData, dealerNote: e.target.value })}
+                                    rows={3}
+                                    placeholder="Antikacının bu ürün hakkındaki kişisel notu..."
+                                    className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

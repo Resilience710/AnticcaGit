@@ -4,7 +4,7 @@ export default function TermsPage() {
   return (
     <div className="min-h-screen bg-linen-300">
       {/* Header */}
-      <div className="bg-olive-800 text-linen-100 py-16">
+      <div className="bg-espresso-900 text-linen-100 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Kullanım Şartları</h1>
           <p className="text-xl text-linen-300">

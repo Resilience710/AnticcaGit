@@ -3,7 +3,7 @@ import { TR } from '../../constants/tr';
 
 export default function Footer() {
   return (
-    <footer className="bg-olive-800 text-linen-100">
+    <footer className="bg-espresso-900 text-linen-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -83,7 +83,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-olive-600 text-center text-linen-100/70">
+        <div className="mt-12 pt-8 border-t border-espresso-800 text-center text-linen-100/70">
           <p>
             &copy; {new Date().getFullYear()} {TR.siteName}. {TR.footer.rights}
           </p>

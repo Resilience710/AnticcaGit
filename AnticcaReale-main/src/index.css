@@ -120,9 +120,15 @@ html {
 body {
   font-family: var(--font-family-sans);
   color: var(--color-espresso-900);
-  background-color: var(--color-linen-300);
+  background-color: var(--color-linen-200);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  color: #e8e6e4;
+  background-color: #141210;
 }
 
 h1,
@@ -136,8 +142,8 @@ h6 {
 
 /* Custom components */
 .btn-primary {
-  background-color: var(--color-gold-500);
-  color: var(--color-espresso-950);
+  background-color: var(--color-olive-800);
+  color: var(--color-linen-50);
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -145,8 +151,8 @@ h6 {
 }
 
 .btn-primary:hover {
-  background-color: var(--color-gold-800);
-  color: var(--color-linen-100);
+  background-color: var(--color-olive-700);
+  color: var(--color-linen-50);
 }
 
 .btn-secondary {
@@ -181,10 +187,208 @@ h6 {
   background: var(--color-mist-500);
 }
 
+html.dark ::-webkit-scrollbar-track {
+  background: #1a1714;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #4d4a45;
+}
+
 /* Selection styling */
 ::selection {
   background-color: var(--color-gold-300);
   color: var(--color-espresso-900);
+}
+
+html.dark ::selection {
+  background-color: var(--color-gold-800);
+  color: #faf8f4;
+}
+
+/* ============================================
+   DARK MODE — Global Overrides
+   ============================================ */
+
+/* Backgrounds */
+html.dark .bg-white {
+  background-color: #1e1b18 !important;
+}
+
+html.dark .bg-cream-50,
+html.dark .bg-linen-50 {
+  background-color: #141210 !important;
+}
+
+html.dark .bg-cream-100,
+html.dark .bg-linen-100 {
+  background-color: #1a1714 !important;
+}
+
+html.dark .bg-cream-200,
+html.dark .bg-linen-200 {
+  background-color: #1e1b18 !important;
+}
+
+html.dark .bg-cream-300,
+html.dark .bg-linen-300 {
+  background-color: #252220 !important;
+}
+
+/* Header & Footer special */
+html.dark .bg-linen-50\/95 {
+  background-color: rgba(26, 23, 20, 0.95) !important;
+}
+
+html.dark .bg-linen-100\/50 {
+  background-color: rgba(26, 23, 20, 0.5) !important;
+}
+
+/* Cards and surfaces */
+html.dark .bg-white\/80 {
+  background-color: rgba(30, 27, 24, 0.8) !important;
+}
+
+html.dark .bg-white\/90 {
+  background-color: rgba(30, 27, 24, 0.9) !important;
+}
+
+/* Text colors — light text on dark bg */
+html.dark .text-espresso-900 {
+  color: #e8e6e4 !important;
+}
+
+html.dark .text-espresso-800 {
+  color: #d4d0cc !important;
+}
+
+html.dark .text-espresso-700 {
+  color: #b8b2ab !important;
+}
+
+html.dark .text-espresso-600 {
+  color: #958c84 !important;
+}
+
+html.dark .text-navy-900 {
+  color: #e8e6e4 !important;
+}
+
+html.dark .text-navy-800 {
+  color: #d4d0cc !important;
+}
+
+html.dark .text-navy-700 {
+  color: #b8b2ab !important;
+}
+
+html.dark .text-navy-600 {
+  color: #958c84 !important;
+}
+
+html.dark .text-navy-500 {
+  color: #7a6f66 !important;
+}
+
+/* Muted text stays readable */
+html.dark .text-mist-400 {
+  color: #8f8a7f !important;
+}
+
+html.dark .text-mist-500 {
+  color: #a8a49b !important;
+}
+
+/* Gold accents stay mostly the same — just brighten slightly */
+html.dark .text-gold-600 {
+  color: #d4ba78 !important;
+}
+
+html.dark .text-gold-500 {
+  color: #e0ce9e !important;
+}
+
+/* Borders */
+html.dark .border-cream-200,
+html.dark .border-linen-200,
+html.dark .border-linen-200\/60 {
+  border-color: #2B2521 !important;
+}
+
+html.dark .border-cream-100,
+html.dark .border-linen-100 {
+  border-color: #252220 !important;
+}
+
+html.dark .border-mist-300 {
+  border-color: #3a352c !important;
+}
+
+/* Forms & Inputs */
+html.dark .border-navy-200 {
+  border-color: #3a352c !important;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #1a1714;
+  color: #e8e6e4;
+  border-color: #3a352c;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #7a6f66;
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: var(--color-gold-600);
+}
+
+/* Glassmorphism in dark */
+html.dark .glass {
+  background: rgba(30, 27, 24, 0.85) !important;
+  border-color: rgba(90, 77, 47, 0.2) !important;
+}
+
+/* Shadows — darker in dark mode */
+html.dark .shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Hover states */
+html.dark .hover\:bg-linen-200:hover {
+  background-color: #252220 !important;
+}
+
+html.dark .hover\:bg-linen-100:hover {
+  background-color: #1e1b18 !important;
+}
+
+/* Admin panel specific */
+html.dark .bg-cream-50 {
+  background-color: #141210 !important;
+}
+
+/* Category cards gradient overlays */
+html.dark [class*="from-"] {
+  opacity: 0.9;
+}
+
+/* Transition for smooth theme switching */
+html.dark * {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 /* ============================================
@@ -218,8 +422,8 @@ h6 {
 .glass-dark {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  background: rgba(47, 62, 52, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(253, 252, 250, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .glass-gold {

@@ -21,11 +21,11 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default function CheckoutFailPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  
+
   const orderId = searchParams.get('orderId');
   const errorCode = searchParams.get('error') || 'payment_failed';
   const errorMessage = searchParams.get('message');
-  
+
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(!!orderId);
   const [retrying, setRetrying] = useState(false);
@@ -59,9 +59,9 @@ export default function CheckoutFailPage() {
   const handleRetryPayment = async () => {
     if (!orderId || !order) return;
     setRetrying(true);
-    
+
     try {
-      navigate('/cart', { 
+      navigate('/cart', {
         state: { retryOrderId: orderId, message: 'Ödemenizi tekrar deneyebilirsiniz.' }
       });
     } finally {
@@ -71,17 +71,17 @@ export default function CheckoutFailPage() {
 
   const handleCancelOrder = async () => {
     if (!orderId) return;
-    
+
     const confirm = window.confirm('Siparişi iptal etmek istediğinizden emin misiniz?');
     if (!confirm) return;
-    
+
     try {
       const orderRef = doc(db, 'orders', orderId);
       await updateDoc(orderRef, {
         status: 'İptal Edildi',
         updatedAt: serverTimestamp(),
       });
-      
+
       setOrder(prev => prev ? { ...prev, status: 'İptal Edildi' } : null);
     } catch (err) {
       console.error('Cancel error:', err);
@@ -197,7 +197,7 @@ export default function CheckoutFailPage() {
                   Ödemeyi Tekrar Dene
                 </Button>
               )}
-              
+
               <div className="grid grid-cols-2 gap-3">
                 <Link to="/cart" className="block">
                   <Button size="lg" variant="outline" className="w-full">
@@ -225,9 +225,9 @@ export default function CheckoutFailPage() {
           </div>
         </div>
 
-        <div className="bg-olive-50 rounded-xl p-6 text-center">
-          <h4 className="font-semibold text-olive-900 mb-2">Yardıma mı ihtiyacınız var?</h4>
-          <p className="text-sm text-olive-700 mb-4">
+        <div className="bg-espresso-50 rounded-xl p-6 text-center">
+          <h4 className="font-semibold text-espresso-900 mb-2">Yardıma mı ihtiyacınız var?</h4>
+          <p className="text-sm text-espresso-700 mb-4">
             Ödeme sorununuz devam ediyorsa bizimle iletişime geçin.
           </p>
           <Link to="/contact">

@@ -61,45 +61,39 @@ export default function HomePage() {
         canonical="/"
       />
       {/* Hero Section - "Exhibition Entrance" Style */}
-      <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-linen-100">
-        {/* Foundation Image from Ref 1 Inspiration */}
+      <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-espresso-950">
+        {/* Foundation Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=2070&auto=format&fit=crop')` // Warm, academic books and light
+            backgroundImage: `url('/images/hero-table.png')` // Antique table reference
           }}
         />
-        {/* Soft, light overlay for quiet luxury feel */}
-        <div className="absolute inset-0 bg-linen-50/40 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-linen-50/30 to-linen-100" />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8 animate-fade-in">
-            <span className="inline-block text-gold-400 tracking-[0.4em] text-xs sm:text-sm uppercase font-semibold">
-              Est. 2026 • İstanbul
+            <span className="inline-block text-linen-200/80 tracking-[0.4em] text-xs sm:text-sm uppercase font-semibold">
+              İSTANBUL • 2026
             </span>
 
             <div className="space-y-2">
-              <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-medium leading-none tracking-tight text-gold-500">
-                {TR.siteName}
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium leading-tight text-white">
+                Antika aranmaz,<br />karşılaşılır.
               </h1>
-              <div className="w-24 h-[1px] bg-gold-400 mx-auto" />
             </div>
 
-            <p className="max-w-2xl mx-auto text-xl sm:text-2xl md:text-3xl text-espresso-800/90 font-serif italic font-light leading-relaxed">
-              {TR.tagline}
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-linen-200/90 font-light leading-relaxed">
+              İstanbul'un en seçkin antikacılarından kürasyonla seçilmiş, hikâyesiyle sunulan zamansız parçalar.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
               <Link to="/products">
-                <Button size="lg" className="bg-olive-900 text-linen-50 hover:bg-olive-800 min-w-[220px] rounded-none shadow-none transform transition-all hover:-translate-y-1">
-                  {TR.nav.products}
-                </Button>
-              </Link>
-              <Link to="/shops">
-                <Button size="lg" variant="outline" className="border-gold-500 text-gold-700 hover:bg-gold-50 min-w-[220px] rounded-none transform transition-all hover:-translate-y-1">
-                  {TR.nav.shops}
+                <Button size="lg" className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-espresso-900 min-w-[220px] rounded-none shadow-none transform transition-all hover:-translate-y-1">
+                  KEŞFET &nbsp; →
                 </Button>
               </Link>
             </div>
@@ -114,7 +108,7 @@ export default function HomePage() {
             <div className="relative group overflow-hidden shadow-elegant">
               <div className="aspect-[4/5] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=2074&auto=format&fit=crop"
+                  src="/images/hero-chair.png"
                   alt="Antique collection storytelling"
                   className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105"
                 />
@@ -127,7 +121,7 @@ export default function HomePage() {
                 <span className="text-gold-600 text-sm font-semibold tracking-[0.3em] uppercase block">
                   Yaşanmışlıklar Müzesi
                 </span>
-                <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-olive-900 leading-tight">
+                <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-espresso-900 leading-tight">
                   Her Parçanın Bir <br />
                   <span className="italic text-gold-700">Hikayesi</span> Var
                 </h2>
@@ -220,7 +214,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll">
             <span className="text-gold-600 text-sm font-medium tracking-widest uppercase mb-3 block">Koleksiyon</span>
-            <h2 className="font-serif text-4xl text-olive-900 mb-6">{TR.products.featured}</h2>
+            <h2 className="font-serif text-4xl text-espresso-900 mb-6">{TR.products.featured}</h2>
             <p className="text-espresso-600">Her biri tek ve özel. Zamana meydan okuyan tasarımlar.</p>
           </div>
 
@@ -245,7 +239,7 @@ export default function HomePage() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-xs text-gold-700 tracking-wider uppercase">{shopMap.get(product.shopId)}</p>
-                      <h3 className="font-serif text-lg text-olive-900 leading-tight group-hover:text-gold-600 transition-colors">
+                      <h3 className="font-serif text-lg text-espresso-900 leading-tight group-hover:text-gold-600 transition-colors">
                         {product.name}
                       </h3>
                       <p className="text-espresso-500 font-medium">₺{product.price.toLocaleString('tr-TR')}</p>
@@ -258,7 +252,7 @@ export default function HomePage() {
 
           <div className="text-center mt-16">
             <Link to="/products">
-              <Button variant="outline" className="border-olive-900 text-olive-900 hover:bg-olive-900 hover:text-white px-8">
+              <Button variant="outline" className="border-espresso-900 text-espresso-900 hover:bg-espresso-900 hover:text-white px-8">
                 Tüm Koleksiyonu İncele
               </Button>
             </Link>
@@ -271,17 +265,17 @@ export default function HomePage() {
         <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-linen-200 border-y border-linen-200">
           <div className="p-8 text-center space-y-3">
             <Gem className="w-8 h-8 text-burgundy-700 mx-auto opacity-80" />
-            <h3 className="font-serif text-lg text-olive-900">Ekspertiz Garantisi</h3>
+            <h3 className="font-serif text-lg text-espresso-900">Ekspertiz Garantisi</h3>
             <p className="text-sm text-espresso-500 max-w-xs mx-auto">Her ürün uzmanlar tarafından incelenir ve orijinalliği onaylanır.</p>
           </div>
           <div className="p-8 text-center space-y-3">
             <History className="w-8 h-8 text-burgundy-700 mx-auto opacity-80" />
-            <h3 className="font-serif text-lg text-olive-900">Köklü Miras</h3>
+            <h3 className="font-serif text-lg text-espresso-900">Köklü Miras</h3>
             <p className="text-sm text-espresso-500 max-w-xs mx-auto">Sadece hikayesi olan, gerçek antika ve vintage parçalar.</p>
           </div>
           <div className="p-8 text-center space-y-3">
             <HandMetal className="w-8 h-8 text-burgundy-700 mx-auto opacity-80" />
-            <h3 className="font-serif text-lg text-olive-900">Güvenli Teslimat</h3>
+            <h3 className="font-serif text-lg text-espresso-900">Güvenli Teslimat</h3>
             <p className="text-sm text-espresso-500 max-w-xs mx-auto">Sanat eserlerine özel sigortalı ve korumalı kargo.</p>
           </div>
         </div>

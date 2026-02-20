@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ShoppingCart, User, LogOut, Settings, Package, BookOpen, Info, Home, Store, Grid3X3, Gavel } from 'lucide-react';
+import { Menu, X, ShoppingCart, User, LogOut, Settings, Package, BookOpen, Info, Home, Store, Grid3X3, Gavel, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { useProducts } from '../../hooks/useFirestore';
 import { TR } from '../../constants/tr';
 import { CATEGORIES } from '../../types';
@@ -29,6 +30,7 @@ export default function Header() {
   const megaMenuTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { currentUser, userData, logout, isAdmin } = useAuth();
   const { totalItems } = useCart();
+  const { theme, toggleTheme, isDark } = useTheme();
   const navigate = useNavigate();
 
   // Fetch a few products for the mega menu images
@@ -78,12 +80,12 @@ export default function Header() {
     : megaProducts.filter((p) => p.images?.length > 0).slice(0, 4);
 
   return (
-    <header className="bg-olive-800/90 glass-dark text-linen-100 sticky top-0 z-50 shadow-lg">
+    <header className="bg-linen-50/95 backdrop-blur-md text-espresso-900 sticky top-0 z-50 shadow-sm border-b border-linen-200/60">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 min-h-[44px] min-w-[44px]">
-            <span className="font-serif text-xl sm:text-2xl font-bold text-gold-500">
+            <span className="font-serif text-xl sm:text-2xl font-bold text-espresso-900">
               {TR.siteName}
             </span>
           </Link>
@@ -92,7 +94,7 @@ export default function Header() {
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             <Link
               to="/"
-              className="text-linen-100 hover:text-gold-500 transition-colors py-2"
+              className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 font-medium"
             >
               {TR.nav.home}
             </Link>
@@ -105,7 +107,7 @@ export default function Header() {
             >
               <Link
                 to="/products"
-                className="text-linen-100 hover:text-gold-500 transition-colors py-2 inline-flex items-center"
+                className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 inline-flex items-center font-medium"
               >
                 {TR.nav.products}
               </Link>
@@ -218,41 +220,54 @@ export default function Header() {
 
             <Link
               to="/auctions"
-              className="text-linen-100 hover:text-gold-500 transition-colors py-2"
+              className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 font-medium"
             >
               {TR.nav.auction}
             </Link>
             <Link
               to="/shops"
-              className="text-linen-100 hover:text-gold-500 transition-colors py-2"
+              className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 font-medium"
             >
               {TR.nav.shops}
             </Link>
             <Link
               to="/blog"
-              className="text-linen-100 hover:text-gold-500 transition-colors py-2"
+              className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 font-medium"
             >
               Blog
             </Link>
             <Link
               to="/about"
-              className="text-linen-100 hover:text-gold-500 transition-colors py-2"
+              className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 font-medium"
             >
               Hakkımızda
             </Link>
           </div>
 
-          {/* Right side - Cart & User */}
+          {/* Right side - Theme, Cart & User */}
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-espresso-700 hover:text-espresso-900 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-linen-200 dark:hover:bg-linen-100"
+              aria-label={isDark ? 'Aydınlık moda geç' : 'Karanlık moda geç'}
+            >
+              {isDark ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </button>
+
             {/* Cart - Always visible */}
             <Link
               to="/cart"
-              className="relative text-linen-100 hover:text-gold-500 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="relative text-espresso-700 hover:text-espresso-900 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={`Sepet (${totalItems} ürün)`}
             >
               <ShoppingCart className="h-6 w-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold-500 text-espresso-950 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-olive-800 text-linen-50 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
@@ -263,7 +278,7 @@ export default function Header() {
               <div className="relative hidden md:block">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center space-x-2 text-linen-100 hover:text-gold-500 transition-colors p-2 min-h-[44px]"
+                  className="flex items-center space-x-2 text-espresso-700 hover:text-espresso-900 transition-colors p-2 min-h-[44px]"
                   aria-expanded={userMenuOpen}
                   aria-haspopup="true"
                 >
@@ -315,13 +330,13 @@ export default function Header() {
               <div className="hidden md:flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-linen-100 hover:text-gold-500 transition-colors py-2 px-3"
+                  className="text-espresso-700 hover:text-espresso-900 transition-colors py-2 px-3 font-medium"
                 >
                   {TR.nav.login}
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-gold-500 text-espresso-950 px-4 py-2 rounded-lg hover:bg-gold-400 transition-colors font-medium"
+                  className="bg-olive-800 text-linen-50 px-4 py-2 rounded-lg hover:bg-olive-700 transition-colors font-medium"
                 >
                   {TR.nav.register}
                 </Link>
@@ -331,7 +346,7 @@ export default function Header() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-linen-100 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="md:hidden text-espresso-700 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
               aria-expanded={mobileMenuOpen}
             >
@@ -346,12 +361,12 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-olive-600 animate-in slide-in-from-top duration-200">
+          <div className="md:hidden py-4 border-t border-linen-200 animate-in slide-in-from-top duration-200">
             {/* User info (if logged in) */}
             {currentUser && (
-              <div className="px-2 py-3 mb-3 bg-olive-700/50 rounded-lg">
-                <p className="font-medium text-linen-100">{userData?.name || 'Kullanıcı'}</p>
-                <p className="text-sm text-linen-100/70 truncate">{userData?.email}</p>
+              <div className="px-2 py-3 mb-3 bg-linen-200/50 rounded-lg">
+                <p className="font-medium text-espresso-900">{userData?.name || 'Kullanıcı'}</p>
+                <p className="text-sm text-espresso-500 truncate">{userData?.email}</p>
               </div>
             )}
 
@@ -360,71 +375,71 @@ export default function Header() {
               <Link
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <Home className="h-5 w-5 text-gold-500" />
+                <Home className="h-5 w-5 text-espresso-700" />
                 {TR.nav.home}
               </Link>
               <Link
                 to="/products"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <Grid3X3 className="h-5 w-5 text-gold-500" />
+                <Grid3X3 className="h-5 w-5 text-espresso-700" />
                 {TR.nav.products}
               </Link>
               <Link
                 to="/auctions"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <Gavel className="h-5 w-5 text-gold-500" />
+                <Gavel className="h-5 w-5 text-espresso-700" />
                 {TR.nav.auction}
               </Link>
               <Link
                 to="/shops"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <Store className="h-5 w-5 text-gold-500" />
+                <Store className="h-5 w-5 text-espresso-700" />
                 {TR.nav.shops}
               </Link>
               <Link
                 to="/blog"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <BookOpen className="h-5 w-5 text-gold-500" />
+                <BookOpen className="h-5 w-5 text-espresso-700" />
                 Blog
               </Link>
               <Link
                 to="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
               >
-                <Info className="h-5 w-5 text-gold-500" />
+                <Info className="h-5 w-5 text-espresso-700" />
                 Hakkımızda
               </Link>
             </div>
 
             {/* User Actions */}
             {currentUser ? (
-              <div className="mt-4 pt-4 border-t border-olive-600 space-y-1">
+              <div className="mt-4 pt-4 border-t border-linen-200 space-y-1">
                 <Link
                   to="/orders"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                  className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
                 >
-                  <Package className="h-5 w-5 text-gold-500" />
+                  <Package className="h-5 w-5 text-espresso-700" />
                   {TR.nav.orders}
                 </Link>
                 {isAdmin && (
                   <Link
                     to="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-3 py-3 text-linen-100 hover:bg-olive-700 rounded-lg transition-colors min-h-[48px]"
+                    className="flex items-center gap-3 px-3 py-3 text-espresso-700 hover:bg-linen-200 rounded-lg transition-colors min-h-[48px]"
                   >
-                    <Settings className="h-5 w-5 text-gold-500" />
+                    <Settings className="h-5 w-5 text-espresso-700" />
                     {TR.nav.adminPanel}
                   </Link>
                 )}
@@ -437,18 +452,18 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              <div className="mt-4 pt-4 border-t border-olive-600 space-y-2">
+              <div className="mt-4 pt-4 border-t border-linen-200 space-y-2">
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center px-4 py-3 text-linen-100 border border-linen-100/30 rounded-lg hover:bg-olive-700 transition-colors min-h-[48px]"
+                  className="block w-full text-center px-4 py-3 text-espresso-700 border border-espresso-300 rounded-lg hover:bg-linen-200 transition-colors min-h-[48px]"
                 >
                   {TR.nav.login}
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center bg-gold-500 text-espresso-950 px-4 py-3 rounded-lg hover:bg-gold-400 transition-colors font-medium min-h-[48px]"
+                  className="block w-full text-center bg-olive-800 text-linen-50 px-4 py-3 rounded-lg hover:bg-olive-700 transition-colors font-medium min-h-[48px]"
                 >
                   {TR.nav.register}
                 </Link>

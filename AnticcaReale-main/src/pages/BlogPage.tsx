@@ -41,7 +41,7 @@ function BlogCard({ post }: { post: BlogPost }) {
         )}
 
         {/* Type indicator */}
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-sm text-olive-900 rounded-sm text-[10px] uppercase tracking-wider font-medium shadow-sm">
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-sm text-espresso-900 rounded-sm text-[10px] uppercase tracking-wider font-medium shadow-sm">
           {isVideo ? (
             <>
               <Video className="h-3 w-3 text-gold-600" />
@@ -80,7 +80,7 @@ function BlogCard({ post }: { post: BlogPost }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-serif text-xl font-medium text-olive-900 line-clamp-2 group-hover:text-gold-700 transition-colors mb-3 leading-snug">
+        <h3 className="font-serif text-xl font-medium text-espresso-900 line-clamp-2 group-hover:text-gold-700 transition-colors mb-3 leading-snug">
           {post.title}
         </h3>
 
@@ -137,7 +137,7 @@ export default function BlogPage() {
       <div className="bg-linen-100/50 border-b border-linen-200 py-16 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">Blog & Hikayeler</span>
-          <h1 className="font-serif text-3xl md:text-5xl font-medium text-olive-900 mb-6">Antika Dünyası</h1>
+          <h1 className="font-serif text-3xl md:text-5xl font-medium text-espresso-900 mb-6">Antika Dünyası</h1>
           <p className="text-espresso-500 max-w-2xl mx-auto text-lg font-light leading-relaxed">
             Tarihin tozlu sayfalarından günümüze uzanan yolculuklar, rehberler ve ilham verici hikayeler.
           </p>
@@ -160,8 +160,8 @@ export default function BlogPage() {
             <button
               onClick={() => setSelectedCategory(null)}
               className={`px-5 py-2 rounded-sm text-sm tracking-wide transition-all border ${!selectedCategory
-                ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
-                : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
+                ? 'bg-espresso-900 text-white border-espresso-900 shadow-sm'
+                : 'bg-white text-espresso-600 border-linen-300 hover:border-espresso-500 hover:text-espresso-700'
                 }`}
             >
               Tümü
@@ -171,8 +171,8 @@ export default function BlogPage() {
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2 rounded-sm text-sm tracking-wide transition-all border ${selectedCategory === cat
-                  ? 'bg-olive-800 text-white border-olive-800 shadow-sm'
-                  : 'bg-white text-espresso-600 border-linen-300 hover:border-olive-500 hover:text-olive-700'
+                  ? 'bg-espresso-900 text-white border-espresso-900 shadow-sm'
+                  : 'bg-white text-espresso-600 border-linen-300 hover:border-espresso-500 hover:text-espresso-700'
                   }`}
               >
                 {cat}
@@ -206,7 +206,7 @@ export default function BlogPage() {
           ) : posts.length === 0 ? (
             <div className="text-center py-24 bg-white rounded-sm border border-linen-200 shadow-soft">
               <span className="text-5xl mb-6 block opacity-20 contrast-0 grayscale">🖋️</span>
-              <p className="text-olive-900 text-lg font-serif mb-2">Henüz blog yazısı bulunmuyor.</p>
+              <p className="text-espresso-900 text-lg font-serif mb-2">Henüz blog yazısı bulunmuyor.</p>
               {selectedCategory && (
                 <p className="text-espresso-500 font-light">
                   "{selectedCategory}" kategorisinde yazı yok.
