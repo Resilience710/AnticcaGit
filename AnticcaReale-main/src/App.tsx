@@ -6,6 +6,7 @@ import { CartProvider } from './contexts/CartContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
 import Loading from './components/ui/Loading';
+import ScrollToTop from './components/utils/ScrollToTop';
 
 // Lazy-loaded Pages (code splitting for better Core Web Vitals)
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -52,6 +53,7 @@ function App() {
         <AuthProvider>
           <CartProvider>
             <BrowserRouter>
+              <ScrollToTop />
               <Suspense fallback={<Loading fullScreen />}>
                 <Routes>
                   {/* Main Layout Routes */}
