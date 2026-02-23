@@ -14,117 +14,63 @@ export default function ProductCard({ product, shopName }: ProductCardProps) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: 'TRY',
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (product.stock > 0 && !added) {
-      addToCart(product, 1);
-      setAdded(true);
-      setTimeout(() => setAdded(false), 2000);
-    }
+    addToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   };
 
+  const priceDisplay = product.saleType === 'auction'
+    ? `₺${(product.startingBid || 0).toLocaleString('tr-TR')}`
+    : `₺${(product.price || 0).toLocaleString('tr-TR')}`;
+  const inStock = product.stock !== undefined ? product.stock > 0 : true;
+
   return (
-    <Link
-      to={`/products/${product.id}`}
-      className="group bg-white rounded-sm shadow-sm hover-lift flex flex-col h-full relative"
-    >
-      {/* Image Container */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-linen-200">
-        {product.images && product.images.length > 0 ? (
+    <Link to={`/products/${product.id}`} className="group block">
+      <div className="card-premium overflow-hidden hover-glow">
+        {/* Image */}
+        <div className="aspect-[3/4] overflow-hidden relative">
           <img
-            src={product.images[0]}
-            alt={product.name}
+            src={product.images[0]} alt={product.name}
+            className="w-full h-full object-cover img-cinematic transition-transform duration-[3000ms] group-hover:scale-110"
             loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-mist-400 bg-linen-100">
-            <span className="text-4xl opacity-20">🏺</span>
-          </div>
-        )}
+          <div className="absolute inset-0 bg-gradient-to-t from-obsidian-400/85 via-obsidian-400/10 to-transparent" />
 
-        {/* Soft Overlay on Hover */}
-        <div className="absolute inset-0 bg-olive-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* Status Badges - Minimal */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
           {product.saleType === 'auction' && (
-            <span className="bg-gold-500 text-espresso-950 text-[10px] uppercase tracking-widest px-2 py-1 font-bold border border-gold-400">
-              {TR.admin.auction}
-            </span>
-          )}
-        </div>
-
-        {/* Quick Add Button - Floating (Only for Fixed Price) */}
-        {product.stock > 0 && product.saleType !== 'auction' && (
-          <button
-            onClick={handleAddToCart}
-            className="absolute bottom-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-                       bg-white text-olive-900 hover:bg-gold-500 hover:text-white
-                       w-10 h-10 flex items-center justify-center rounded-full shadow-lg transition-all duration-300
-                       z-10"
-            aria-label="Sepete ekle"
-          >
-            {added ? (
-              <Check className="h-5 w-5" />
-            ) : (
-              <ShoppingCart className="h-4 w-4" />
-            )}
-          </button>
-        )}
-      </div>
-
-      {/* Content - Clean & Serif */}
-      <div className="p-4 flex-1 flex flex-col text-center">
-        <div className="mb-2">
-          <span className="text-[10px] uppercase tracking-[0.15em] text-gold-600 font-medium">
-            {product.category}
-          </span>
-        </div>
-
-        <h3 className="font-serif text-lg text-olive-900 group-hover:text-gold-700 transition-colors leading-tight mb-2">
-          {product.name}
-        </h3>
-
-        {shopName && (
-          <p className="text-xs text-mist-500 font-light mb-auto">
-            {shopName}
-          </p>
-        )}
-
-        <div className="mt-4 pt-4 border-t border-linen-200 flex flex-col gap-1">
-          {product.saleType === 'auction' ? (
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-mist-400">{TR.auction.currentBid}</span>
-                <span className="font-serif text-lg font-medium text-gold-700">
-                  {formatPrice(product.currentHighestBid || product.startingBid || 0)}
-                </span>
-              </div>
-              {product.buyNowPrice && (
-                <div className="flex flex-col mt-1 pt-1 border-t border-linen-100">
-                  <span className="text-[10px] uppercase tracking-wider text-mist-400">Hemen Al</span>
-                  <span className="font-serif text-sm font-medium text-olive-800">
-                    {formatPrice(product.buyNowPrice)}
-                  </span>
-                </div>
-              )}
+            <div className="absolute top-3 left-3">
+              <span className="px-2.5 py-1 bg-burgundy-600/90 text-parchment-100 text-[8px] font-display uppercase tracking-extreme">
+                Müzayede
+              </span>
             </div>
-          ) : (
-            <span className="font-serif text-lg font-medium text-olive-800">
-              {formatPrice(product.price)}
-            </span>
           )}
+
+          {product.saleType !== 'auction' && inStock && (
+            <button
+              onClick={handleAddToCart}
+              className="absolute bottom-3 right-3 w-10 h-10 flex items-center justify-center glass-dark text-agold-400 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-600 hover:bg-agold-400 hover:text-obsidian-400"
+            >
+              {added ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
+            </button>
+          )}
+        </div>
+
+        {/* Info */}
+        <div className="p-5 lg:p-6 space-y-3">
+          {shopName && (
+            <p className="font-display text-agold-600 text-[8px] uppercase tracking-extreme">{shopName}</p>
+          )}
+          <h3 className="font-serif text-[13px] text-parchment-200 leading-snug group-hover:text-agold-300 transition-colors duration-700 line-clamp-2">
+            {product.name}
+          </h3>
+          <div className="flex justify-between items-end pt-3 border-t border-agold-900/8">
+            <p className="font-display text-lg text-agold-300 italic">{priceDisplay}</p>
+            {!inStock && (
+              <span className="text-[8px] text-parchment-700 tracking-extreme uppercase">Tükendi</span>
+            )}
+          </div>
         </div>
       </div>
     </Link>
