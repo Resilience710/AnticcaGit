@@ -1,26 +1,29 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShoppingCart, Store, ChevronLeft, ChevronRight, Check, Quote } from 'lucide-react';
-import { useDocument, useProducts, useAuctionProduct } from '../hooks/useFirestore';
+import { useDocument, useProducts, useProductBySlug } from '../hooks/useFirestore';
 import { Product, Shop } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { TR } from '../constants/tr';
 import ProductCard from '../components/product/ProductCard';
 import Loading from '../components/ui/Loading';
 import Button from '../components/ui/Button';
-import Product3DViewer, { Product3DToggle } from '../components/product/Product3DViewer';
+import { Product3DToggle } from '../components/product/Product3DViewer';
 import AuctionSection from '../components/product/AuctionSection';
-import ARViewer from '../components/product/ARViewer';
 import SEO from '../components/seo/SEO';
 
+// Lazy loaded heavy 3D components
+const Product3DViewer = lazy(() => import('../components/product/Product3DViewer'));
+const ARViewer = lazy(() => import('../components/product/ARViewer'));
+
 export default function ProductDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
   const [show3DViewer, setShow3DViewer] = useState(false);
 
-  // Use real-time hook for product to support live auctions
-  const { product, loading: productLoading } = useAuctionProduct(id);
+  // Use real-time hook for product by slug to support live auctions
+  const { product, loading: productLoading } = useProductBySlug(slug);
   const { data: shop } = useDocument<Shop>('shops', product?.shopId);
   const { products: relatedProducts } = useProducts(
     product ? { shopId: product.shopId, sortBy: 'newest' } : { sortBy: 'newest' },
@@ -100,7 +103,7 @@ export default function ProductDetailPage() {
       <SEO
         title={`${product.name} - ${product.category} Antika`}
         description={product.description?.substring(0, 155) || `${product.name} - Anticca'da antika ${product.category} koleksiyonu.`}
-        canonical={`/products/${product.id}`}
+        canonical={`/products/${product.slug || product.id}`}
         ogImage={product.images?.[0]}
         ogType="product"
         jsonLd={[
@@ -135,15 +138,17 @@ export default function ProductDetailPage() {
           }
         ]}
       />
-      {/* 3D Viewer Modal - Only renders if model3dUrl exists and show3DViewer is true */}
+      {/* 3D Viewer Modal - Lazy Loaded */}
       {product.model3dUrl && show3DViewer && (
-        <Product3DViewer
-          modelUrl={product.model3dUrl}
-          productName={product.name}
-          posterImage={product.images?.[0]}
-          onClose={() => setShow3DViewer(false)}
-          isModal
-        />
+        <Suspense fallback={<Loading fullScreen />}>
+          <Product3DViewer
+            modelUrl={product.model3dUrl}
+            productName={product.name}
+            posterImage={product.images?.[0]}
+            onClose={() => setShow3DViewer(false)}
+            isModal
+          />
+        </Suspense>
       )}
 
       {/* Breadcrumb */}
@@ -175,18 +180,22 @@ export default function ProductDetailPage() {
                     src={product.images[selectedImage]}
                     alt={product.name}
                     className="w-full h-full object-contain"
+                    fetchPriority="high"
+                    decoding="async"
                   />
                   {product.images.length > 1 && (
                     <>
                       <button
                         onClick={handlePrevImage}
                         className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-colors"
+                        aria-label="Önceki görsel"
                       >
                         <ChevronLeft className="h-6 w-6 text-navy-800" />
                       </button>
                       <button
                         onClick={handleNextImage}
                         className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-colors"
+                        aria-label="Sonraki görsel"
                       >
                         <ChevronRight className="h-6 w-6 text-navy-800" />
                       </button>
@@ -209,14 +218,16 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* AR Viewer Button - Below image gallery */}
+            {/* AR Viewer Button - Lazy loaded component wrapper */}
             {product.model3dUrl && (
               <div className="flex justify-center">
-                <ARViewer
-                  modelUrl={product.model3dUrl}
-                  productName={product.name}
-                  posterImage={product.images?.[0]}
-                />
+                <Suspense fallback={<div className="h-[44px]"></div>}>
+                  <ARViewer
+                    modelUrl={product.model3dUrl}
+                    productName={product.name}
+                    posterImage={product.images?.[0]}
+                  />
+                </Suspense>
               </div>
             )}
 
@@ -234,8 +245,12 @@ export default function ProductDetailPage() {
                   >
                     <img
                       src={image}
-                      alt={`${product.name} ${index + 1}`}
+                      alt={`${product.name} — görsel ${index + 1}`}
                       className="w-full h-full object-cover"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </button>
                 ))}

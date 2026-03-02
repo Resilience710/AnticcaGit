@@ -1,38 +1,70 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Gem, History, HandMetal, Clock, Gavel, Shield, Globe, Award, ChevronDown } from 'lucide-react';
 import { useProducts, useShops } from '../hooks/useFirestore';
 import { TR } from '../constants/tr';
+import heroImage from '../assets/hero-antique.webp';
 import ProductCard from '../components/product/ProductCard';
-import CategoryShowcase from '../components/home/CategoryShowcase';
 import Loading from '../components/ui/Loading';
 import SEO from '../components/seo/SEO';
+
+// Lazy-load heavy below-fold components
+const CategoryShowcase = lazy(() => import('../components/home/CategoryShowcase'));
 
 export default function HomePage() {
   const { products, loading: productsLoading } = useProducts({ sortBy: 'newest' }, 20);
   const { shops, loading: shopsLoading } = useShops();
-  const shopMap = new Map(shops.map(s => [s.id, s.name]));
 
-  const parseDate = (d: any) => {
+  const shopMap = useMemo(() => new Map(shops.map(s => [s.id, s.name])), [shops]);
+
+  const parseDate = useCallback((d: any) => {
     if (!d) return 0;
     if (d.toDate) return d.toDate().getTime();
     return new Date(d).getTime();
-  };
-  const now = Date.now();
-  const liveAuctions = products.filter(p => {
-    if (p.saleType !== 'auction') return false;
-    const s = parseDate(p.auctionStartTime), e = parseDate(p.auctionEndTime);
-    return now >= s && now <= e;
-  }).slice(0, 3);
-  const featuredProducts = products.filter(p => p.saleType !== 'auction').slice(0, 8);
+  }, []);
+
+  const liveAuctions = useMemo(() => {
+    const now = Date.now();
+    return products.filter(p => {
+      if (p.saleType !== 'auction') return false;
+      const s = parseDate(p.auctionStartTime), e = parseDate(p.auctionEndTime);
+      return now >= s && now <= e;
+    }).slice(0, 3);
+  }, [products, parseDate]);
+
+  const featuredProducts = useMemo(
+    () => products.filter(p => p.saleType !== 'auction').slice(0, 8),
+    [products]
+  );
   const showcaseProduct = featuredProducts[0];
 
-  /* ═════ PARALLAX ═════ */
-  const [scrollY, setScrollY] = useState(0);
+  /* ═════ PARALLAX (zero-rerender: ref + rAF) ═════ */
+  const scrollYRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const parallaxItemsRef = useRef<HTMLDivElement[]>([]);
+
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
+    const updateParallax = () => {
+      const sy = scrollYRef.current;
+      parallaxItemsRef.current.forEach((el) => {
+        if (!el) return;
+        const speed = parseFloat(el.dataset.parallaxSpeed || '0');
+        const offset = Math.max(0, (sy - 2800) * speed);
+        el.style.transform = `translateY(${offset}px)`;
+      });
+    };
+
+    const onScroll = () => {
+      scrollYRef.current = window.scrollY;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(updateParallax);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   /* ═════ SCROLL REVEALS ═════ */
@@ -55,19 +87,55 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
-      <SEO title="Anticca — Antikanın Dijital Adresi" description="Zamansız antika eserleri keşfedin." canonical="/" />
+      <SEO
+        title="Anticca | Paha Biçilemez Antika Eserler ve Seçkin Koleksiyonlar"
+        description="İstanbul'un en prestijli antikacılarından paha biçilemez antika eserler, Osmanlı dönemi nadide koleksiyonlar ve orijinallik garantili zamansız sanat eserleri keşfedin."
+        canonical="/"
+        ogImage="https://anticca.com.tr/images/og-cover.jpg"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Seçkin Antika Koleksiyonu",
+            "description": "Anticca'nın öne çıkan antika eserleri",
+            "numberOfItems": featuredProducts.length,
+            "itemListElement": featuredProducts.map((p, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "item": {
+                "@type": "Product",
+                "name": p.name,
+                "image": p.images?.[0],
+                "description": p.description?.substring(0, 155),
+                "category": p.category,
+                "url": `https://anticca.com.tr/products/${p.slug || p.id}`,
+                "offers": {
+                  "@type": "Offer",
+                  "price": p.price,
+                  "priceCurrency": p.currency || "TRY",
+                  "availability": (p.stock > 0) ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                }
+              }
+            }))
+          }
+        ]}
+      />
 
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║              HERO — Full Immersive Experience             ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="relative min-h-screen flex items-end overflow-hidden pb-28 pt-32">
+      <section aria-label="Ana Tanıtım" className="relative min-h-screen flex items-end overflow-hidden pb-28 pt-32">
 
         {/* ── Layer 1: Ken Burns Background with deep parallax ── */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-obsidian-400">
           <img
-            src="/images/hero-antique.png"
-            alt="" aria-hidden="true"
-            className="w-full h-full object-cover ken-burns-drift"
+            src={heroImage}
+            alt="Anticca — Seçkin Koleksiyonerler İçin Paha Biçilemez Antika Eserler"
+            className="block w-full h-full object-cover ken-burns-drift"
+            width="1920"
+            height="1080"
+            fetchPriority="high"
+            decoding="sync"
           />
         </div>
 
@@ -93,7 +161,7 @@ export default function HomePage() {
             </div>
 
             {/* Headline — word by word clip reveals */}
-            <div className="space-y-0">
+            <h1 className="space-y-0">
               {[
                 { text: 'Seçkin', color: 'text-parchment-50', italic: true },
                 { text: 'Koleksiyonerler', color: 'text-agold-300', italic: true },
@@ -101,12 +169,12 @@ export default function HomePage() {
                 { text: 'Zarafet.', color: 'text-parchment-50', italic: true },
               ].map((line, i) => (
                 <div key={i} className="overflow-hidden">
-                  <h1 className={`font-display text-fluid-3xl ${line.color} ${line.italic ? 'italic' : ''} ${heroReady ? `clip-up stagger-${i + 2}` : 'clip-hidden'}`}>
+                  <span className={`block font-display text-fluid-3xl ${line.color} ${line.italic ? 'italic' : ''} ${heroReady ? `clip-up stagger-${i + 2}` : 'clip-hidden'}`}>
                     {line.text}
-                  </h1>
+                  </span>
                 </div>
               ))}
-            </div>
+            </h1>
 
             {/* Subtitle */}
             <div className="overflow-hidden max-w-lg">
@@ -144,7 +212,7 @@ export default function HomePage() {
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║           STATISTICS BANNER — Glowing Counters            ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="relative bg-charcoal-100 py-20 lg:py-24">
+      <section aria-label="İstatistikler" className="relative bg-charcoal-100 py-20 lg:py-24 cv-auto">
         <div className="divider-shimmer" />
         <div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 pt-14">
           <div className="grid grid-cols-3 gap-8 text-center">
@@ -169,7 +237,7 @@ export default function HomePage() {
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║         ÖNE ÇIKAN ESER — Cinematic Single Piece           ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="relative bg-obsidian-400 py-28 lg:py-40">
+      <section aria-label="Öne Çıkan Eser" className="relative bg-obsidian-400 py-28 lg:py-40 cv-auto-lg">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
           {/* Section Title */}
@@ -191,8 +259,11 @@ export default function HomePage() {
                 <div className="aspect-[4/5] overflow-hidden shadow-dramatic">
                   <img
                     src={showcaseProduct?.images?.[0] || 'https://images.unsplash.com/photo-1582582621959-48d27397dc69?w=900&q=80&auto=format&fit=crop'}
-                    alt={showcaseProduct?.name || 'Özel eser'}
+                    alt={showcaseProduct?.name || 'Antika koleksiyon eseri — paha biçilemez nadide parça'}
                     className="w-full h-full object-cover img-cinematic transition-transform duration-[4000ms] group-hover:scale-110"
+                    width="600"
+                    height="750"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
                 </div>
@@ -241,7 +312,7 @@ export default function HomePage() {
                     ₺{showcaseProduct.price?.toLocaleString('tr-TR')}
                   </p>
                 )}
-                <Link to={showcaseProduct ? `/products/${showcaseProduct.id}` : '/products'}>
+                <Link to={showcaseProduct ? `/products/${showcaseProduct.slug || showcaseProduct.id}` : '/products'}>
                   <button className="btn-magnetic">
                     <span className="flex items-center gap-5">
                       Eser Detayları
@@ -256,12 +327,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ Categories ═══ */}
-      <CategoryShowcase />
+      <Suspense fallback={null}>
+        <CategoryShowcase />
+      </Suspense>
 
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║                   AKTİF MÜZAYEDELER                       ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="py-28 lg:py-36 bg-charcoal-100 relative">
+      <section aria-label="Aktif Müzayedeler" className="py-28 lg:py-36 bg-charcoal-100 relative cv-auto-lg" style={{ minHeight: '500px' }}>
         <div className="divider-gold" />
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-10">
           <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8 reveal">
@@ -281,10 +354,10 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {liveAuctions.map((auction, idx) => (
-              <Link key={auction.id} to={`/products/${auction.id}`} className="group reveal" style={{ transitionDelay: `${idx * 200}ms` }}>
+              <Link key={auction.id} to={`/products/${auction.slug || auction.id}`} className="group reveal" style={{ transitionDelay: `${idx * 200}ms` }}>
                 <div className="card-premium overflow-hidden hover-glow">
                   <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={auction.images[0]} alt={auction.name} className="w-full h-full object-cover img-cinematic transition-transform duration-[3000ms] group-hover:scale-110" />
+                    <img src={auction.images[0]} alt={`${auction.name} — ${auction.category || 'Antika'} Müzayede Eseri`} className="w-full h-full object-cover img-cinematic transition-transform duration-[3000ms] group-hover:scale-110" width="400" height="300" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-obsidian-400/95 via-obsidian-400/30 to-transparent" />
                     <div className="absolute top-5 left-5">
                       <span className="px-3 py-1.5 bg-burgundy-600/90 text-parchment-100 text-[8px] font-display uppercase tracking-extreme animate-subtle-pulse">
@@ -322,7 +395,7 @@ export default function HomePage() {
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║            SEÇKİN KOLEKSİYONUMUZ — Product Grid           ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="bg-obsidian-400 pt-32 lg:pt-44 pb-32 lg:pb-44 relative">
+      <section aria-label="Seçkin Koleksiyonumuz" className="bg-obsidian-400 pt-32 lg:pt-44 pb-32 lg:pb-44 relative cv-auto-lg" style={{ minHeight: '700px' }}>
 
         {/* Textured heading */}
         <div className="text-center mb-24 lg:mb-32 px-6 reveal-scale">
@@ -348,12 +421,13 @@ export default function HomePage() {
               {featuredProducts.map((product, idx) => {
                 // Deep parallax: alternating speeds create 3D depth
                 const speed = idx % 3 === 0 ? 0.03 : idx % 3 === 1 ? 0.018 : 0.04;
-                const parallaxOffset = Math.max(0, (scrollY - 2800) * speed);
                 return (
                   <div
                     key={product.id}
-                    className={`reveal ${idx % 2 === 1 ? 'lg:pt-16' : ''}`}
-                    style={{ transitionDelay: `${idx * 120}ms`, transform: `translateY(${parallaxOffset}px)` }}
+                    ref={(el) => { if (el) parallaxItemsRef.current[idx] = el; }}
+                    data-parallax-speed={speed}
+                    className={`reveal ${idx % 2 === 1 ? 'lg:pt-16' : ''} will-change-transform`}
+                    style={{ transitionDelay: `${idx * 120}ms` }}
                   >
                     <ProductCard product={product} shopName={shopMap.get(product.shopId)} />
                   </div>
@@ -379,7 +453,7 @@ export default function HomePage() {
       {/* ╔═══════════════════════════════════════════════════════════╗
           ║                    GÜVEN — Trust Pillars                   ║
           ╚═══════════════════════════════════════════════════════════╝ */}
-      <section className="bg-charcoal-100 py-28 lg:py-36 relative">
+      <section aria-label="Güven Garantileri" className="bg-charcoal-100 py-28 lg:py-36 relative cv-auto-sm">
         <div className="divider-gold" />
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-10">
           <div className="grid md:grid-cols-3 gap-8 lg:gap-14">

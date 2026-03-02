@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, Phone, SlidersHorizontal } from 'lucide-react';
+import { Store, Phone, SlidersHorizontal } from 'lucide-react';
 import { useDocument, useProducts } from '../hooks/useFirestore';
 import { Shop, FilterState } from '../types';
 import { TR } from '../constants/tr';
@@ -42,23 +42,17 @@ export default function ShopDetailPage() {
     <div className="min-h-screen bg-cream-50">
       <SEO
         title={`${shop.name} — Antika Dükkanı`}
-        description={shop.description?.substring(0, 155) || `${shop.name} - ${shop.district}, ${shop.city}. Anticca'ın seçkin antika dükkanlarından.`}
+        description={shop.description?.substring(0, 155) || `${shop.name}. Anticca'ın seçkin online antika dükkanlarından.`}
         canonical={`/shops/${shop.id}`}
         ogImage={shop.logoUrl}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": "OnlineBusiness",
           "name": shop.name,
           "description": shop.description,
           "image": shop.logoUrl,
           "telephone": shop.phone,
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": shop.address,
-            "addressLocality": shop.district,
-            "addressRegion": shop.city,
-            "addressCountry": "TR"
-          }
+          "url": `https://anticca.com.tr/shops/${shop.id}`
         }}
       />
       {/* Shop Header */}
@@ -85,8 +79,8 @@ export default function ShopDetailPage() {
 
               <div className="mt-4 flex flex-wrap gap-4 text-sm">
                 <div className="flex items-center gap-2 text-cream-300">
-                  <MapPin className="h-4 w-4 text-gold-500" />
-                  <span>{shop.address}, {shop.district}, {shop.city}</span>
+                  <Store className="h-4 w-4 text-gold-500" />
+                  <span>Online Koleksiyon</span>
                 </div>
                 {shop.phone && (
                   <div className="flex items-center gap-2 text-cream-300">

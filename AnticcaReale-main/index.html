@@ -6,34 +6,218 @@
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="description"
-    content="Anticca - İstanbul'un saklı kalmış antikalarını keşfedin. Türkiye'nin en seçkin antikacılarından nadide parçalar." />
-  <meta name="keywords" content="antika, antikacı, İstanbul, koleksiyon, vintage, retro, antique" />
-  <meta property="og:title" content="Anticca - Antikanın Dijital Adresi" />
+    content="Anticca — Paha biçilemez antika eserler, Osmanlı dönemi nadide koleksiyonlar, 18. yüzyıl Avrupa mobilyaları ve seçkin mücevherat. İstanbul'un en prestijli antikacılarından orijinallik garantili zamansız sanat eserleri." />
+  <meta name="keywords"
+    content="antika, antikacı, İstanbul, koleksiyon, Osmanlı antika, vintage mobilya, antika mücevherat, antika saat, antika tablo, müzayede, antique Turkey" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="Anticca" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Anticca | Paha Biçilemez Antika Eserler ve Seçkin Koleksiyonlar" />
   <meta property="og:description"
-    content="İstanbul'un en seçkin antikacılarını tek çatı altında buluşturan dijital pazar yeri." />
+    content="İstanbul'un en prestijli antikacılarını tek çatı altında buluşturan lüks dijital pazar yeri. Osmanlı, Barok, Art Deco dönemlerinden orijinallik garantili nadide eserler." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anticca.com.tr" />
+  <meta property="og:site_name" content="Anticca" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:image" content="https://anticca.com.tr/images/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="Anticca — Seçkin Antika Koleksiyonları" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anticca | Paha Biçilemez Antika Eserler" />
+  <meta name="twitter:description"
+    content="İstanbul'un en prestijli antikacılarından orijinallik garantili zamansız eserler." />
+  <meta name="twitter:image" content="https://anticca.com.tr/images/og-cover.jpg" />
+  <meta name="twitter:image:alt" content="Anticca — Seçkin Antika Koleksiyonları" />
+
   <meta name="theme-color" content="#0A0908" />
 
-  <!-- Preconnect for faster font loading -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- DNS prefetch for secondary resources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://apis.google.com" />
+  <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
+
+  <!-- Preconnect for Critical Path Resources (Max 4 for optimal latency) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://anticcareale.firebaseapp.com" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://firebase.googleapis.com" crossorigin="anonymous" />
 
   <!-- Luxury Typography Stack -->
+  <link rel="preload" as="image" href="/src/assets/hero-antique.webp" fetchpriority="high" />
   <link rel="preload"
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Questrial&display=swap"
     as="style" />
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Questrial&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Questrial&display=swap"
+    media="print" onload="this.media='all'" crossorigin="anonymous" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Questrial&display=swap"
+      crossorigin="anonymous" />
+  </noscript>
 
   <!-- Mobile specific -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- Firebase Storage preconnect for faster image loading -->
-  <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
-  <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin />
+  <title>Anticca | Paha Biçilemez Antika Eserler ve Seçkin Koleksiyonlar</title>
 
-  <title>Anticca — Antikanın Dijital Adresi</title>
+  <!-- Critical CSS: above-the-fold rendering (hero, header, typography) -->
+  <style>
+    :root {
+      --color-obsidian-400: #0a0908;
+      --color-charcoal-100: #231e1a;
+      --color-agold-300: #d4a555;
+      --color-agold-400: #c4924a;
+      --color-agold-600: #96682e;
+      --color-agold-700: #7a5425;
+      --color-parchment-50: #faf6ef;
+      --color-parchment-100: #f2e9da;
+      --color-parchment-200: #e5d4b8;
+      --color-parchment-400: #c4a370;
+      --font-family-display: 'Playfair Display', Georgia, serif;
+      --font-family-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-family-sans: 'Questrial', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-family-sans);
+      color: var(--color-parchment-200);
+      background-color: var(--color-obsidian-400);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      margin: 0
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--font-family-serif)
+    }
+
+    .font-display {
+      font-family: var(--font-family-display)
+    }
+
+    picture {
+      display: block;
+      width: 100%;
+      height: 100%
+    }
+
+    .glass-dark {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(10, 9, 8, .88);
+      border: 1px solid rgba(196, 146, 74, .06)
+    }
+
+    .text-fluid-3xl {
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: .92
+    }
+
+    .tracking-extreme {
+      letter-spacing: .35em
+    }
+
+    @keyframes ken-burns-drift {
+      0% {
+        transform: scale(1) translate(0, 0)
+      }
+
+      33% {
+        transform: scale(1.08) translate(-.8%, -.3%)
+      }
+
+      66% {
+        transform: scale(1.12) translate(.4%, -.8%)
+      }
+
+      100% {
+        transform: scale(1.06) translate(-.2%, .3%)
+      }
+    }
+
+    .ken-burns-drift {
+      animation: ken-burns-drift 30s ease-in-out infinite alternate;
+      will-change: transform
+    }
+
+    @keyframes clip-up-kf {
+      from {
+        clip-path: inset(100% 0 0 0);
+        transform: translateY(50px)
+      }
+
+      to {
+        clip-path: inset(0 0 0 0);
+        transform: translateY(0)
+      }
+    }
+
+    .clip-up {
+      animation: clip-up-kf 1.6s cubic-bezier(.77, 0, .175, 1) forwards;
+      will-change: clip-path, transform
+    }
+
+    .clip-hidden {
+      clip-path: inset(100% 0 0 0);
+      transform: translateY(50px)
+    }
+
+    .stagger-1 {
+      animation-delay: .15s
+    }
+
+    .stagger-2 {
+      animation-delay: .25s
+    }
+
+    .stagger-3 {
+      animation-delay: .4s
+    }
+
+    .stagger-4 {
+      animation-delay: .55s
+    }
+
+    .stagger-5 {
+      animation-delay: .7s
+    }
+
+    .stagger-6 {
+      animation-delay: .85s
+    }
+
+    .stagger-7 {
+      animation-delay: 1s
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .35;
+      background-image: url('/noise.svg');
+      background-repeat: repeat;
+      mix-blend-mode: overlay
+    }
+  </style>
 
   <!-- Organization & WebSite Schema (static, always present) -->
   <script type="application/ld+json">

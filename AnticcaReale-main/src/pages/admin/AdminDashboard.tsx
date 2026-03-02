@@ -106,59 +106,59 @@ export default function AdminDashboard() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-cream-200 p-6">
+        <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300 p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Store className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 bg-blue-100/50 rounded-lg flex items-center justify-center">
+              <Store className="h-6 w-6 text-blue-700" />
             </div>
             <div>
-              <p className="text-sm text-navy-500">{TR.admin.totalShops}</p>
-              <p className="text-2xl font-bold text-navy-800">{stats.totalShops}</p>
+              <p className="text-sm text-espresso-600">{TR.admin.totalShops}</p>
+              <p className="text-2xl font-bold text-espresso-900">{stats.totalShops}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-cream-200 p-6">
+        <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300 p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Package className="h-6 w-6 text-purple-600" />
+            <div className="w-12 h-12 bg-purple-100/50 rounded-lg flex items-center justify-center">
+              <Package className="h-6 w-6 text-purple-700" />
             </div>
             <div>
-              <p className="text-sm text-navy-500">{TR.admin.totalProducts}</p>
-              <p className="text-2xl font-bold text-navy-800">{stats.totalProducts}</p>
+              <p className="text-sm text-espresso-600">{TR.admin.totalProducts}</p>
+              <p className="text-2xl font-bold text-espresso-900">{stats.totalProducts}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-cream-200 p-6">
+        <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300 p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <ShoppingCart className="h-6 w-6 text-green-600" />
+            <div className="w-12 h-12 bg-green-100/50 rounded-lg flex items-center justify-center">
+              <ShoppingCart className="h-6 w-6 text-green-700" />
             </div>
             <div>
-              <p className="text-sm text-navy-500">{TR.admin.totalOrders}</p>
-              <p className="text-2xl font-bold text-navy-800">{stats.totalOrders}</p>
+              <p className="text-sm text-espresso-600">{TR.admin.totalOrders}</p>
+              <p className="text-2xl font-bold text-espresso-900">{stats.totalOrders}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-cream-200 p-6">
+        <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300 p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <TrendingUp className="h-6 w-6 text-orange-600" />
+            <div className="w-12 h-12 bg-orange-100/50 rounded-lg flex items-center justify-center">
+              <TrendingUp className="h-6 w-6 text-orange-700" />
             </div>
             <div>
-              <p className="text-sm text-navy-500">Bekleyen Siparişler</p>
-              <p className="text-2xl font-bold text-navy-800">{stats.pendingOrders}</p>
+              <p className="text-sm text-espresso-600">Bekleyen Siparişler</p>
+              <p className="text-2xl font-bold text-espresso-900">{stats.pendingOrders}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white rounded-xl shadow-sm border border-cream-200">
-        <div className="p-6 border-b border-cream-200 flex items-center justify-between">
-          <h2 className="font-semibold text-navy-800">{TR.admin.recentOrders}</h2>
+      <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300">
+        <div className="p-6 border-b border-mist-300 flex items-center justify-between">
+          <h2 className="font-semibold text-espresso-900">{TR.admin.recentOrders}</h2>
           <Link
             to="/admin/orders"
             className="text-gold-700 hover:text-gold-600 text-sm font-medium flex items-center gap-1"
@@ -169,49 +169,49 @@ export default function AdminDashboard() {
         </div>
 
         {recentOrders.length === 0 ? (
-          <div className="p-6 text-center text-navy-500">
+          <div className="p-6 text-center text-espresso-500">
             Henüz sipariş bulunmuyor.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-cream-50">
+              <thead className="bg-linen-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">
                     Sipariş No
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">
                     Müşteri
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">
                     Tutar
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">
                     Durum
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">
                     Tarih
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-cream-200">
                 {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-cream-50">
-                    <td className="px-6 py-4 text-sm font-mono text-navy-700">
+                  <tr key={order.id} className="hover:bg-linen-200/50">
+                    <td className="px-6 py-4 text-sm font-mono text-espresso-800">
                       #{order.id.slice(0, 8).toUpperCase()}
                     </td>
-                    <td className="px-6 py-4 text-sm text-navy-700">
+                    <td className="px-6 py-4 text-sm text-espresso-800">
                       {order.userName}
                     </td>
-                    <td className="px-6 py-4 text-sm font-medium text-navy-800">
+                    <td className="px-6 py-4 text-sm font-medium text-gold-700">
                       {formatPrice(order.totalPrice)}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-agold-100 text-agold-800">
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-navy-500">
+                    <td className="px-6 py-4 text-sm text-espresso-500">
                       {formatDate(order.createdAt)}
                     </td>
                   </tr>

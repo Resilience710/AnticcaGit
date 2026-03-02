@@ -213,12 +213,12 @@ export default function AdminProductModal({
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-            <div className="relative bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-cream-200 px-6 py-4 flex items-center justify-between z-10">
-                    <h2 className="text-xl font-semibold text-navy-800">
+            <div className="relative bg-linen-100 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div className="sticky top-0 bg-linen-100 border-b border-mist-300 px-6 py-4 flex items-center justify-between z-10">
+                    <h2 className="text-xl font-semibold text-espresso-900">
                         {product ? TR.admin.editProduct : TR.admin.addProduct}
                     </h2>
-                    <button onClick={onClose} className="text-navy-400 hover:text-navy-600">
+                    <button onClick={onClose} className="text-espresso-400 hover:text-espresso-600">
                         <X className="h-6 w-6" />
                     </button>
                 </div>
@@ -233,12 +233,12 @@ export default function AdminProductModal({
                     />
 
                     <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
+                        <label className="block text-sm font-medium text-espresso-700 mb-2">
                             {TR.admin.uploadImages}
                         </label>
                         <div className="flex flex-wrap gap-3 mb-3">
                             {formData.images.map((url, index) => (
-                                <div key={index} className="relative w-20 h-20 rounded-lg overflow-hidden bg-cream-100 border border-cream-200">
+                                <div key={index} className="relative w-20 h-20 rounded-lg overflow-hidden bg-linen-200 border border-mist-300">
                                     <img src={url} alt="" className="w-full h-full object-cover" />
                                     <button
                                         type="button"
@@ -249,19 +249,19 @@ export default function AdminProductModal({
                                     </button>
                                 </div>
                             ))}
-                            <label className="w-20 h-20 rounded-lg border-2 border-dashed border-cream-300 flex items-center justify-center cursor-pointer hover:border-gold-500 transition-colors">
+                            <label className="w-20 h-20 rounded-lg border-2 border-dashed border-mist-300 flex items-center justify-center cursor-pointer hover:border-agold-500 transition-colors">
                                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
                                 {uploading ? (
                                     <div className="animate-spin h-5 w-5 border-2 border-gold-500 border-t-transparent rounded-full" />
                                 ) : (
-                                    <Image className="h-6 w-6 text-cream-400" />
+                                    <Image className="h-6 w-6 text-mist-400" />
                                 )}
                             </label>
                         </div>
                     </div>
 
-                    <div className="pt-4 border-t border-cream-100">
-                        <label className="block text-sm font-medium text-navy-700 mb-2">{TR.admin.upload3dModel}</label>
+                    <div className="pt-4 border-t border-mist-200">
+                        <label className="block text-sm font-medium text-espresso-700 mb-2">{TR.admin.upload3dModel}</label>
                         <div className="flex items-center gap-4">
                             {formData.model3dUrl ? (
                                 <div className="flex-grow flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
@@ -272,23 +272,23 @@ export default function AdminProductModal({
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, model3dUrl: '' })}
-                                        className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-full transition-colors"
+                                        className="text-burgundy-500 hover:text-burgundy-700 hover:bg-burgundy-50 p-1.5 rounded-full transition-colors"
                                     >
                                         <X className="h-4 w-4" />
                                     </button>
                                 </div>
                             ) : (
-                                <label className="flex-grow flex items-center justify-center p-4 border-2 border-dashed border-cream-300 rounded-lg cursor-pointer hover:border-gold-500 hover:bg-cream-50 transition-all duration-300">
+                                <label className="flex-grow flex items-center justify-center p-4 border-2 border-dashed border-mist-300 rounded-lg cursor-pointer hover:border-agold-500 hover:bg-linen-200 transition-all duration-300">
                                     <input type="file" accept=".glb" onChange={handle3DModelUpload} className="hidden" />
                                     {uploading ? (
                                         <div className="flex items-center gap-3">
-                                            <div className="animate-spin h-5 w-5 border-2 border-gold-500 border-t-transparent rounded-full" />
-                                            <span className="text-sm text-navy-500">Yükleniyor...</span>
+                                            <div className="animate-spin h-5 w-5 border-2 border-agold-500 border-t-transparent rounded-full" />
+                                            <span className="text-sm text-espresso-500">Yükleniyor...</span>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center gap-1">
-                                            <Upload className="h-6 w-6 text-cream-400" />
-                                            <span className="text-sm text-navy-600 font-medium">.glb dosyası seçin</span>
+                                            <Upload className="h-6 w-6 text-mist-400" />
+                                            <span className="text-sm text-espresso-600 font-medium">.glb dosyası seçin</span>
                                         </div>
                                     )}
                                 </label>
@@ -304,23 +304,23 @@ export default function AdminProductModal({
                     />
 
                     <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-1">{TR.admin.productDescription}</label>
+                        <label className="block text-sm font-medium text-espresso-700 mb-1">{TR.admin.productDescription}</label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             rows={4}
-                            className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
+                            className="w-full px-4 py-2.5 rounded-lg border border-mist-300 bg-linen-50 text-espresso-900 focus:border-agold-500 focus:ring-2 focus:ring-agold-200"
                         />
                     </div>
 
                     {/* Editorial & Metadata Section */}
-                    <div className="pt-4 border-t border-cream-100">
+                    <div className="pt-4 border-t border-mist-200">
                         <div className="flex items-center gap-2 mb-4">
-                            <BookOpen className="h-5 w-5 text-gold-600" />
-                            <label className="text-sm font-semibold text-navy-700">Ürün Detayları & Hikâye</label>
+                            <BookOpen className="h-5 w-5 text-agold-600" />
+                            <label className="text-sm font-semibold text-espresso-700">Ürün Detayları & Hikâye</label>
                         </div>
 
-                        <div className="space-y-4 bg-cream-50 p-4 rounded-lg">
+                        <div className="space-y-4 bg-linen-200/50 p-4 rounded-lg">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <Input
                                     label="Dönem"
@@ -361,24 +361,24 @@ export default function AdminProductModal({
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-navy-700 mb-1">Ürün Hikâyesi</label>
+                                <label className="block text-sm font-medium text-espresso-700 mb-1">Ürün Hikâyesi</label>
                                 <textarea
                                     value={formData.story}
                                     onChange={(e) => setFormData({ ...formData, story: e.target.value })}
                                     rows={4}
                                     placeholder="Bu ürünün geçmişi, nereden geldiği, hangi dönemde yapıldığı hakkında hikâye yazın..."
-                                    className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-mist-300 bg-linen-50 text-espresso-900 focus:border-agold-500 focus:ring-2 focus:ring-agold-200"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-navy-700 mb-1">Antikacı Notu</label>
+                                <label className="block text-sm font-medium text-espresso-700 mb-1">Antikacı Notu</label>
                                 <textarea
                                     value={formData.dealerNote}
                                     onChange={(e) => setFormData({ ...formData, dealerNote: e.target.value })}
                                     rows={3}
                                     placeholder="Antikacının bu ürün hakkındaki kişisel notu..."
-                                    className="w-full px-4 py-2.5 rounded-lg border border-navy-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-200"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-mist-300 bg-linen-50 text-espresso-900 focus:border-agold-500 focus:ring-2 focus:ring-agold-200"
                                 />
                             </div>
                         </div>
@@ -414,31 +414,31 @@ export default function AdminProductModal({
                         />
                     </div>
 
-                    <div className="pt-4 border-t border-cream-100">
-                        <label className="block text-sm font-medium text-navy-700 mb-2">{TR.admin.saleType}</label>
+                    <div className="pt-4 border-t border-mist-200">
+                        <label className="block text-sm font-medium text-espresso-700 mb-2">{TR.admin.saleType}</label>
                         <div className="flex gap-4 mb-4">
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
                                     type="radio"
                                     checked={formData.saleType === 'fixed'}
                                     onChange={() => setFormData({ ...formData, saleType: 'fixed' })}
-                                    className="w-4 h-4 text-gold-600 focus:ring-gold-500"
+                                    className="w-4 h-4 text-agold-600 focus:ring-agold-500"
                                 />
-                                <span className="text-navy-700">{TR.admin.fixedPrice}</span>
+                                <span className="text-espresso-700">{TR.admin.fixedPrice}</span>
                             </label>
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
                                     type="radio"
                                     checked={formData.saleType === 'auction'}
                                     onChange={() => setFormData({ ...formData, saleType: 'auction' })}
-                                    className="w-4 h-4 text-gold-600 focus:ring-gold-500"
+                                    className="w-4 h-4 text-agold-600 focus:ring-agold-500"
                                 />
-                                <span className="text-navy-700">{TR.admin.auction}</span>
+                                <span className="text-espresso-700">{TR.admin.auction}</span>
                             </label>
                         </div>
 
                         {formData.saleType === 'auction' && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-cream-50 p-4 rounded-lg">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-linen-200/50 p-4 rounded-lg">
                                 <Input
                                     label={TR.admin.startingBid}
                                     type="number"
@@ -486,12 +486,12 @@ export default function AdminProductModal({
                             id="isActive"
                             checked={formData.isActive}
                             onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                            className="w-4 h-4 rounded border-navy-300 text-gold-600 focus:ring-gold-500"
+                            className="w-4 h-4 rounded border-mist-300 text-agold-600 focus:ring-agold-500"
                         />
-                        <label htmlFor="isActive" className="text-sm text-navy-700">{TR.admin.active}</label>
+                        <label htmlFor="isActive" className="text-sm text-espresso-700">{TR.admin.active}</label>
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-cream-200">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-mist-300">
                         <Button type="button" variant="ghost" onClick={onClose}>{TR.admin.cancel}</Button>
                         <Button type="submit" loading={saving}>{TR.admin.save}</Button>
                     </div>

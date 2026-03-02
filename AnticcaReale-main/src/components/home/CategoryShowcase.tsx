@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const CATEGORY_ITEMS = [
-    { id: 'mobilya', name: 'Mobilya', icon: '🪑', description: 'Klasik & antika mobilyalar' },
-    { id: 'seramik', name: 'Seramik', icon: '🏺', description: 'El yapımı seramik eserler' },
-    { id: 'mucevherat', name: 'Mücevherat', icon: '💎', description: 'Değerli taşlar & takılar' },
-    { id: 'hali-kilim', name: 'Halı & Kilim', icon: '🧶', description: 'El dokuması halılar' },
-    { id: 'sanat', name: 'Sanat Eserleri', icon: '🎨', description: 'Tablolar & heykeller' },
-    { id: 'aydinlatma', name: 'Aydınlatma', icon: '🕯️', description: 'Avizeler & lambalar' },
-    { id: 'saat', name: 'Saatler', icon: '⏰', description: 'Antika duvar & cep saatleri' },
-    { id: 'kitap', name: 'Kitaplar', icon: '📚', description: 'Nadir el yazmaları' },
+    { id: 'mobilya', name: 'Mobilya', description: 'Klasik & antika mobilyalar' },
+    { id: 'seramik', name: 'Seramik', description: 'El yapımı seramik eserler' },
+    { id: 'mucevherat', name: 'Mücevherat', description: 'Değerli taşlar & takılar' },
+    { id: 'hali-kilim', name: 'Halı & Kilim', description: 'El dokuması halılar' },
+    { id: 'sanat', name: 'Sanat Eserleri', description: 'Tablolar & heykeller' },
+    { id: 'aydinlatma', name: 'Aydınlatma', description: 'Avizeler & lambalar' },
+    { id: 'saat', name: 'Saatler', description: 'Antika duvar & cep saatleri' },
+    { id: 'kitap', name: 'Kitaplar', description: 'Nadir el yazmaları' },
 ];
 
 export default function CategoryShowcase() {
@@ -56,12 +56,12 @@ export default function CategoryShowcase() {
                 {/* Carousel */}
                 <div className="relative group">
                     {canLeft && (
-                        <button onClick={() => scroll('l')} className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center glass-dark text-agold-400 hover:text-agold-300 border border-agold-900/15 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <button onClick={() => scroll('l')} className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center glass-dark text-agold-400 hover:text-agold-300 border border-agold-900/15 opacity-0 group-hover:opacity-100 transition-all duration-500" aria-label="Önceki görsel">
                             <ChevronLeft className="w-4 h-4" />
                         </button>
                     )}
                     {canRight && (
-                        <button onClick={() => scroll('r')} className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center glass-dark text-agold-400 hover:text-agold-300 border border-agold-900/15 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <button onClick={() => scroll('r')} className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center glass-dark text-agold-400 hover:text-agold-300 border border-agold-900/15 opacity-0 group-hover:opacity-100 transition-all duration-500" aria-label="Sonraki görsel">
                             <ChevronRight className="w-4 h-4" />
                         </button>
                     )}
@@ -74,7 +74,7 @@ export default function CategoryShowcase() {
                                 className="flex-none snap-start w-52 card-premium p-7 text-center space-y-4 group/card hover-lift reveal cat-reveal"
                                 style={{ transitionDelay: `${idx * 100}ms` }}
                             >
-                                <span className="text-3xl block transition-transform duration-700 group-hover/card:scale-115 group-hover/card:-translate-y-1">{cat.icon}</span>
+
                                 <h3 className="font-display text-[13px] text-parchment-200 tracking-elegant italic">{cat.name}</h3>
                                 <p className="text-parchment-600 text-[11px] leading-relaxed">{cat.description}</p>
                             </button>

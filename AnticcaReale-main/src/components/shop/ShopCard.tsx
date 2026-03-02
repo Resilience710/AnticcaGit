@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, ArrowRight } from 'lucide-react';
+import { Store, Phone, ArrowRight } from 'lucide-react';
 import { Shop } from '../../types';
 import { TR } from '../../constants/tr';
 
@@ -49,9 +49,9 @@ export default function ShopCard({ shop }: ShopCardProps) {
 
         <div className="space-y-3 text-sm text-espresso-500 mt-auto border-t border-linen-100 pt-4">
           <div className="flex items-start gap-2.5">
-            <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold-600" />
+            <Store className="h-4 w-4 mt-0.5 flex-shrink-0 text-gold-600" />
             <span className="line-clamp-1 font-medium text-olive-900">
-              {shop.district}, {shop.city}
+              Antikacı Dükkanı
             </span>
           </div>
           {shop.phone && (

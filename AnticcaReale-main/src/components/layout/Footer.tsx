@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="md:col-span-3">
             <h3 className="font-display text-[10px] text-agold-500 mb-7 tracking-extreme uppercase">Bilgi</h3>
             <ul className="space-y-4">
-              {[{ to: '/about', label: TR.footer.about }, { to: '/contact', label: TR.footer.contact }, { to: '/terms', label: TR.footer.terms }, { to: '/privacy', label: TR.footer.privacy }].map(l => (
+              {[{ to: '/about', label: TR.footer.about }, { to: '/contact', label: TR.footer.contact }, { to: '/terms', label: TR.footer.terms }, { to: '/privacy', label: TR.footer.privacy }, { to: '/cookies', label: 'Çerez Politikası' }].map(l => (
                 <li key={l.to}>
                   <Link to={l.to} className="text-parchment-500 hover:text-agold-300 transition-colors duration-500 text-[13px] tracking-elegant">{l.label}</Link>
                 </li>
@@ -42,7 +42,7 @@ export default function Footer() {
 
         <div className="mt-20 pt-8 border-t border-agold-950/40 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-parchment-600 text-[11px] tracking-elegant">&copy; {new Date().getFullYear()} {TR.siteName}. {TR.footer.rights}</p>
-          <p className="text-parchment-700 text-[9px] tracking-extreme uppercase">İstanbul, Türkiye</p>
+          <p className="text-parchment-700 text-[9px] tracking-extreme uppercase">Antikacılar Online Hizmet Platformu</p>
         </div>
       </div>
     </footer>

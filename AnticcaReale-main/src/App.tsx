@@ -23,6 +23,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const CookiePage = lazy(() => import('./pages/CookiePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage'));
 const CheckoutSuccessPage = lazy(() => import('./pages/CheckoutSuccessPage'));
@@ -60,7 +61,7 @@ function App() {
                   <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="products" element={<ProductsPage />} />
-                    <Route path="products/:id" element={<ProductDetailPage />} />
+                    <Route path="products/:slug" element={<ProductDetailPage />} />
                     <Route path="auctions" element={<AuctionsPage />} />
                     <Route path="shops" element={<ShopsPage />} />
                     <Route path="shops/:id" element={<ShopDetailPage />} />
@@ -70,6 +71,7 @@ function App() {
                     <Route path="contact" element={<ContactPage />} />
                     <Route path="terms" element={<TermsPage />} />
                     <Route path="privacy" element={<PrivacyPage />} />
+                    <Route path="cookies" element={<CookiePage />} />
                     <Route path="blog" element={<BlogPage />} />
                     <Route path="blog/:id" element={<BlogDetailPage />} />
                     <Route path="checkout/success" element={<CheckoutSuccessPage />} />

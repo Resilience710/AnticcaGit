@@ -12,3 +12,41 @@
 
 # Fallback for servers where mod_rewrite is not available
 FallbackResource /index.html
+
+# ── Aggressive Caching for Hashed Static Assets ──
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Hashed JS/CSS bundles (immutable — filename changes on every build)
+  <FilesMatch "\.(js|css)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images — 30 days
+  <FilesMatch "\.(png|jpg|jpeg|gif|webp|avif|ico)$">
+    ExpiresDefault "access plus 30 days"
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # SVG — 30 days
+  <FilesMatch "\.svg$">
+    ExpiresDefault "access plus 30 days"
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # Fonts — 1 year
+  <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Ensure index.html is never cached (SPA — always fetch fresh)
+<FilesMatch "^index\.html$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </IfModule>
+</FilesMatch>

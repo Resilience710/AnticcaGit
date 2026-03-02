@@ -52,7 +52,7 @@ export default function Header() {
             <button onClick={toggleTheme} className="text-parchment-400 hover:text-agold-300 transition-all duration-500 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Tema değiştir">
               {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </button>
-            <Link to="/cart" className="relative text-parchment-400 hover:text-agold-300 transition-colors duration-500 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center">
+            <Link to="/cart" className="relative text-parchment-400 hover:text-agold-300 transition-colors duration-500 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Sepetim">
               <ShoppingCart className="h-[18px] w-[18px]" />
               {totalItems > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-agold-400 text-obsidian-400 text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
@@ -63,7 +63,7 @@ export default function Header() {
 
             {currentUser ? (
               <div className="relative hidden md:block">
-                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center space-x-2 text-parchment-400 hover:text-agold-300 transition-colors duration-500 p-2 min-h-[44px]">
+                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center space-x-2 text-parchment-400 hover:text-agold-300 transition-colors duration-500 p-2 min-h-[44px]" aria-label="Kullanıcı Menüsü">
                   <User className="h-[18px] w-[18px]" />
                   <span className="hidden lg:inline max-w-[100px] truncate text-[13px] tracking-elegant">{userData?.name || 'Kullanıcı'}</span>
                 </button>
@@ -97,7 +97,7 @@ export default function Header() {
               </div>
             )}
 
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-parchment-400 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-parchment-400 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label={mobileMenuOpen ? "Mobil menüyü kapat" : "Mobil menüyü aç"}>
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>

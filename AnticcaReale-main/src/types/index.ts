@@ -18,6 +18,7 @@ export interface Product {
   id: string;
   shopId: string;
   name: string;
+  slug: string; // SEO-friendly URL slug generated from name
   description: string;
   price: number;
   currency: string;

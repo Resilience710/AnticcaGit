@@ -13,6 +13,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as crypto from 'crypto';
 import cors from 'cors';
+import fetch from 'node-fetch';
 
 // Firebase Admin SDK'yı başlat
 admin.initializeApp();
@@ -624,6 +625,60 @@ export const syncAllPendingOrders = functions
       } catch (error) {
         console.error('Sync all pending orders error:', error);
         res.status(500).json({ error: 'Failed to sync pending orders' });
+      }
+    });
+  });
+
+// ============================================
+// SECURITY & AUTHENTICATION
+// ============================================
+
+/**
+ * verifyRecaptcha
+ * POST /verifyRecaptcha
+ * 
+ * Verifies the Google reCAPTCHA v2 token sent from the frontend.
+ */
+export const verifyRecaptcha = functions
+  .region('europe-west1')
+  .https.onRequest((req, res) => {
+    corsHandler(req, res, async () => {
+      if (req.method !== 'POST') {
+        res.status(405).json({ error: 'Method not allowed' });
+        return;
+      }
+
+      try {
+        const { token } = req.body;
+
+        if (!token) {
+          res.status(400).json({ success: false, error: 'Token is required' });
+          return;
+        }
+
+        // Get the secret key from environment variables
+        // If not set, use the Google test secret key for development fallback
+        const secretKey = process.env.RECAPTCHA_SECRET_KEY || '6Le7V3ksAAAAAHox0f8r8bN2v-ZRj8oP6HOEvRmW';
+
+        const response = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `secret=${secretKey}&response=${token}`,
+        });
+
+        const data: any = await response.json();
+
+        if (data.success) {
+          res.status(200).json({ success: true });
+        } else {
+          console.warn('reCAPTCHA verification failed:', data['error-codes']);
+          res.status(400).json({ success: false, error: 'reCAPTCHA verification failed', details: data['error-codes'] });
+        }
+      } catch (error) {
+        console.error('reCAPTCHA siteverify request failed:', error);
+        res.status(500).json({ success: false, error: 'Internal server error during captcha verification' });
       }
     });
   });

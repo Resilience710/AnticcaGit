@@ -10,8 +10,8 @@ export default function ShopsPage() {
   return (
     <div className="min-h-screen bg-linen-50">
       <SEO
-        title="Antika Dükkanları — İstanbul'ın Seçkin Antikacıları"
-        description="İstanbul'un en köklü ve güvenilir antika dükkanları. Tarihî eserlerin adresi Anticca'da dükkanları keşfedin."
+        title="Antika Dükkanları — Seçkin Online Antikacılar"
+        description="Türkiye'nin en köklü ve güvenilir online antika dükkanları. Tarihî eserlerin dijital adresi Anticca'da dükkanları keşfedin."
         canonical="/shops"
       />
       {/* Header - Minimal & Elegant */}
@@ -20,7 +20,7 @@ export default function ShopsPage() {
           <span className="text-gold-600 text-xs sm:text-sm uppercase tracking-[0.25em] mb-4 block animate-fade-in">Partnerlerimiz</span>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-medium text-espresso-900 mb-6">{TR.shops.title}</h1>
           <p className="text-espresso-600 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-            İstanbul'un tarihine tanıklık eden, güvenilir ve köklü antika dükkanları.
+            Tarihin derinliklerinden gelen, güvenilir ve köklü antikacıların online buluşma noktası.
           </p>
         </div>
       </div>

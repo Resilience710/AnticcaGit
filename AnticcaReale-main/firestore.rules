@@ -23,11 +23,6 @@ service cloud.firestore {
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
     
-    // Geçerli e-posta formatı
-    function isValidEmail(email) {
-      return email.matches('.*@.*\\..*');
-    }
-    
     // ============================================
     // USERS COLLECTION
     // ============================================
@@ -48,59 +43,41 @@ service cloud.firestore {
       allow update: if isOwner(userId) && 
                        request.resource.data.role == resource.data.role;
       
-      // Adminler herhangi bir kullanıcıyı güncelleyebilir
-      allow update: if isAdmin();
-      
-      // Kullanıcı silme - sadece admin
-      allow delete: if isAdmin();
+      // Adminler herhangi bir kullanıcıyı güncelleyebilir ve silebilir
+      allow update, delete: if isAdmin();
     }
     
     // ============================================
-    // SHOPS COLLECTION (Dükkanlar)
+    // SHOPS & PRODUCTS TRANSACTIONS
     // ============================================
     match /shops/{shopId} {
-      // Herkes aktif dükkanları okuyabilir
-      // Adminler tüm dükkanları (aktif/pasif) okuyabilir
+      // Herkes okuyabilir
       allow read: if true;
-      
-      // Sadece adminler dükkan oluşturabilir
-      allow create: if isAdmin() &&
-                       request.resource.data.keys().hasAll(['name', 'city', 'isActive']);
-      
-      // Sadece adminler dükkan güncelleyebilir
-      allow update: if isAdmin();
-      
-      // Sadece adminler dükkan silebilir
-      allow delete: if isAdmin();
+      // Dükkan yazma işlemleri kesinlikle SADECE adminler içindir
+      allow create, update, delete: if isAdmin();
     }
     
-    // ============================================
-    // PRODUCTS COLLECTION (Ürünler)
-    // ============================================
     match /products/{productId} {
-      // Herkes aktif ürünleri okuyabilir
-      // Adminler tüm ürünleri (aktif/pasif) okuyabilir
+      // Herkes ürünleri görebilir
       allow read: if true;
       
-      // Sadece adminler ürün oluşturabilir
+      // Ürün yaratma, düzenleme, silme kesinlikle SADECE adminler içindir
       allow create: if isAdmin() &&
                        request.resource.data.keys().hasAll(['name', 'shopId', 'price', 'isActive']) &&
                        request.resource.data.price > 0;
       
-        // Adminler her şeyi güncelleyebilir
-        allow update: if isAdmin();
-        
-        // Kullanıcılar müzayede teklifi verebilir veya hemen al yapabilir
-        // Sadece müzayede ile ilgili alanların güncellenmesine izin verilir
-        allow update: if isAuthenticated() && 
-                         resource.data.saleType == 'auction' &&
-                         request.resource.data.diff(resource.data).affectedKeys()
-                           .hasOnly(['currentHighestBid', 'currentHighestBidderId', 'updatedAt', 'stock', 'auctionEndTime']);
-        
-        // Sadece adminler ürün silebilir
-        allow delete: if isAdmin();
+      allow delete: if isAdmin();
+      
+      // Güncelleme: Adminler her şeyi güncelleyebilir.
+      // Kullanıcılar SADECE müzayede alanlarına (teklif, stok, bitiş süresi) dokunabilir.
+      allow update: if isAdmin() || (
+                       isAuthenticated() && 
+                       resource.data.saleType == 'auction' &&
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['currentHighestBid', 'currentHighestBidderId', 'updatedAt', 'stock', 'auctionEndTime'])
+                    );
 
-        // Teklifler alt koleksiyonu
+        // Teklifler alt koleksiyonu - herkese açık okuma, sadece kendi adına teklif verme
         match /bids/{bidId} {
           allow read: if true;
           allow create: if isAuthenticated() && 
@@ -109,48 +86,37 @@ service cloud.firestore {
     }
     
     // ============================================
-    // ORDERS COLLECTION (Siparişler)
+    // ORDERS COLLECTION
     // ============================================
     match /orders/{orderId} {
-      // Kullanıcılar sadece kendi siparişlerini okuyabilir
-      // Adminler tüm siparişleri okuyabilir
+      // Kullanıcılar sadece kendi siparişlerini okuyabilir, adminler her şeyi okuyabilir
       allow read: if (isAuthenticated() && resource.data.userId == request.auth.uid) || 
                      isAdmin();
       
-      // Giriş yapmış kullanıcılar sipariş oluşturabilir
+      // Giriş yapmış kullanıcılar güvenlik kontrollerini geçerek sipariş oluşturabilir
       allow create: if isAuthenticated() && 
                        request.resource.data.userId == request.auth.uid &&
                        request.resource.data.keys().hasAll(['userId', 'items', 'totalPrice', 'status']) &&
                        request.resource.data.totalPrice > 0;
       
-      // Sadece adminler sipariş durumunu güncelleyebilir
+      // Sipariş yönetimi (status güncellemesi) sadece admine aittir
       allow update: if isAdmin();
-      
-      // Siparişler silinemez (denetim izi için)
+      // Silme yasaktır
       allow delete: if false;
     }
     
     // ============================================
-    // BLOGPOSTS COLLECTION (Blog Yazıları)
+    // BLOGPOSTS COLLECTION
     // ============================================
     match /blogposts/{postId} {
-      // Herkes yayınlanmış blog yazılarını okuyabilir
-      // Adminler tüm yazıları (taslak/yayın) okuyabilir
+      // Herkes yayınlanmışları görebilir, adminler hepsini görebilir
       allow read: if resource.data.status == 'published' || isAdmin();
-      
-      // Sadece adminler blog yazısı oluşturabilir
-      allow create: if isAdmin() &&
-                       request.resource.data.keys().hasAll(['title', 'type', 'thumbnail', 'status']);
-      
-      // Sadece adminler blog yazısı güncelleyebilir
-      allow update: if isAdmin();
-      
-      // Sadece adminler blog yazısı silebilir
-      allow delete: if isAdmin();
+      // İçerik yönetimi sadece adminler içindir
+      allow create, update, delete: if isAdmin();
     }
     
     // ============================================
-    // DEFAULT DENY - Tanımlanmamış tüm erişimler engellenir
+    // DEFAULT DENY
     // ============================================
     match /{document=**} {
       allow read, write: if false;

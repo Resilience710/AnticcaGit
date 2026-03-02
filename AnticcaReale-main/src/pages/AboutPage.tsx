@@ -1,4 +1,4 @@
-import { Store, Shield, Truck, Award, Gavel, Filter, CreditCard, Smartphone, Search, BookOpen, Clock, MapPin, Star, Box, Palette, Gem, Lamp, Watch, Scroll, Armchair } from 'lucide-react';
+import { Store, Shield, Truck, Award, Gavel, Filter, CreditCard, Smartphone, Search, BookOpen, Clock, Globe, Star, Box, Palette, Gem, Lamp, Watch, Scroll, Armchair } from 'lucide-react';
 import { TR } from '../constants/tr';
 import SEO from '../components/seo/SEO';
 
@@ -7,7 +7,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-linen-50">
       <SEO
         title="Hakkımızda — Anticca'yı Tanıyın"
-        description="Anticca, İstanbul'un en seçkin antikacılarını tek çatı altında buluşturan dijital antika pazar yeri. Misyonumuz ve vizyonumuz."
+        description="Anticca, Türkiye'nin en seçkin antikacılarını tek çatı altında buluşturan tamamen online dijital antika pazaryeri. Misyonumuz ve vizyonumuz."
         canonical="/about"
       />
       {/* Header - Pre-Launch Announcement */}
@@ -40,10 +40,10 @@ export default function AboutPage() {
               <span className="absolute -bottom-2 left-0 right-0 h-px bg-gold-300 w-1/2 mx-auto" />
             </h2>
             <p className="text-lg md:text-xl font-light leading-8 text-espresso-700">
-              Anticca, İstanbul'un köklü antika geleneğini dijital dünyaya taşıyan yeni nesil bir platformdur.
-              2026 yılında kurulan şirketimiz, Türkiye'nin en seçkin antikacılarını ve antika meraklılarını
-              bir araya getirme vizyonuyla yola çıkmıştır. Şu anda son hazırlıklarımızı tamamlıyoruz ve
-              çok yakında sizlerle buluşacağız!
+              Anticca, Türkiye'nin köklü antika geleneğini dijital dünyaya taşıyan tamamen online bir platformdur.
+              2026 yılında kurulan platformumuz, en seçkin antikacıları ve antika meraklılarını
+              mekandan bağımsız olarak bir araya getirme vizyonuyla yola çıkmıştır. Şehirlerin
+              sınırlarını kaldırarak antika tutkusunu her yere taşıyoruz!
             </p>
           </section>
 
@@ -80,7 +80,7 @@ export default function AboutPage() {
                 { icon: CreditCard, title: "Güvenli Ödeme", desc: "SSL şifreli altyapı ile kredi kartı ve havale/EFT ile güvenli ödeme." },
                 { icon: Truck, title: "Sigortalı Kargo", desc: "Her ürün özel olarak paketlenir ve sigortalı kargo ile güvenle teslim edilir." },
                 { icon: Smartphone, title: "Mobil Uyumlu", desc: "Her cihazdan sorunsuz alışveriş. Responsive tasarım ile mükemmel deneyim." },
-                { icon: Store, title: "Seçkin Dükkanlar", desc: "İstanbul'un en köklü antikacılarından özenle seçilmiş mağazalar." },
+                { icon: Store, title: "Seçkin Satıcılar", desc: "Türkiye'nin en köklü ve güvenilir antikacıları platformumuzda." },
                 { icon: BookOpen, title: "Blog & Hikayeler", desc: "Antika dünyasından haberler, koleksiyon hikayeleri ve uzman görüşleri." },
                 { icon: Star, title: "Kalite Standartları", desc: "Sadece en kaliteli ve değerli antika eserleri platformumuza kabul edilir." },
               ].map((item, idx) => (
@@ -175,14 +175,13 @@ export default function AboutPage() {
             </div>
           </section>
 
-          {/* Contact/Launch Interest */}
           <section className="mt-16 text-center">
             <div className="bg-linen-100 border border-linen-200 rounded-sm p-8 lg:p-12">
-              <MapPin className="w-10 h-10 text-gold-600 mx-auto mb-4" />
-              <h3 className="font-serif text-2xl text-espresso-900 mb-4">İstanbul, Türkiye</h3>
+              <Globe className="w-10 h-10 text-gold-600 mx-auto mb-4" />
+              <h3 className="font-serif text-2xl text-espresso-900 mb-4">Tamamen Online, Sınırsız Hizmet</h3>
               <p className="text-espresso-600 max-w-lg mx-auto">
-                Anticca, İstanbul merkezli olarak tüm Türkiye'ye hizmet verecektir.
-                Açılışımızdan haberdar olmak için bizi takip edin!
+                Anticca, fiziksel sınırları ortadan kaldıran tamamen online bir platformdur.
+                Türkiye'nin her yerinden en seçkin eserlere tek tıkla ulaşabilirsiniz.
               </p>
             </div>
           </section>

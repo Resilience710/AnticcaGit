@@ -273,9 +273,34 @@ export async function deleteShop(id: string) {
   await deleteDoc(doc(db, 'shops', id));
 }
 
+// Generate a unique slug for products, appending a short suffix if duplicate exists
+export async function generateUniqueProductSlug(name: string, excludeId?: string): Promise<string> {
+  const baseSlug = generateSlug(name);
+  let slug = baseSlug;
+  let attempt = 0;
+
+  while (true) {
+    const q = query(collection(db, 'products'), where('slug', '==', slug));
+    const snapshot = await getDocs(q);
+
+    // Check if slug is unique (ignoring the current product being edited)
+    const conflict = snapshot.docs.some(d => d.id !== excludeId);
+    if (!conflict) break;
+
+    attempt++;
+    slug = `${baseSlug}-${attempt}`;
+  }
+
+  return slug;
+}
+
 export async function createProduct(productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
+  // Auto-generate slug from product name
+  const slug = productData.slug || await generateUniqueProductSlug(productData.name);
+
   const docRef = await addDoc(collection(db, 'products'), {
     ...productData,
+    slug,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
@@ -283,10 +308,17 @@ export async function createProduct(productData: Omit<Product, 'id' | 'createdAt
 }
 
 export async function updateProduct(id: string, data: Partial<Product>) {
-  await updateDoc(doc(db, 'products', id), {
+  const updateData: any = {
     ...data,
     updatedAt: serverTimestamp(),
-  });
+  };
+
+  // If name is being updated, regenerate slug
+  if (data.name) {
+    updateData.slug = await generateUniqueProductSlug(data.name, id);
+  }
+
+  await updateDoc(doc(db, 'products', id), updateData);
 }
 
 export async function deleteProduct(id: string) {
@@ -330,7 +362,7 @@ export async function getAllProducts(activeOnly: boolean = false): Promise<Produ
 // AUCTION & BIDDING HOOKS
 // ============================================
 
-// Real-time hook for a single auction product
+// Real-time hook for a single auction product (by ID)
 export function useAuctionProduct(id: string | undefined) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -363,6 +395,55 @@ export function useAuctionProduct(id: string | undefined) {
 
     return () => unsubscribe();
   }, [id]);
+
+  return { product, loading, error };
+}
+
+// Real-time hook for a single product by slug (SEO-friendly URL support)
+export function useProductBySlug(slug: string | undefined) {
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
+    // First, query by slug
+    const q = query(collection(db, 'products'), where('slug', '==', slug));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const docSnap = snapshot.docs[0];
+          setProduct({ id: docSnap.id, ...docSnap.data() } as Product);
+        } else {
+          // Fallback: try to fetch by document ID (for backward compatibility)
+          const docRef = doc(db, 'products', slug);
+          onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+              setProduct({ id: docSnap.id, ...docSnap.data() } as Product);
+            } else {
+              setProduct(null);
+            }
+            setLoading(false);
+          });
+          return;
+        }
+        setLoading(false);
+      },
+      (err) => {
+        console.error('Error in useProductBySlug:', err);
+        setError(err);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [slug]);
 
   return { product, loading, error };
 }

@@ -75,7 +75,7 @@ export default function AdminProducts() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif text-3xl font-bold text-navy-800">
+        <h1 className="font-serif text-3xl font-bold text-espresso-900">
           {TR.admin.products}
         </h1>
         <div className="flex gap-2">
@@ -100,32 +100,32 @@ export default function AdminProducts() {
       )}
 
       {/* Products List */}
-      <div className="bg-white rounded-xl shadow-sm border border-cream-200 overflow-hidden">
+      <div className="bg-linen-100 rounded-xl shadow-sm border border-mist-300 overflow-hidden">
         {products.length === 0 ? (
-          <div className="p-8 text-center text-navy-500">
+          <div className="p-8 text-center text-espresso-500">
             Henüz ürün eklenmemiş.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-cream-50">
+              <thead className="bg-linen-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Görsel</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Ürün Adı</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Dükkan</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Kategori</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Fiyat</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Stok</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Satış Tipi</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-navy-600">Durum</th>
-                  <th className="px-6 py-3 text-right text-sm font-medium text-navy-600">İşlemler</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Görsel</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Ürün Adı</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Dükkan</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Kategori</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Fiyat</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Stok</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Satış Tipi</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-espresso-700">Durum</th>
+                  <th className="px-6 py-3 text-right text-sm font-medium text-espresso-700">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-cream-200">
                 {products.map((product) => (
-                  <tr key={product.id} className="hover:bg-cream-50">
+                  <tr key={product.id} className="hover:bg-linen-200/50">
                     <td className="px-6 py-4">
-                      <div className="w-12 h-12 rounded-lg bg-cream-100 overflow-hidden">
+                      <div className="w-12 h-12 rounded-lg bg-linen-200 overflow-hidden">
                         {product.images?.[0] ? (
                           <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                         ) : (
@@ -134,16 +134,16 @@ export default function AdminProducts() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-medium text-navy-800 line-clamp-1">{product.name}</div>
+                      <div className="font-medium text-espresso-800 line-clamp-1">{product.name}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-navy-600">{shopMap.get(product.shopId) || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-espresso-600">{shopMap.get(product.shopId) || '-'}</td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-navy-600">{product.category}</span>
+                      <span className="text-sm text-espresso-600">{product.category}</span>
                     </td>
-                    <td className="px-6 py-4 text-sm font-medium text-navy-800">{formatPrice(product.price)}</td>
-                    <td className="px-6 py-4 text-sm text-navy-600">{product.stock}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-gold-700">{formatPrice(product.price)}</td>
+                    <td className="px-6 py-4 text-sm text-espresso-600">{product.stock}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${product.saleType === 'auction' ? 'bg-gold-100 text-gold-800' : 'bg-cream-100 text-navy-600'}`}>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${product.saleType === 'auction' ? 'bg-agold-100 text-agold-800' : 'bg-linen-200 text-espresso-700'}`}>
                         {product.saleType === 'auction' ? TR.admin.auction : TR.admin.fixedPrice}
                       </span>
                     </td>
@@ -154,10 +154,10 @@ export default function AdminProducts() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => toggleActive(product)} className="p-2 text-navy-500 hover:text-navy-700 hover:bg-cream-100 rounded-lg transition-colors">
+                        <button onClick={() => toggleActive(product)} className="p-2 text-espresso-500 hover:text-agold-600 hover:bg-linen-300 rounded-lg transition-colors">
                           {product.isActive ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
-                        <button onClick={() => openModal(product, product.saleType)} className="p-2 text-navy-500 hover:text-navy-700 hover:bg-cream-100 rounded-lg transition-colors">
+                        <button onClick={() => openModal(product, product.saleType)} className="p-2 text-espresso-500 hover:text-agold-600 hover:bg-linen-300 rounded-lg transition-colors">
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button onClick={() => handleDelete(product.id)} className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">

@@ -1,6 +1,7 @@
+import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
-import Footer from './Footer';
+const Footer = lazy(() => import('./Footer'));
 
 export default function Layout() {
   return (
@@ -10,7 +11,9 @@ export default function Layout() {
       <main className="flex-grow">
         <Outlet />
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

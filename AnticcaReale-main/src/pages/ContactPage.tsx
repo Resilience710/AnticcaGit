@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { Globe, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import SEO from '../components/seo/SEO';
@@ -30,7 +30,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-linen-200">
       <SEO
         title="İletişim — Bize Ulaşın"
-        description="Anticca ile iletişime geçin. Çukurcuma, Beyoğlu, İstanbul. Antika alım satım, dükkan başvuruları ve genel sorularınız için."
+        description="Anticca ile iletişime geçin. Tamamen online hizmet veren antika pazar yeri. Destek ve sorularınız için bizimle iletişime geçin."
         canonical="/contact"
       />
       {/* Header */}
@@ -58,13 +58,13 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-gold-800" />
+                  <Globe className="h-6 w-6 text-gold-800" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-espresso-900 mb-1">Adres</h3>
+                  <h3 className="font-semibold text-espresso-900 mb-1">Hizmet Modeli</h3>
                   <p className="text-espresso-700">
-                    Çukurcuma Mahallesi, Antikacılar Sokak No: 42<br />
-                    Beyoğlu, İstanbul 34425
+                    Anticca tamamen online bir platformdur.<br />
+                    Fiziksel bir mağazamız bulunmamaktadır.
                   </p>
                 </div>
               </div>
@@ -74,10 +74,10 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 text-gold-800" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-espresso-900 mb-1">Telefon</h3>
+                  <h3 className="font-semibold text-espresso-900 mb-1">Destek Hattı</h3>
                   <p className="text-espresso-700">
-                    +90 (212) 555 00 42<br />
-                    +90 (532) 555 00 42 (WhatsApp)
+                    0532 390 15 37<br />
+                    (WhatsApp Desteği Mevcuttur)
                   </p>
                 </div>
               </div>
@@ -89,8 +89,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold text-espresso-900 mb-1">E-posta</h3>
                   <p className="text-espresso-700">
-                    info@anticca.com<br />
-                    destek@anticca.com
+                    destek@anticca.com.tr
                   </p>
                 </div>
               </div>
@@ -100,21 +99,21 @@ export default function ContactPage() {
                   <Clock className="h-6 w-6 text-gold-800" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-espresso-900 mb-1">Çalışma Saatleri</h3>
+                  <h3 className="font-semibold text-espresso-900 mb-1">Online Destek</h3>
                   <p className="text-espresso-700">
-                    Pazartesi - Cumartesi: 10:00 - 19:00<br />
-                    Pazar: 12:00 - 18:00
+                    Haftanın her günü:<br />
+                    10:00 - 19:00
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Map placeholder */}
-            <div className="mt-8 bg-linen-100 rounded-xl h-64 flex items-center justify-center">
-              <div className="text-center text-espresso-500">
-                <MapPin className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>Harita</p>
-                <p className="text-sm">Çukurcuma, Beyoğlu</p>
+            {/* Service Guarantee Placeholder */}
+            <div className="mt-8 bg-linen-100 rounded-xl h-64 flex items-center justify-center border border-dashed border-espresso-200">
+              <div className="text-center text-espresso-500 max-w-sm px-6">
+                <Globe className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <h4 className="font-semibold mb-2">Güvenli Online Deneyim</h4>
+                <p className="text-xs">Anticca, platform üzerinden tüm alışveriş süreçlerinizi güvence altına alır.</p>
               </div>
             </div>
           </div>

@@ -1,17 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { db } from '../lib/firebase';
+import { getAuthDeferred } from '../lib/firebase';
 import { User } from '../types';
 
 // Admin emails - these users will automatically get admin role
-const ADMIN_EMAILS = ['direncuy@gmail.com'];
+const ADMIN_EMAILS = ['direncuy@gmail.com', 'admin@anticca.com.tr'];
 
 interface AuthContextType {
   currentUser: any;
@@ -58,12 +52,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function login(email: string, password: string) {
-    const result = await signInWithEmailAndPassword(auth, email, password);
+    const [authInstance, { signInWithEmailAndPassword }] = await Promise.all([
+      getAuthDeferred(),
+      import('firebase/auth'),
+    ]);
+    const result = await signInWithEmailAndPassword(authInstance!, email, password);
     await fetchUserData(result.user.uid, result.user.email);
   }
 
   async function register(email: string, password: string, name: string) {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
+    const [authInstance, { createUserWithEmailAndPassword }] = await Promise.all([
+      getAuthDeferred(),
+      import('firebase/auth'),
+    ]);
+    const result = await createUserWithEmailAndPassword(authInstance!, email, password);
 
     // Check if user should be admin
     const isAdminEmail = ADMIN_EMAILS.includes(email.toLowerCase());
@@ -91,26 +93,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function logout() {
-    await signOut(auth);
+    const [authInstance, { signOut }] = await Promise.all([
+      getAuthDeferred(),
+      import('firebase/auth'),
+    ]);
+    await signOut(authInstance!);
     setUserData(null);
   }
 
   async function resetPassword(email: string) {
-    await sendPasswordResetEmail(auth, email);
+    const [authInstance, { sendPasswordResetEmail }] = await Promise.all([
+      getAuthDeferred(),
+      import('firebase/auth'),
+    ]);
+    await sendPasswordResetEmail(authInstance!, email);
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      if (user) {
-        await fetchUserData(user.uid, user.email);
-      } else {
-        setUserData(null);
-      }
-      setLoading(false);
+    let unsubscribe: (() => void) | null = null;
+
+    // Defer auth listener setup — does not block first paint
+    getAuthDeferred().then(async (authInstance) => {
+      const { onAuthStateChanged } = await import('firebase/auth');
+      unsubscribe = onAuthStateChanged(authInstance!, async (user) => {
+        setCurrentUser(user);
+        if (user) {
+          await fetchUserData(user.uid, user.email);
+        } else {
+          setUserData(null);
+        }
+        setLoading(false);
+      });
     });
 
-    return unsubscribe;
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const isAdmin = userData?.role === 'admin';

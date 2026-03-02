@@ -30,14 +30,14 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50 flex">
+    <div className="min-h-screen bg-linen-50 flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-navy-900 text-cream-100 flex-shrink-0 hidden md:flex flex-col">
-        <div className="p-6 border-b border-navy-700">
-          <Link to="/" className="font-serif text-2xl font-bold text-gold-500">
+      <aside className="w-64 bg-linen-200 text-espresso-900 flex-shrink-0 hidden md:flex flex-col border-r border-mist-300">
+        <div className="p-6 border-b border-mist-300">
+          <Link to="/" className="font-display text-2xl font-bold text-agold-500">
             {TR.siteName}
           </Link>
-          <p className="text-sm text-cream-400 mt-1">{TR.admin.title}</p>
+          <p className="text-sm text-espresso-500 mt-1">{TR.admin.title}</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
@@ -51,8 +51,8 @@ export default function AdminLayout() {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
-                  ? 'bg-gold-600 text-navy-900'
-                  : 'text-cream-300 hover:bg-navy-800'
+                  ? 'bg-agold-500 text-linen-50 shadow-md'
+                  : 'text-espresso-700 hover:bg-linen-300'
                   }`}
               >
                 <item.icon className="h-5 w-5" />
@@ -62,19 +62,19 @@ export default function AdminLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-navy-700">
+        <div className="p-4 border-t border-mist-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gold-600 flex items-center justify-center text-navy-900 font-bold">
+            <div className="w-10 h-10 rounded-full bg-agold-500 flex items-center justify-center text-linen-50 font-bold">
               {userData?.name?.charAt(0) || 'A'}
             </div>
             <div>
-              <p className="font-medium text-cream-100">{userData?.name}</p>
-              <p className="text-xs text-cream-400">Admin</p>
+              <p className="font-medium text-espresso-900">{userData?.name}</p>
+              <p className="text-xs text-espresso-500">Admin</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-cream-300 hover:text-cream-100 transition-colors w-full"
+            className="flex items-center gap-2 text-espresso-700 hover:text-burgundy-500 transition-colors w-full"
           >
             <LogOut className="h-5 w-5" />
             {TR.nav.logout}
@@ -83,9 +83,9 @@ export default function AdminLayout() {
       </aside>
 
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-navy-900 text-cream-100 z-40">
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-linen-200 text-espresso-900 z-40 border-b border-mist-300">
         <div className="flex items-center justify-between p-4">
-          <Link to="/admin" className="font-serif text-xl font-bold text-gold-500">
+          <Link to="/admin" className="font-serif text-xl font-bold text-agold-500">
             {TR.siteName} Admin
           </Link>
         </div>
@@ -100,8 +100,8 @@ export default function AdminLayout() {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-2 px-4 py-3 text-sm whitespace-nowrap border-b-2 transition-colors ${isActive
-                  ? 'border-gold-500 text-gold-500'
-                  : 'border-transparent text-cream-300'
+                  ? 'border-agold-500 text-agold-600 font-medium'
+                  : 'border-transparent text-espresso-600'
                   }`}
               >
                 <item.icon className="h-4 w-4" />

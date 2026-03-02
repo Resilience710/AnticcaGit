@@ -3,9 +3,9 @@
 export const TR = {
   // Brand
   siteName: 'Anticca',
-  tagline: 'Antikanın Dijital Adresi',
-  heroTitle: "İstanbul'un Saklı Kalmış Antikalarını Keşfedin",
-  heroSubtitle: 'Türkiye\'nin en seçkin antikacılarından nadide parçalar, tek bir adreste.',
+  tagline: 'Antikanın Tamamen Online Dijital Adresi',
+  heroTitle: "Türkiye'nin En Seçkin Antikalarını Online Keşfedin",
+  heroSubtitle: 'Seçkin antikacılardan nadide parçalar, tamamen online platformumuzda.',
 
   // Navigation
   nav: {
@@ -219,7 +219,7 @@ export const TR = {
     contact: 'İletişim',
     terms: 'Kullanım Şartları',
     privacy: 'Gizlilik Politikası',
-    description: 'İstanbul\'un en seçkin antikacılarını tek çatı altında buluşturan dijital pazar yeri.',
+    description: 'Türkiye\'nin en seçkin antikacılarını tek çatı altında buluşturan, tamamen online dijital antika pazaryeri.',
   },
 
   // Errors

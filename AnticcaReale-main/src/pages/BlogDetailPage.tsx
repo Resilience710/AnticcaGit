@@ -5,6 +5,7 @@ import Loading from '../components/ui/Loading';
 import { useState } from 'react';
 import { isVideoBlogPost, isRichTextBlogPost } from '../types';
 import SEO from '../components/seo/SEO';
+import DOMPurify from 'dompurify';
 
 export default function BlogDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -196,7 +197,7 @@ export default function BlogDetailPage() {
                     prose-li:marker:text-gold-500
                     prose-code:text-espresso-800 prose-code:bg-linen-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:font-light
                     prose-pre:bg-espresso-900 prose-pre:text-linen-100 prose-pre:rounded-sm"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
                 />
               </div>
             )}
@@ -215,6 +216,7 @@ export default function BlogDetailPage() {
                       key={index}
                       onClick={() => openLightbox(index)}
                       className="relative aspect-square rounded-sm overflow-hidden group cursor-pointer shadow-sm hover:shadow-lg transition-all"
+                      aria-label="Görseli büyüt"
                     >
                       <img
                         src={image}
@@ -272,6 +274,7 @@ export default function BlogDetailPage() {
           <button
             onClick={closeLightbox}
             className="absolute top-4 right-4 p-2 text-white/80 hover:text-white transition-colors"
+            aria-label="Kapat"
           >
             <X className="w-8 h-8" />
           </button>
@@ -279,6 +282,7 @@ export default function BlogDetailPage() {
           <button
             onClick={(e) => { e.stopPropagation(); navigateImage('prev'); }}
             className="absolute left-4 p-2 text-white/80 hover:text-white transition-colors"
+            aria-label="Önceki görsel"
           >
             <ChevronLeft className="w-10 h-10" />
           </button>
@@ -293,6 +297,7 @@ export default function BlogDetailPage() {
           <button
             onClick={(e) => { e.stopPropagation(); navigateImage('next'); }}
             className="absolute right-4 p-2 text-white/80 hover:text-white transition-colors"
+            aria-label="Sonraki görsel"
           >
             <ChevronRight className="w-10 h-10" />
           </button>

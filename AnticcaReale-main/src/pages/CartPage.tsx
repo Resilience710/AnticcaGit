@@ -159,7 +159,7 @@ export default function CartPage() {
                     <div className="md:grid md:grid-cols-12 md:gap-6 md:items-center">
                       {/* Product Info */}
                       <div className="md:col-span-6 flex items-start gap-4 mb-4 md:mb-0">
-                        <Link to={`/products/${item.productId}`} className="flex-shrink-0 relative overflow-hidden rounded-sm w-24 h-28 bg-linen-200 border border-linen-300">
+                        <Link to={`/products/${item.product.slug || item.productId}`} className="flex-shrink-0 relative overflow-hidden rounded-sm w-24 h-28 bg-linen-200 border border-linen-300">
                           {item.product.images?.[0] ? (
                             <img
                               src={item.product.images[0]}
@@ -174,7 +174,7 @@ export default function CartPage() {
                         </Link>
                         <div>
                           <Link
-                            to={`/products/${item.productId}`}
+                            to={`/products/${item.product.slug || item.productId}`}
                             className="font-serif font-medium text-lg text-espresso-900 hover:text-gold-700 line-clamp-2 transition-colors"
                           >
                             {item.product.name}
@@ -197,6 +197,7 @@ export default function CartPage() {
                           <button
                             onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                             className="p-2 hover:bg-linen-100 transition-colors text-espresso-600"
+                            aria-label="Adedi azalt"
                           >
                             <Minus className="h-3 w-3" />
                           </button>
@@ -207,6 +208,7 @@ export default function CartPage() {
                             onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                             disabled={item.quantity >= item.product.stock}
                             className="p-2 hover:bg-linen-100 transition-colors text-espresso-600 disabled:opacity-50"
+                            aria-label="Adedi artır"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
@@ -222,6 +224,7 @@ export default function CartPage() {
                           onClick={() => removeFromCart(item.productId)}
                           className="text-mist-400 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full"
                           title={TR.cart.remove}
+                          aria-label="Ürünü sepetten çıkar"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
